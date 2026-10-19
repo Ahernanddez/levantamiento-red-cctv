@@ -10,8 +10,14 @@
  * la app solo ve los archivos que ella misma creó, nunca el resto del Drive.
  * `drive.readonly` es un scope restringido y no se usa.
  *
- * El access token vive solo en memoria: nunca se guarda en localStorage ni se
- * escribe en el proyecto.
+ * El access token se guarda en el almacenamiento local para que la sesión
+ * sobreviva recargas de la pestaña, junto a su vencimiento: al arrancar, si
+ * sigue vigente se reutiliza sin abrir la ventana de Google. Dura lo que dure
+ * el token (alrededor de una hora); después hay que volver a conectar.
+ *
+ * Ojo: lo guardado ahí lo puede leer cualquier script de la página, así que
+ * solo viaja este token de vida corta y alcance mínimo (`drive.file`), nunca
+ * otra credencial, y se borra al desconectar o al vencer.
  */
 
 const GIS_URL = "https://accounts.google.com/gsi/client";
@@ -57,6 +63,51 @@ export function guardarClientId(id: string): void {
     else localStorage.removeItem(CLAVE_CLIENT_ID);
   } catch {
     /* almacenamiento no disponible: queda solo en memoria */
+  }
+}
+
+// --- Sesión guardada ---------------------------------------------------------
+
+const CLAVE_SESION = "levantamiento-red-cctv:google-sesion";
+/** No se reutiliza un token a punto de vencer: mejor pedir uno nuevo. */
+const MARGEN_VENCIMIENTO_MS = 5 * 60 * 1000;
+
+/** Guarda la sesión para la próxima recarga, con su vencimiento. */
+export function guardarSesion(sesion: SesionDrive): void {
+  try {
+    localStorage.setItem(
+      CLAVE_SESION,
+      JSON.stringify({ accessToken: sesion.accessToken, expiraEn: sesion.expiraEn }),
+    );
+  } catch {
+    /* almacenamiento no disponible: la sesión dura hasta recargar */
+  }
+}
+
+/** La sesión guardada si sigue vigente; si no, nada (y se limpia). */
+export function leerSesion(): SesionDrive | null {
+  try {
+    const bruto = localStorage.getItem(CLAVE_SESION);
+    if (!bruto) return null;
+    const datos: unknown = JSON.parse(bruto);
+    const d = datos && typeof datos === "object" ? (datos as Record<string, unknown>) : null;
+    if (!d || typeof d.accessToken !== "string" || !d.accessToken) return null;
+    if (typeof d.expiraEn !== "number" || d.expiraEn - MARGEN_VENCIMIENTO_MS <= Date.now()) {
+      localStorage.removeItem(CLAVE_SESION);
+      return null;
+    }
+    return { accessToken: d.accessToken, expiraEn: d.expiraEn };
+  } catch {
+    return null;
+  }
+}
+
+/** Olvida la sesión guardada: al desconectar o cuando deja de servir. */
+export function borrarSesion(): void {
+  try {
+    localStorage.removeItem(CLAVE_SESION);
+  } catch {
+    /* nada que limpiar */
   }
 }
 

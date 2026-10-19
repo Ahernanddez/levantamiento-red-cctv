@@ -3,10 +3,13 @@ import type { Espacio } from "../types";
 import {
   SesionExpirada,
   actualizarArchivo,
+  borrarSesion,
   conectar,
   guardarClientId,
+  guardarSesion,
   leerArchivo,
   leerClientId,
+  leerSesion,
   revocar,
   ubicarBaseDeDatos,
   type SesionDrive,
@@ -54,7 +57,10 @@ export function useDriveSync({
   avisar: (mensaje: string) => void;
 }): EstadoDrive {
   const [clientId, setClientId] = useState(leerClientId);
-  const [sesion, setSesion] = useState<SesionDrive | null>(null);
+  // La sesión guardada se retoma al arrancar sin la ventana de Google.
+  const inicial = useRef<SesionDrive | null | undefined>(undefined);
+  if (inicial.current === undefined) inicial.current = leerSesion();
+  const [sesion, setSesion] = useState<SesionDrive | null>(inicial.current);
   const [ubicacion, setUbicacion] = useState<{ carpetaId: string; archivoId: string } | null>(null);
   const [fase, setFase] = useState<FaseDrive>("desconectado");
   const [mensaje, setMensaje] = useState("");
@@ -70,6 +76,7 @@ export function useDriveSync({
 
   const manejarError = useCallback((e: unknown) => {
     if (e instanceof SesionExpirada) {
+      borrarSesion();
       setSesion(null);
       setUbicacion(null);
       setFase("desconectado");
@@ -91,46 +98,70 @@ export function useDriveSync({
     setUltimaSync(new Date().toISOString());
   }, []);
 
+  /** Entra con un token ya conseguido: ubica, combina y deja sincronizando. */
+  const entrarCon = useCallback(
+    async (token: string, avisa: boolean) => {
+      setFase("cargando");
+      setMensaje("");
+      try {
+        const destino = await ubicarBaseDeDatos(token);
+        setUbicacion(destino);
+
+        const bruto = destino.existente ? await leerArchivo(token, destino.archivoId) : null;
+        const remoto = normalizarEspacio(bruto);
+        const combinado = combinarEspacios(espacioRef.current, remoto);
+        setEspacio(() => combinado);
+
+        // Lo que hay en Drive deja de estar pendiente; si el resultado local es
+        // distinto, se sube enseguida.
+        const jsonRemoto = serializar(remoto);
+        const jsonCombinado = serializar(combinado);
+        ultimoEnviado.current = jsonRemoto;
+        if (jsonCombinado !== jsonRemoto) {
+          await subirCon(token, destino.archivoId, combinado);
+        }
+
+        setFase("conectado");
+        if (avisa) {
+          avisar(
+            destino.existente
+              ? "Conectado a Drive: se combinaron los materiales y los estudios con los de la nube."
+              : "Conectado a Drive. Se creó la carpeta con tus datos.",
+          );
+        }
+      } catch (e) {
+        manejarError(e);
+      }
+    },
+    [setEspacio, subirCon, manejarError, avisar],
+  );
+
   const conectarDrive = useCallback(async () => {
     setFase("conectando");
     setMensaje("");
     try {
       const nueva = await conectar(clientId);
+      guardarSesion(nueva);
       setSesion(nueva);
-      setFase("cargando");
-
-      const destino = await ubicarBaseDeDatos(nueva.accessToken);
-      setUbicacion(destino);
-
-      const bruto = destino.existente
-        ? await leerArchivo(nueva.accessToken, destino.archivoId)
-        : null;
-      const remoto = normalizarEspacio(bruto);
-      const combinado = combinarEspacios(espacioRef.current, remoto);
-      setEspacio(() => combinado);
-
-      // Lo que hay en Drive deja de estar pendiente; si el resultado local es
-      // distinto, se sube enseguida.
-      const jsonRemoto = serializar(remoto);
-      const jsonCombinado = serializar(combinado);
-      ultimoEnviado.current = jsonRemoto;
-      if (jsonCombinado !== jsonRemoto) {
-        await subirCon(nueva.accessToken, destino.archivoId, combinado);
-      }
-
-      setFase("conectado");
-      avisar(
-        destino.existente
-          ? "Conectado a Drive: se combinaron los materiales y los estudios con los de la nube."
-          : "Conectado a Drive. Se creó la carpeta con tus datos.",
-      );
+      await entrarCon(nueva.accessToken, true);
     } catch (e) {
       manejarError(e);
     }
-  }, [clientId, setEspacio, subirCon, manejarError, avisar]);
+  }, [clientId, entrarCon, manejarError]);
+
+  // Al arrancar con sesión guardada se retoma sola, sin la ventana de Google.
+  // Si el token ya no sirve, manejarError la olvida y avisa que reconecten.
+  useEffect(() => {
+    if (inicial.current) {
+      const token = inicial.current.accessToken;
+      inicial.current = null;
+      void entrarCon(token, false);
+    }
+  }, [entrarCon]);
 
   const desconectar = useCallback(() => {
     if (sesion) revocar(sesion);
+    borrarSesion();
     setSesion(null);
     setUbicacion(null);
     setFase("desconectado");
