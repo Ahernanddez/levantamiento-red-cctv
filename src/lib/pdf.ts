@@ -385,6 +385,21 @@ class Documento {
     });
   }
 
+  /**
+   * Línea centrada en el ancho útil (para epígrafes de fotos).
+   *
+   * En Courier cada letra mide lo mismo, así que el centro sale exacto sin
+   * adivinar anchos: se descuenta la mitad de lo que ocupa el renglón.
+   */
+  centrar(texto: string, opciones: { fuente?: Fuente; tamano?: number } = {}): void {
+    const tamano = opciones.tamano ?? TAMANO;
+    const maximo = Math.floor(ANCHO_UTIL / (ANCHO_CARACTER * tamano));
+    for (const parte of envolver(texto, maximo)) {
+      const x = MARGEN + (ANCHO_UTIL - parte.length * ANCHO_CARACTER * tamano) / 2;
+      this.linea(parte, { fuente: opciones.fuente, tamano, x });
+    }
+  }
+
   espacio(alto: number): void {
     this.y -= alto;
   }
@@ -460,7 +475,8 @@ class Documento {
     const bloque = alto + 8 + renglones * INTERLINEA + 10;
     if (!this.entra(bloque)) this.nuevaPagina();
     this.dibujos[this.dibujos.length - 1].push({
-      x: MARGEN,
+      // Centrada en el ancho útil, como su epígrafe.
+      x: MARGEN + (ANCHO_UTIL - ancho) / 2,
       y: this.y,
       ancho,
       alto,
@@ -470,7 +486,7 @@ class Documento {
       altoPx: medidas.alto,
     });
     this.y -= alto + 8;
-    this.parrafo(texto);
+    this.centrar(texto);
     this.espacio(10);
     return true;
   }

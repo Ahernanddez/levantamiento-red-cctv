@@ -1344,16 +1344,18 @@ h2 {
   padding-top: 12px;
 }
 
-/* Las fotos del informe impreso, una por bloque con su epígrafe. */
+/* Las fotos del informe impreso, centradas con su epígrafe. */
 .informe__foto {
-  margin: 0 0 14px;
+  margin: 0 auto 14px;
   break-inside: avoid;
+  text-align: center;
 }
 
 .informe__foto img {
   display: block;
   max-width: 100%;
   max-height: 420px;
+  margin: 0 auto;
   border: 1px solid var(--borde);
 }
 

@@ -335,6 +335,19 @@ describe("fotografías en el informe", () => {
     });
   });
 
+  it("la foto y su epígrafe van centrados en la hoja", () => {
+    const paginas = paginasDelInforme(estudioCon([], { fotos: [foto] }), [cable, fuente]);
+    const conFoto = paginas.filter((p) => p.imagenes.length > 0);
+    expect(conFoto).toHaveLength(1);
+    const img = conFoto[0].imagenes[0];
+    // Márgenes iguales a izquierda y derecha (hoja de 595.28 con margen 42).
+    expect(Math.abs(img.x - 42 - (553.28 - (img.x + img.ancho)))).toBeLessThan(0.01);
+    // Y el epígrafe no arranca en el margen: también va centrado.
+    const epigrafe = conFoto[0].lineas.find((l) => l.texto.includes("Fotografía 1"));
+    expect(epigrafe).toBeDefined();
+    expect(epigrafe!.x).toBeGreaterThan(42);
+  });
+
   it("una foto rota se salta sin romper el informe", async () => {
     const rota = { id: "f9", imagen: "data:image/jpeg;base64,!!!", comentario: "rota", updatedAt: "" };
     const { contenido, lineas } = await abrir(estudioCon([], { fotos: [rota] }));
