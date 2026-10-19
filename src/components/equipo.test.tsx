@@ -71,15 +71,17 @@ function compartido(extra: Partial<EstadoCompartido> = {}): EstadoCompartido {
     equipo: {
       nombre: "Espacio del equipo",
       miembros: [
-        { nombre: "Ana", correo: null, soyYo: true, rol: "dueno" },
-        { nombre: "Beto", correo: null, soyYo: false, rol: "editor" },
-        { nombre: "Carla", correo: null, soyYo: false, rol: "lectura" },
+        { id: "u-ana", nombre: "Ana", correo: null, soyYo: true, rol: "dueno" },
+        { id: "u-beto", nombre: "Beto", correo: null, soyYo: false, rol: "editor" },
+        { id: "u-carla", nombre: "Carla", correo: null, soyYo: false, rol: "lectura" },
       ],
     },
     invitacion: null,
     invitacionPendiente: "",
     guardadoEn: "",
     generarInvitacion: () => Promise.resolve(),
+    cambiarRol: () => Promise.resolve(),
+    quitarMiembro: () => Promise.resolve(),
     entrarCon: () => Promise.resolve(true),
     descartarInvitacion: () => {},
     traerAhora: () => Promise.resolve(),
@@ -124,6 +126,61 @@ describe("panel del equipo: quien creó el espacio", () => {
     expect(generarInvitacion).toHaveBeenCalledWith("lectura");
   });
 
+  it("cada miembro gestionable trae su desplegable de permiso y su Quitar", () => {
+    abrirPanel(compartido());
+    // Beto y Carla se gestionan; Ana es la creadora y queda fija.
+    expect(contenedor?.querySelector('select[aria-label="Permiso de Beto"]')).not.toBeNull();
+    expect(contenedor?.querySelector('select[aria-label="Permiso de Carla"]')).not.toBeNull();
+    expect(contenedor?.querySelector('select[aria-label="Permiso de Ana"]')).toBeNull();
+    expect(hay("Quitar")).toBe(true);
+  });
+
+  it("cambiar el desplegable pide ese permiso para esa persona", () => {
+    const cambiarRol = vi.fn(() => Promise.resolve());
+    abrirPanel(compartido({ cambiarRol }));
+
+    const desplegable = contenedor?.querySelector<HTMLSelectElement>(
+      'select[aria-label="Permiso de Beto"]',
+    );
+    if (!desplegable) throw new Error("Falta el desplegable de Beto.");
+    act(() => {
+      desplegable.value = "lectura";
+      desplegable.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    expect(cambiarRol).toHaveBeenCalledWith("u-beto", "lectura");
+  });
+
+  it("Quitar pide confirmación y saca a esa persona", () => {
+    const quitarMiembro = vi.fn(() => Promise.resolve());
+    abrirPanel(compartido({ quitarMiembro }));
+    try {
+      vi.stubGlobal(
+        "confirm",
+        vi.fn(() => true),
+      );
+      pulsar("Quitar");
+      expect(quitarMiembro).toHaveBeenCalledWith("u-beto");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("sin confirmación no se quita a nadie", () => {
+    const quitarMiembro = vi.fn(() => Promise.resolve());
+    abrirPanel(compartido({ quitarMiembro }));
+    try {
+      vi.stubGlobal(
+        "confirm",
+        vi.fn(() => false),
+      );
+      pulsar("Quitar");
+      expect(quitarMiembro).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("dice qué permiso da el enlace que ya existe", () => {
     abrirPanel(
       compartido({
@@ -143,8 +200,8 @@ describe("panel del equipo: quien entra con otro permiso", () => {
         equipo: {
           nombre: "Espacio del equipo",
           miembros: [
-            { nombre: "Ana", correo: null, soyYo: false, rol: "dueno" },
-            { nombre: "Beto", correo: null, soyYo: true, rol: "editor" },
+            { id: "u-ana", nombre: "Ana", correo: null, soyYo: false, rol: "dueno" },
+            { id: "u-beto", nombre: "Beto", correo: null, soyYo: true, rol: "editor" },
           ],
         },
       }),

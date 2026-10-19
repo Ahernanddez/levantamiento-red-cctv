@@ -7,6 +7,8 @@ import { puedeEditar, rolValido, type Rol } from "../lib/permisos";
 export type FaseCompartida = "sin-sesion" | "cargando" | "listo" | "guardando" | "error";
 
 export interface Miembro {
+  /** Identificador de la persona: para cambiar su rol o quitarla. */
+  id: string;
   nombre: string | null;
   correo: string | null;
   soyYo: boolean;
@@ -34,6 +36,8 @@ export interface EstadoCompartido {
   invitacionPendiente: string;
   guardadoEn: string;
   generarInvitacion: (rol: Rol) => Promise<void>;
+  cambiarRol: (id: string, rol: Rol) => Promise<void>;
+  quitarMiembro: (id: string) => Promise<void>;
   entrarCon: (codigo: string) => Promise<boolean>;
   descartarInvitacion: () => void;
   traerAhora: () => Promise<void>;
@@ -246,6 +250,36 @@ export function useEspacioCompartido({
     [avisar, traer],
   );
 
+  /**
+   * Cambia el permiso de un miembro o lo quita del equipo.
+   *
+   * Solo lo ve quien creó el espacio; el servidor lo vuelve a exigir. La
+   * respuesta ya trae el equipo al día, así que no hace falta pedirlo de
+   * nuevo: con anotar alcanza.
+   */
+  const gestionar = useCallback(
+    async (ruta: "/api/miembros/rol" | "/api/miembros/quitar", cuerpo: unknown, hecho: string) => {
+      const { ok, datos } = await pedir(ruta, cuerpo);
+      if (!ok) {
+        avisar(typeof datos?.error === "string" ? datos.error : "No se pudo completar.");
+        return;
+      }
+      anotar(datos);
+      avisar(hecho);
+    },
+    [anotar, avisar],
+  );
+
+  const cambiarRol = useCallback(
+    (id: string, rol: Rol) => gestionar("/api/miembros/rol", { usuario: id, rol }, "Permiso actualizado."),
+    [gestionar],
+  );
+
+  const quitarMiembro = useCallback(
+    (id: string) => gestionar("/api/miembros/quitar", { usuario: id }, "Se quitó a la persona del equipo."),
+    [gestionar],
+  );
+
   const generarInvitacion = useCallback(
     async (paraRol: Rol) => {
       const { ok, datos } = await pedir("/api/invitaciones", { rol: paraRol });
@@ -315,6 +349,8 @@ export function useEspacioCompartido({
     invitacionPendiente,
     guardadoEn,
     generarInvitacion,
+    cambiarRol,
+    quitarMiembro,
     entrarCon,
     descartarInvitacion,
     traerAhora: () => traer("manual"),

@@ -3,7 +3,7 @@ import { SignInWithFreebuff, SignOutButton, type FreebuffUser } from "@freebuff/
 import type { EstadoCompartido, Miembro } from "../hooks/useEspacioCompartido";
 import { fechaCorta } from "../lib/format";
 import { nombreDeRol, puedeEditar, puedeInvitar, type Rol } from "../lib/permisos";
-import { Entrada } from "./ui";
+import { Entrada, Selector } from "./ui";
 
 /** Enlace que hay que pasarle a otra persona para que entre al espacio. */
 export function enlaceDeInvitacion(codigo: string): string {
@@ -196,15 +196,54 @@ export function EquipoPanel({
             {miembros.length === 0 ? (
               <p className="campo__hint">Todavía no hay nadie más en este espacio.</p>
             ) : (
-              <ul className="equipo__miembros">
-                {miembros.map((m, i) => (
-                  <li key={`${m.nombre ?? m.correo ?? i}`}>
-                    <span>{comoSeLlama(m, i)}</span>
+            <ul className="equipo__miembros">
+              {miembros.map((m, i) => {
+                const nombre = comoSeLlama(m, i);
+                // Solo quien creó el espacio gestiona, y nunca a sí mismo ni
+                // al creador: el servidor lo vuelve a exigir de todos modos.
+                const gestionable = soyDueno && m.rol !== "dueno" && !m.soyYo;
+                return (
+                  <li key={m.id || `${m.nombre ?? m.correo ?? i}`}>
+                    <span>{nombre}</span>
                     {m.soyYo ? <span className="etiqueta">vos</span> : null}
-                    <Insignia rol={m.rol} />
+                    {gestionable ? (
+                      <>
+                        <Selector
+                          value={m.rol}
+                          aria-label={`Permiso de ${nombre}`}
+                          onChange={(e) => {
+                            const elegido = e.target.value;
+                            if (elegido === "editor" || elegido === "lectura") {
+                              void compartido.cambiarRol(m.id, elegido);
+                            }
+                          }}
+                        >
+                          <option value="editor">Puede editar</option>
+                          <option value="lectura">Solo lectura</option>
+                        </Selector>
+                        <button
+                          type="button"
+                          className="btn btn--mini btn--peligro"
+                          onClick={() => {
+                            if (
+                              confirm(
+                                `¿Quitar a ${nombre} del equipo? Lo suyo no se borra y podrá volver con un enlace nuevo.`,
+                              )
+                            ) {
+                              void compartido.quitarMiembro(m.id);
+                            }
+                          }}
+                        >
+                          Quitar
+                        </button>
+                      </>
+                    ) : (
+                      <Insignia rol={m.rol} />
+                    )}
                   </li>
-                ))}
-              </ul>
+                );
+              })}
+            </ul>
             )}
             <p className="campo__hint">
               {soyDueno

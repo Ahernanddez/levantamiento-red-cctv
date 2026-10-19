@@ -201,6 +201,8 @@ export async function espacioDe(db: BaseDeDatos, persona: Persona): Promise<stri
 }
 
 export interface Miembro {
+  /** Identificador de la persona (sub): para cambiar su rol o quitarla. */
+  id: string;
   nombre: string | null;
   correo: string | null;
   soyYo: boolean;
@@ -230,6 +232,7 @@ export async function equipoDe(
     .all<{ usuario: string; nombre: string | null; correo: string | null; rol: string }>();
 
   return (filas.results ?? []).map((m) => ({
+    id: m.usuario,
     nombre: m.nombre,
     correo: m.correo,
     soyYo: m.usuario === yo,
@@ -427,4 +430,58 @@ export async function aceptarInvitacion(
     espacio: await leerContenido(db, invitacion.espacio_id),
     rol: prometido,
   };
+}
+
+// --- Gestión de miembros ----------------------------------------------------
+
+/**
+ * Cambia el rol de un miembro del espacio, dicho por quien lo creó.
+ *
+ * Solo se puede pasar entre editor y solo lectura: la propiedad no se entrega
+ * ni se quita por acá, y al creador no se le toca el rol. Quien recibe el
+ * cambio lo ve en su próxima lectura del espacio.
+ */
+export async function cambiarRolMiembro(
+  db: BaseDeDatos,
+  espacioId: string,
+  usuario: string,
+  rol: unknown,
+): Promise<{ estado: "ok" } | { estado: "no-miembro" | "es-dueno" | "rol-invalido" }> {
+  if (rol !== "editor" && rol !== "lectura") return { estado: "rol-invalido" };
+  const actual = await db
+    .prepare("SELECT rol FROM miembros WHERE usuario = ? AND espacio_id = ?")
+    .bind(usuario, espacioId)
+    .first<{ rol: string }>();
+  if (!actual) return { estado: "no-miembro" };
+  if (actual.rol === "dueno") return { estado: "es-dueno" };
+  await db
+    .prepare("UPDATE miembros SET rol = ? WHERE usuario = ? AND espacio_id = ?")
+    .bind(rol, usuario, espacioId)
+    .run();
+  return { estado: "ok" };
+}
+
+/**
+ * Saca a un miembro del espacio, dicho por quien lo creó.
+ *
+ * Al creador no se lo puede sacar: un espacio sin dueño no tendría quién
+ * reparta acceso. Lo que la persona tenía en su equipo no se borra; si vuelve
+ * a entrar con un enlace, lo suyo se suma como a cualquier otro.
+ */
+export async function quitarMiembro(
+  db: BaseDeDatos,
+  espacioId: string,
+  usuario: string,
+): Promise<{ estado: "ok" } | { estado: "no-miembro" | "es-dueno" }> {
+  const actual = await db
+    .prepare("SELECT rol FROM miembros WHERE usuario = ? AND espacio_id = ?")
+    .bind(usuario, espacioId)
+    .first<{ rol: string }>();
+  if (!actual) return { estado: "no-miembro" };
+  if (actual.rol === "dueno") return { estado: "es-dueno" };
+  await db
+    .prepare("DELETE FROM miembros WHERE usuario = ? AND espacio_id = ?")
+    .bind(usuario, espacioId)
+    .run();
+  return { estado: "ok" };
 }

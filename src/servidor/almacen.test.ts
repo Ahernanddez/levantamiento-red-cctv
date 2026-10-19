@@ -10,12 +10,14 @@ import {
 import {
   aceptarInvitacion,
   asegurarEsquema,
+  cambiarRolMiembro,
   espacioDe,
   equipoDe,
   fusionarEnEspacio,
   invitacionVigente,
   leerContenido,
   olvidarEsquema,
+  quitarMiembro,
   rolEn,
   rotarInvitacion,
   type BaseDeDatos,
@@ -99,7 +101,65 @@ describe("espacioDe", () => {
     const espacioId = await espacioDe(db, ana);
     const equipo = await equipoDe(db, espacioId, ana.sub);
     expect(equipo).toHaveLength(1);
-    expect(equipo[0]).toEqual({ nombre: "Ana", correo: null, soyYo: true, rol: "dueno" });
+    expect(equipo[0]).toEqual({
+      id: ana.sub,
+      nombre: "Ana",
+      correo: null,
+      soyYo: true,
+      rol: "dueno",
+    });
+  });
+});
+
+describe("gestión de miembros", () => {
+  /** Ana crea el espacio y Beto entra como editor. */
+  async function equipoConBeto() {
+    const ana = nuevaPersona("Ana");
+    const beto = nuevaPersona("Beto");
+    const espacioId = await espacioDe(db, ana);
+    const inv = await rotarInvitacion(db, espacioId, "editor");
+    const entrado = await aceptarInvitacion(db, beto, inv.codigo);
+    if (entrado.estado !== "entrado") throw new Error("Beto no pudo entrar.");
+    return { ana, beto, espacioId };
+  }
+
+  it("cambia el rol entre editor y solo lectura", async () => {
+    const { beto, espacioId } = await equipoConBeto();
+    expect(await cambiarRolMiembro(db, espacioId, beto.sub, "lectura")).toEqual({ estado: "ok" });
+    expect(await rolEn(db, espacioId, beto.sub)).toBe("lectura");
+    expect(await cambiarRolMiembro(db, espacioId, beto.sub, "editor")).toEqual({ estado: "ok" });
+    expect(await rolEn(db, espacioId, beto.sub)).toBe("editor");
+  });
+
+  it("no toca al creador ni a quien no está, y rechaza roles raros", async () => {
+    const { ana, espacioId } = await equipoConBeto();
+    expect(await cambiarRolMiembro(db, espacioId, ana.sub, "lectura")).toEqual({
+      estado: "es-dueno",
+    });
+    expect(await cambiarRolMiembro(db, espacioId, "sub-fantasma", "lectura")).toEqual({
+      estado: "no-miembro",
+    });
+    expect(await cambiarRolMiembro(db, espacioId, ana.sub, "dueno")).toEqual({
+      estado: "rol-invalido",
+    });
+    expect(await cambiarRolMiembro(db, espacioId, ana.sub, "admin")).toEqual({
+      estado: "rol-invalido",
+    });
+    expect(await rolEn(db, espacioId, ana.sub)).toBe("dueno");
+  });
+
+  it("quita a un miembro y lo deja fuera del equipo", async () => {
+    const { ana, beto, espacioId } = await equipoConBeto();
+    expect(await quitarMiembro(db, espacioId, beto.sub)).toEqual({ estado: "ok" });
+    const equipo = await equipoDe(db, espacioId, ana.sub);
+    expect(equipo.map((m) => m.id)).toEqual([ana.sub]);
+  });
+
+  it("al creador no se lo puede quitar, ni a quien no está", async () => {
+    const { ana, espacioId } = await equipoConBeto();
+    expect(await quitarMiembro(db, espacioId, ana.sub)).toEqual({ estado: "es-dueno" });
+    expect(await quitarMiembro(db, espacioId, "sub-fantasma")).toEqual({ estado: "no-miembro" });
+    expect(await equipoDe(db, espacioId, ana.sub)).toHaveLength(2);
   });
 });
 

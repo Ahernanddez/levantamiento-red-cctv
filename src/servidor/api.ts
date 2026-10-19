@@ -18,11 +18,13 @@ import {
   NOMBRE_ESPACIO,
   aceptarInvitacion,
   asegurarEsquema,
+  cambiarRolMiembro,
   espacioDe,
   equipoDe,
   fusionarEnEspacio,
   invitacionVigente,
   leerContenido,
+  quitarMiembro,
   rolEn,
   rotarInvitacion,
   type BaseDeDatos,
@@ -134,6 +136,42 @@ async function rutas(
     }
     if (resultado.estado === "vencida") return falla("Esa invitación venció.", 410);
     return json(resultado);
+  }
+
+  if (ruta === "POST /api/miembros/rol") {
+    if (!puedeInvitar(rol)) {
+      return falla("Solo quien creó el espacio puede cambiar permisos.", 403);
+    }
+    const cuerpo = await leerCuerpo(request);
+    if (typeof cuerpo?.usuario !== "string" || !cuerpo.usuario) {
+      return falla("Falta la persona a la que se le cambia el permiso.", 400);
+    }
+    const resultado = await cambiarRolMiembro(env.DB, espacioId, cuerpo.usuario, cuerpo.rol);
+    if (resultado.estado === "no-miembro") return falla("Esa persona ya no está en el equipo.", 404);
+    if (resultado.estado === "es-dueno") {
+      return falla("Al creador del espacio no se le puede cambiar el permiso.", 400);
+    }
+    if (resultado.estado === "rol-invalido") return falla("Ese permiso no existe.", 400);
+    return json({ equipo: await equipoDe(env.DB, espacioId, persona.sub) });
+  }
+
+  if (ruta === "POST /api/miembros/quitar") {
+    if (!puedeInvitar(rol)) {
+      return falla("Solo quien creó el espacio puede quitar a alguien del equipo.", 403);
+    }
+    const cuerpo = await leerCuerpo(request);
+    if (typeof cuerpo?.usuario !== "string" || !cuerpo.usuario) {
+      return falla("Falta la persona a la que se quita del equipo.", 400);
+    }
+    if (cuerpo.usuario === persona.sub) {
+      return falla("No te puedes quitar a ti mismo: el espacio quedaría sin creador.", 400);
+    }
+    const resultado = await quitarMiembro(env.DB, espacioId, cuerpo.usuario);
+    if (resultado.estado === "no-miembro") return falla("Esa persona ya no está en el equipo.", 404);
+    if (resultado.estado === "es-dueno") {
+      return falla("Al creador del espacio no se lo puede quitar.", 400);
+    }
+    return json({ equipo: await equipoDe(env.DB, espacioId, persona.sub) });
   }
 
   return falla("No existe esa dirección.", 404);

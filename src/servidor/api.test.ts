@@ -291,3 +291,86 @@ describe("permisos del espacio", () => {
     expect((await pedir("POST", "/api/invitaciones", ana, { rol: "editor" })).estado).toBe(200);
   });
 });
+
+describe("gestión de miembros", () => {
+  /** Ana crea el espacio, Beto entra como editor; devuelve personas e ids. */
+  async function equipoConBeto() {
+    const ana = persona("Ana");
+    const beto = persona("Beto");
+    await pedir("GET", "/api/espacio", ana);
+    const inv = await pedir("POST", "/api/invitaciones", ana, { rol: "editor" });
+    expect(
+      (await pedir("POST", "/api/invitaciones/aceptar", beto, { codigo: invitacion(inv).codigo }))
+        .estado,
+    ).toBe(200);
+    const res = await pedir("GET", "/api/espacio", ana);
+    const miembros = (res.datos?.equipo as { miembros: { id: string; nombre: string }[] }).miembros;
+    const idBeto = miembros.find((m) => m.nombre === "Beto")?.id;
+    if (!idBeto) throw new Error("Beto no quedó en el equipo.");
+    return { ana, beto, idBeto };
+  }
+
+  it("el creador cambia el permiso y se refleja enseguida", async () => {
+    const { ana, idBeto } = await equipoConBeto();
+    expect((await pedir("POST", "/api/miembros/rol", ana, { usuario: idBeto, rol: "lectura" })).estado).toBe(
+      200,
+    );
+    const res = await pedir("GET", "/api/espacio", ana);
+    const miembros = (res.datos?.equipo as { miembros: { id: string; rol: string }[] }).miembros;
+    expect(miembros.find((m) => m.id === idBeto)?.rol).toBe("lectura");
+  });
+
+  it("quien no creó el espacio no cambia ni quita permisos", async () => {
+    const { beto, idBeto } = await equipoConBeto();
+    expect((await pedir("POST", "/api/miembros/rol", beto, { usuario: idBeto, rol: "lectura" }))
+      .estado).toBe(403);
+    expect((await pedir("POST", "/api/miembros/quitar", beto, { usuario: idBeto })).estado).toBe(
+      403,
+    );
+  });
+
+  it("sin sesión no se gestiona", async () => {
+    expect((await pedir("POST", "/api/miembros/rol", null, { usuario: "x", rol: "lectura" }))
+      .estado).toBe(401);
+    expect((await pedir("POST", "/api/miembros/quitar", null, { usuario: "x" })).estado).toBe(401);
+  });
+
+  it("rechaza cambios sin sentido", async () => {
+    const { ana, idBeto } = await equipoConBeto();
+    // Rol que no existe, persona que no está y el propio creador.
+    expect((await pedir("POST", "/api/miembros/rol", ana, { usuario: idBeto, rol: "dueno" }))
+      .estado).toBe(400);
+    expect((await pedir("POST", "/api/miembros/rol", ana, { usuario: "sub-fantasma", rol: "lectura" }))
+      .estado).toBe(404);
+    const idAna = (
+      (await pedir("GET", "/api/espacio", ana)).datos?.equipo as {
+        miembros: { id: string; nombre: string }[];
+      }
+    ).miembros.find((m) => m.nombre === "Ana")?.id;
+    expect((await pedir("POST", "/api/miembros/rol", ana, { usuario: idAna, rol: "lectura" }))
+      .estado).toBe(400);
+  });
+
+  it("el creador quita a un miembro y desaparece del equipo", async () => {
+    const { ana, idBeto } = await equipoConBeto();
+    expect((await pedir("POST", "/api/miembros/quitar", ana, { usuario: idBeto })).estado).toBe(
+      200,
+    );
+    const res = await pedir("GET", "/api/espacio", ana);
+    const miembros = (res.datos?.equipo as { miembros: { id: string }[] }).miembros;
+    expect(miembros.map((m) => m.id)).not.toContain(idBeto);
+  });
+
+  it("nadie se quita a sí mismo ni al creador", async () => {
+    const { ana } = await equipoConBeto();
+    const miembros = (
+      (await pedir("GET", "/api/espacio", ana)).datos?.equipo as {
+        miembros: { id: string; nombre: string }[];
+      }
+    ).miembros;
+    const idAna = miembros.find((m) => m.nombre === "Ana")?.id;
+    expect((await pedir("POST", "/api/miembros/quitar", ana, { usuario: idAna })).estado).toBe(400);
+    expect((await pedir("POST", "/api/miembros/quitar", ana, { usuario: "sub-fantasma" })).estado)
+      .toBe(404);
+  });
+});
