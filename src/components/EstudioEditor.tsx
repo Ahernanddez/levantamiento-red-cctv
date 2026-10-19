@@ -3,11 +3,12 @@ import type { Estudio, Material } from "../types";
 import type { ApiUnidades } from "./unidades";
 import { CatalogoTab } from "./CatalogoTab";
 import { DatosTab } from "./DatosTab";
+import { FotosTab } from "./FotosTab";
 import { Informe } from "./Informe";
 import { ListaTab } from "./ListaTab";
 import { Entrada } from "./ui";
 
-type Pestana = "datos" | "lista" | "catalogo";
+type Pestana = "datos" | "lista" | "fotos" | "catalogo";
 
 export function EstudioEditor({
   estudio,
@@ -46,6 +47,7 @@ export function EstudioEditor({
   const tabs: { id: Pestana; label: string }[] = [
     { id: "datos", label: "Datos" },
     { id: "lista", label: "Lista" },
+    { id: "fotos", label: "Fotos" },
     { id: "catalogo", label: "Catálogo" },
   ];
 
@@ -111,6 +113,14 @@ export function EstudioEditor({
             estudio={estudio}
             catalogo={catalogo}
             unidades={unidades}
+            actualizar={actualizarEstudio}
+            avisar={avisar}
+            soloLectura={soloLectura}
+          />
+        ) : null}
+        {pestana === "fotos" ? (
+          <FotosTab
+            estudio={estudio}
             actualizar={actualizarEstudio}
             avisar={avisar}
             soloLectura={soloLectura}

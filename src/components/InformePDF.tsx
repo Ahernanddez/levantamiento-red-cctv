@@ -73,6 +73,20 @@ function Hojas({ paginas }: { paginas: HojaPDF[] }) {
                   {linea.texto}
                 </span>
               ))}
+              {hoja.imagenes.map((img, j) => (
+                <img
+                  className="hoja__imagen"
+                  key={`img-${j}`}
+                  src={img.url}
+                  alt=""
+                  style={{
+                    left: `${img.x}pt`,
+                    top: `${MEDIDAS_HOJA.alto - img.y}pt`,
+                    width: `${img.ancho}pt`,
+                    height: `${img.alto}pt`,
+                  }}
+                />
+              ))}
             </div>
           ))}
         </div>
@@ -118,6 +132,7 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
         unidadDe(it, porId.get(it.materialId)),
         porId.get(it.materialId)?.nombre ?? "",
       ]),
+      (estudio.fotos ?? []).map((f) => [f.id, f.comentario, f.imagen.length]),
     ]);
   }, [estudio, catalogo]);
 

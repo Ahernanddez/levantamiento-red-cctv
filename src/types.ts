@@ -39,6 +39,21 @@ export interface ItemLista {
   unidad?: string;
 }
 
+/**
+ * Una fotografía del estudio, con su comentario.
+ *
+ * La imagen viaja reducida (JPEG en data URL): tal cual se muestra en la
+ * pantalla va al PDF, y así también entra en el guardado local y en la
+ * sincronización sin romper sus topes de tamaño.
+ */
+export interface Foto {
+  id: string;
+  /** JPEG reducido en data URL (`data:image/jpeg;base64,…`). */
+  imagen: string;
+  comentario: string;
+  updatedAt: string;
+}
+
 /** Un estudio hecho en un sitio. */
 export interface Estudio {
   id: string;
@@ -52,6 +67,8 @@ export interface Estudio {
   realizo: string;
   notas: string;
   items: ItemLista[];
+  /** Fotografías del sitio, en el orden en que se agregaron. */
+  fotos: Foto[];
   createdAt: string;
   updatedAt: string;
 }

@@ -17,6 +17,7 @@ import {
   type Borrados,
   type Espacio,
   type Estudio,
+  type Foto,
   type ItemLista,
   type Material,
   type Unidad,
@@ -250,6 +251,7 @@ export function crearEstudio(nombre = "Nuevo estudio"): Estudio {
     realizo: "",
     notas: "",
     items: [],
+    fotos: [],
     createdAt: marca,
     updatedAt: marca,
   };
@@ -306,6 +308,19 @@ function normalizarItem(raw: unknown): ItemLista {
   };
 }
 
+/** Una foto vale si trae su imagen JPEG; el comentario puede venir vacío. */
+export function normalizarFoto(raw: unknown): Foto | null {
+  const r = objeto(raw);
+  const imagen = str(r.imagen);
+  if (!imagen.startsWith("data:image/jpeg;base64,")) return null;
+  return {
+    id: str(r.id) || newId(),
+    imagen,
+    comentario: str(r.comentario),
+    updatedAt: str(r.updatedAt),
+  };
+}
+
 /** Acepta estudios parciales o de versiones anteriores y los completa. */
 export function normalizarEstudio(raw: unknown): Estudio | null {
   const r = objeto(raw);
@@ -321,6 +336,9 @@ export function normalizarEstudio(raw: unknown): Estudio | null {
     realizo: str(r.realizo),
     notas: str(r.notas),
     items: lista(r.items).map(normalizarItem).filter((it) => it.materialId),
+    fotos: lista(r.fotos)
+      .map(normalizarFoto)
+      .filter((f): f is Foto => f !== null),
     createdAt: str(r.createdAt, marca),
     updatedAt: str(r.updatedAt, marca),
   };

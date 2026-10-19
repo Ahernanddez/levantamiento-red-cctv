@@ -75,8 +75,8 @@ describe("pestañas del estudio", () => {
     />,
   );
 
-  it("son exactamente Datos, Lista y Catálogo", () => {
-    expect(etiquetasDePestana(html)).toEqual(["Datos", "Lista", "Catálogo"]);
+  it("son exactamente Datos, Lista, Fotos y Catálogo", () => {
+    expect(etiquetasDePestana(html)).toEqual(["Datos", "Lista", "Fotos", "Catálogo"]);
   });
 
   it("ya no quedan pestañas de Red, CCTV ni Informe", () => {

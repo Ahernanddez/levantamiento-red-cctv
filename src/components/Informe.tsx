@@ -88,6 +88,21 @@ export function Informe({ estudio, catalogo }: { estudio: Estudio; catalogo: Mat
         </section>
       ) : null}
 
+      {(estudio.fotos ?? []).length > 0 ? (
+        <section className="informe__seccion">
+          <h2>{estudio.notas.trim() ? 4 : 3}. Fotografías</h2>
+          {(estudio.fotos ?? []).map((f, i) => (
+            <figure key={f.id} className="informe__foto">
+              <img src={f.imagen} alt={f.comentario || `Fotografía ${i + 1} del sitio`} />
+              <figcaption>
+                Fotografía {i + 1}
+                {f.comentario.trim() ? ` — ${f.comentario.trim()}` : ""}
+              </figcaption>
+            </figure>
+          ))}
+        </section>
+      ) : null}
+
       <footer className="informe__firmas">
         <div>
           <span>Estudio realizado por</span>

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Estudio, Material } from "../types";
 import { crearEstudio, nuevoItem, nuevoMaterial } from "./espacio";
-import { aLatin1, envolver, informePDF } from "./pdf";
+import { aLatin1, envolver, informePDF, medidasDeFoto, paginasDelInforme } from "./pdf";
 
 /**
  * El PDF se revisa por dentro, no solo por fuera. Los lectores de PDF no
@@ -274,6 +274,73 @@ describe("paginación", () => {
     expect(lineas.filter((l) => l.includes("MATERIAL")).length).toBe(paginas);
     // Y no se pierde ninguna fila al cortar: están las 90.
     expect(lineas.filter((l) => l.includes("de la lista larga")).length).toBe(90);
+  });
+});
+
+describe("fotografías en el informe", () => {
+  // JPEG mínimo de 3x2 (SOI + SOF0 + EOI): alcanza para medir y embeber.
+  const jpeg =
+    "data:image/jpeg;base64," +
+    Buffer.from([
+      0xff, 0xd8, 0xff, 0xc0, 0x00, 0x0b, 0x08, 0x00, 0x02, 0x00, 0x03, 0x03, 0x01, 0x22, 0x00,
+      0x02, 0x11, 0x01, 0x03, 0x11, 0x01, 0xff, 0xd9,
+    ]).toString("base64");
+  const foto = { id: "f1", imagen: jpeg, comentario: "Tablero principal", updatedAt: "" };
+
+  it("lee el tamaño del JPEG sin decodificarlo", () => {
+    expect(medidasDeFoto(jpeg)).toEqual({ ancho: 3, alto: 2 });
+    expect(medidasDeFoto("data:image/png;base64,xx")).toBeNull();
+    expect(medidasDeFoto("no-es-una-imagen")).toBeNull();
+  });
+
+  it("dibuja cada foto con su epígrafe en la sección Fotografías", async () => {
+    const segunda = { ...foto, id: "f2", comentario: "" };
+    const { contenido, lineas } = await abrir(estudioCon([], { fotos: [foto, segunda] }));
+    expect(contenido).toContain("/DCTDecode");
+    expect(contenido).toContain("/Im1 Do");
+    expect(lineas.some((l) => l.includes("Fotografías"))).toBe(true);
+    expect(lineas.some((l) => l.includes("Fotografía 1"))).toBe(true);
+    expect(lineas.some((l) => l.includes("Tablero principal"))).toBe(true);
+    expect(lineas.some((l) => l.includes("Fotografía 2"))).toBe(true);
+  });
+
+  it("las fotos altas abren páginas nuevas y llegan a la vista previa", () => {
+    // El encabezado dice 400x1500: el dibujo se limita a 340 de alto y cada
+    // foto pide su lugar, así que seis no entran en una hoja.
+    const alta =
+      "data:image/jpeg;base64," +
+      Buffer.from([
+        0xff, 0xd8, 0xff, 0xc0, 0x00, 0x0b, 0x08, 0x05, 0xdc, 0x01, 0x90, 0x03, 0x01, 0x22,
+        0x00, 0x02, 0x11, 0x01, 0x03, 0x11, 0x01, 0xff, 0xd9,
+      ]).toString("base64");
+    expect(medidasDeFoto(alta)).toEqual({ ancho: 400, alto: 1500 });
+    const muchas = Array.from({ length: 6 }, (_, i) => ({ ...foto, id: `f${i}`, imagen: alta }));
+    const paginas = paginasDelInforme(estudioCon([], { fotos: muchas }), [cable, fuente]);
+    expect(paginas.length).toBeGreaterThan(2);
+    const conFoto = paginas.filter((p) => p.imagenes.length > 0);
+    expect(conFoto.flatMap((p) => p.imagenes)).toHaveLength(6);
+    // La vista previa recibe la misma imagen que el archivo.
+    expect(conFoto[0].imagenes[0].url).toBe(alta);
+  });
+
+  it("la tabla de posiciones coincide con los objetos reales, con fotos", async () => {
+    const { contenido } = await abrir(estudioCon([], { fotos: [foto] }));
+    const tabla = contenido.slice(contenido.indexOf("xref\n"));
+    // Solo las entradas en uso (la libre no cuenta): cada una apunta al
+    // encabezado de su objeto, esté donde esté en el archivo.
+    const entradas = [...tabla.matchAll(/^(\d{10}) 00000 n /gm)].map((m) => Number(m[1]));
+    expect(entradas.length).toBe(9);
+    entradas.forEach((pos, k) => {
+      expect(contenido.startsWith(`${k + 1} 0 obj`, pos)).toBe(true);
+    });
+  });
+
+  it("una foto rota se salta sin romper el informe", async () => {
+    const rota = { id: "f9", imagen: "data:image/jpeg;base64,!!!", comentario: "rota", updatedAt: "" };
+    const { contenido, lineas } = await abrir(estudioCon([], { fotos: [rota] }));
+    expect(contenido).not.toContain("/DCTDecode");
+    // Y la sección ni se abre si no queda ninguna válida.
+    expect(lineas.some((l) => l.includes("Fotografías"))).toBe(false);
   });
 });
 

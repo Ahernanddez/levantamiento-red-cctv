@@ -680,6 +680,50 @@ h2 {
   color: #0f172a;
 }
 
+/* Las fotos de la vista previa van en su lugar, como en el archivo. */
+.hoja__imagen {
+  position: absolute;
+  object-fit: fill;
+}
+
+/* --- Fotografías del estudio (pestaña Fotos) -------------------------------- */
+
+.fotos {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.foto {
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--superficie-2);
+}
+
+.foto__imagen {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #0f172a;
+}
+
+.foto__pie {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px;
+}
+
+.foto__pie .entrada {
+  flex: 1;
+  min-width: 0;
+}
+
 @media (max-width: 720px) {
   .vista-pdf {
     max-height: 460px;
@@ -1298,6 +1342,25 @@ h2 {
   color: var(--tenue);
   border-top: 1px solid var(--borde);
   padding-top: 12px;
+}
+
+/* Las fotos del informe impreso, una por bloque con su epígrafe. */
+.informe__foto {
+  margin: 0 0 14px;
+  break-inside: avoid;
+}
+
+.informe__foto img {
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  border: 1px solid var(--borde);
+}
+
+.informe__foto figcaption {
+  font-size: 0.78rem;
+  color: var(--tenue);
+  margin-top: 4px;
 }
 
 .der {

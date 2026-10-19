@@ -30,6 +30,8 @@ const INTERLINEA = 12;
 /** En Courier cada carácter mide 0,6 em, así que el ancho se calcula exacto. */
 const ANCHO_CARACTER = 0.6;
 const CARACTERES = Math.floor(ANCHO_UTIL / (ANCHO_CARACTER * TAMANO));
+/** Alto máximo de una fotografía en el informe, en puntos. */
+const ALTO_FOTO = 340;
 
 /**
  * Anchos fijos de la tabla, en caracteres. La columna de unidad no está acá:
@@ -92,6 +94,67 @@ export function aLatin1(texto: string): string {
 /** Dentro de una cadena de PDF, los paréntesis y la barra se escapan. */
 function escapar(texto: string): string {
   return aLatin1(texto).replace(/([\\()])/g, "\\$1");
+}
+
+// --- Fotografías ------------------------------------------------------------
+
+/**
+ * Los bytes del JPEG que trae una data URL de foto.
+ *
+ * Devuelve null si no es un JPEG en base64: una foto rota no puede voltear el
+ * informe, simplemente se salta.
+ */
+function bytesDeFoto(url: string): Uint8Array | null {
+  const prefijo = "data:image/jpeg;base64,";
+  if (!url.startsWith(prefijo)) return null;
+  try {
+    const crudo = atob(url.slice(prefijo.length));
+    const bytes = new Uint8Array(crudo.length);
+    for (let i = 0; i < crudo.length; i += 1) bytes[i] = crudo.charCodeAt(i) & 0xff;
+    return bytes;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Ancho y alto en píxeles de un JPEG, leídos de su marcador SOF.
+ *
+ * No se decodifica la imagen: solo se buscan los dos bytes que dicen cuánto
+ * mide, para dibujarla con su proporción en el informe y en la vista previa.
+ */
+export function medidasDeFoto(url: string): { ancho: number; alto: number } | null {
+  const bytes = bytesDeFoto(url);
+  if (!bytes || bytes.length < 4 || bytes[0] !== 0xff || bytes[1] !== 0xd8) return null;
+  let i = 2;
+  while (i + 3 < bytes.length) {
+    if (bytes[i] !== 0xff) return null;
+    const marca = bytes[i + 1];
+    if (marca === 0xd9) return null;
+    if (marca === 0x01 || (marca >= 0xd0 && marca <= 0xd7)) {
+      i += 2;
+      continue;
+    }
+    const largo = (bytes[i + 2] << 8) | bytes[i + 3];
+    if (largo < 2) return null;
+    if (marca >= 0xc0 && marca <= 0xcf && marca !== 0xc4 && marca !== 0xc8 && marca !== 0xcc) {
+      if (i + 8 >= bytes.length) return null;
+      const alto = (bytes[i + 5] << 8) | bytes[i + 6];
+      const ancho = (bytes[i + 7] << 8) | bytes[i + 8];
+      return ancho > 0 && alto > 0 ? { ancho, alto } : null;
+    }
+    i += 2 + largo;
+  }
+  return null;
+}
+
+/** Los bytes del JPEG como cadena de un byte por carácter, para el flujo PDF. */
+function binarioDeFoto(bytes: Uint8Array): string {
+  let salida = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    salida += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return salida;
 }
 
 function numeroPDF(valor: number): string {
@@ -218,9 +281,30 @@ export interface LineaPDF {
   y: number;
 }
 
+/**
+ * Una imagen ya ubicada dentro de la hoja.
+ *
+ * La `y` es el borde de ARRIBA (de ahí cuelga la foto): el PDF dibuja desde
+ * abajo, así que al escribir se descuenta el alto. La vista previa hace la
+ * misma cuenta al revés y muestra la misma página.
+ */
+export interface ImagenPDF {
+  x: number;
+  y: number;
+  ancho: number;
+  alto: number;
+  /** La data URL, para dibujarla en la vista previa. */
+  url: string;
+  /** Los bytes del JPEG, para el archivo. */
+  binario: string;
+  anchoPx: number;
+  altoPx: number;
+}
+
 /** Una hoja del informe con todo lo que lleva dibujado. */
 export interface HojaPDF {
   lineas: LineaPDF[];
+  imagenes: ImagenPDF[];
 }
 
 
@@ -228,10 +312,16 @@ export interface HojaPDF {
 /** Lleva las líneas de cada página y baja el cursor, abriendo página si hace falta. */
 class Documento {
   private hojas: LineaPDF[][] = [[]];
+  private dibujos: ImagenPDF[][] = [[]];
   private y = ALTO_PAGINA - MARGEN;
 
   get paginas(): LineaPDF[][] {
     return this.hojas;
+  }
+
+  /** Las hojas con su texto y sus fotos, para el archivo y la vista previa. */
+  get hojasCompletas(): HojaPDF[] {
+    return this.hojas.map((lineas, i) => ({ lineas, imagenes: this.dibujos[i] ?? [] }));
   }
 
   private get hoja(): LineaPDF[] {
@@ -245,6 +335,7 @@ class Documento {
 
   nuevaPagina(): void {
     this.hojas.push([]);
+    this.dibujos.push([]);
     this.y = ALTO_PAGINA - MARGEN;
   }
 
@@ -349,9 +440,43 @@ class Documento {
   pie(pagina: number, texto: string): void {
     this.hojas[pagina].push({ texto, fuente: "F1", tamano: 8, x: MARGEN, y: MARGEN });
   }
+
+  /**
+   * Una fotografía con su epígrafe.
+   *
+   * La foto se dibuja con su proporción, sin pasar el ancho útil ni el alto
+   * máximo; si el bloque no entra, se abre página. Devuelve false cuando la
+   * imagen no sirve, y esa foto se salta en vez de romper el informe.
+   */
+  foto(url: string, epigrafe: string, comentario: string): boolean {
+    const bytes = bytesDeFoto(url);
+    const medidas = bytes ? medidasDeFoto(url) : null;
+    if (!bytes || !medidas) return false;
+    const escala = Math.min(1, ANCHO_UTIL / medidas.ancho, ALTO_FOTO / medidas.alto);
+    const ancho = Math.max(1, medidas.ancho * escala);
+    const alto = Math.max(1, medidas.alto * escala);
+    const texto = epigrafe + (comentario.trim() ? ` — ${comentario.trim()}` : "");
+    const renglones = envolver(texto, CARACTERES).length;
+    const bloque = alto + 8 + renglones * INTERLINEA + 10;
+    if (!this.entra(bloque)) this.nuevaPagina();
+    this.dibujos[this.dibujos.length - 1].push({
+      x: MARGEN,
+      y: this.y,
+      ancho,
+      alto,
+      url,
+      binario: binarioDeFoto(bytes),
+      anchoPx: medidas.ancho,
+      altoPx: medidas.alto,
+    });
+    this.y -= alto + 8;
+    this.parrafo(texto);
+    this.espacio(10);
+    return true;
+  }
 }
 
-function contenidoDe(lineas: LineaPDF[]): string {
+function contenidoDe(lineas: LineaPDF[], imagenes: ImagenPDF[], base: number): string {
   const partes = ["BT\n"];
   for (const linea of lineas) {
     partes.push(`/${linea.fuente} ${linea.tamano} Tf\n`);
@@ -359,6 +484,14 @@ function contenidoDe(lineas: LineaPDF[]): string {
     partes.push(`(${escapar(linea.texto)}) Tj\n`);
   }
   partes.push("ET");
+  // Cada foto se dibuja escalada en su lugar: la y guardada es el borde de
+  // arriba y el PDF dibuja desde abajo, así que se descuenta el alto.
+  imagenes.forEach((img, k) => {
+    partes.push(
+      `\nq ${numeroPDF(img.ancho)} 0 0 ${numeroPDF(img.alto)} ` +
+        `${numeroPDF(img.x)} ${numeroPDF(img.y - img.alto)} cm\n/Im${base + k} Do\nQ`,
+    );
+  });
   return partes.join("");
 }
 
@@ -451,6 +584,15 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     doc.parrafo(estudio.notas);
   }
 
+  const validas = (estudio.fotos ?? []).filter((f) => medidasDeFoto(f.imagen) !== null);
+  if (validas.length > 0) {
+    doc.espacio(14);
+    doc.titulo(`${estudio.notas.trim() ? 4 : 3}. Fotografías`);
+    validas.forEach((f, i) => {
+      doc.foto(f.imagen, `Fotografía ${i + 1}`, f.comentario);
+    });
+  }
+
   doc.espacio(26);
   const segunda = MARGEN + 265;
   doc.linea("Estudio realizado por", { x: MARGEN });
@@ -473,7 +615,7 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     doc.pie(i, `Página ${i + 1} de ${cuantas}`);
   }
 
-  return doc.paginas.map((lineas) => ({ lineas }));
+  return doc.hojasCompletas;
 }
 
 /**
@@ -486,7 +628,19 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
 function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
   const cuantas = paginas.length;
   const archivo = new Archivo();
-  const numerosDePagina = paginas.map((_, i) => 8 + i * 2);
+
+  // Los números se reparten en orden: cada foto suma un objeto, así que no se
+  // pueden calcular de antemano como cuando solo había texto.
+  let siguiente = 7;
+  const numerosDePagina: number[] = [];
+  const numeros: { contenido: number; pagina: number; imagenes: number[] }[] = [];
+  for (const hoja of paginas) {
+    const contenido = siguiente++;
+    const pagina = siguiente++;
+    const imagenes = hoja.imagenes.map(() => siguiente++);
+    numeros.push({ contenido, pagina, imagenes });
+    numerosDePagina.push(pagina);
+  }
 
   archivo.objeto(1, "<< /Type /Catalog /Pages 2 0 R >>");
   archivo.objeto(
@@ -510,17 +664,32 @@ function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
   );
 
   paginas.forEach((hoja, i) => {
-    const contenido = contenidoDe(hoja.lineas);
-    const numeroContenido = 7 + i * 2;
-    archivo.objeto(numeroContenido, `<< /Length ${contenido.length} >>\nstream\n${contenido}\nendstream`);
+    const c = numeros[i];
+    // El JPEG va tal cual: el lector lo decodifica con DCTDecode.
+    hoja.imagenes.forEach((img, k) => {
+      archivo.objeto(
+        c.imagenes[k],
+        `<< /Type /XObject /Subtype /Image /Width ${img.anchoPx} /Height ${img.altoPx} ` +
+          `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode ` +
+          `/Length ${img.binario.length} >>\nstream\n${img.binario}\nendstream`,
+      );
+    });
+    const recursos = ["/Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >>"];
+    if (c.imagenes.length > 0) {
+      recursos.push(
+        `/XObject << ${hoja.imagenes.map((_, k) => `/Im${k + 1} ${c.imagenes[k]} 0 R`).join(" ")} >>`,
+      );
+    }
+    const contenido = contenidoDe(hoja.lineas, hoja.imagenes, 1);
+    archivo.objeto(c.contenido, `<< /Length ${contenido.length} >>\nstream\n${contenido}\nendstream`);
     archivo.objeto(
-      8 + i * 2,
+      c.pagina,
       `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${numeroPDF(ANCHO_PAGINA)} ${numeroPDF(ALTO_PAGINA)}] ` +
-        `/Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents ${numeroContenido} 0 R >>`,
+        `/Resources << ${recursos.join(" ")} >> /Contents ${c.contenido} 0 R >>`,
     );
   });
 
-  return archivo.cerrar(1, 6 + cuantas * 2 + 1, 3);
+  return archivo.cerrar(1, siguiente, 3);
 }
 
 /**
