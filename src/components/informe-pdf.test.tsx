@@ -98,6 +98,17 @@ describe("informe en PDF", () => {
     expect(filaL.some((l) => /^2\s+Fuente 12V 1A\s+u\s+250$/.test(l))).toBe(true);
   });
 
+  it("«Generar» confirma que el archivo quedó listo, aunque la vista ya esté abierta", () => {
+    montar(<InformePDF estudio={estudio} catalogo={catalogo} />);
+    // La vista ya estaba abierta: antes «Generar» no mostraba nada nuevo y
+    // parecía no funcionar, porque solo volvía a mostrar lo mismo.
+    click(boton("Vista previa del PDF"));
+    expect(contenedor?.textContent).not.toContain("listo para bajarlo");
+    click(boton("Generar PDF"));
+    expect(contenedor?.textContent).toContain("PDF generado, listo para bajarlo");
+    expect(lineasEnPantalla().length).toBeGreaterThan(0);
+  });
+
   it("«Generar» arma el archivo y muestra las páginas", () => {
     montar(<InformePDF estudio={estudio} catalogo={catalogo} />);
     const crear = vi.spyOn(URL, "createObjectURL");

@@ -207,7 +207,9 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
           ? "Agrega materiales para poder generar el informe."
           : !alDia && firmaDelPDF !== ""
             ? "Cambiaste el estudio desde la última vez: el PDF generado quedó viejo. Volvé a generarlo."
-            : "«Vista previa» muestra las páginas tal como salen; «Generar» arma el archivo y «Guardar» lo baja a tu equipo."}
+            : alDia && firmaDelPDF !== ""
+              ? "PDF generado, listo para bajarlo con «Guardar»."
+              : "«Vista previa» muestra las páginas tal como salen; «Generar» arma el archivo y «Guardar» lo baja a tu equipo."}
       </p>
 
       {enVista ? (
