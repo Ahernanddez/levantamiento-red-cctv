@@ -1,0 +1,32 @@
+{
+  // Configuración para probar en workerd con `npm run worker:dev`.
+  // Refleja a propósito lo mismo que se publica: fecha de compatibilidad, la
+  // carpeta de archivos construidos y la base de datos D1.
+  //
+  // Los valores de acá son públicos (el identificador de cliente y el origen),
+  // igual que en el sitio publicado; no hay ningún secreto.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lista-materiales-local",
+  "main": "worker/build/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "lista-materiales-local",
+      "database_id": "local"
+    }
+  ],
+  "vars": {
+    // Cliente de desarrollo: solo acepta devoluciones de llamada en localhost.
+    "FREEBUFF_CLIENT_ID": "0766b8ad-2695-45c3-ac60-1521bffde147",
+    "FREEBUFF_ISSUER": "https://freebuff.com/oidc",
+    "APP_ORIGIN": "http://localhost:8787"
+  },
+  "observability": { "enabled": true }
+}

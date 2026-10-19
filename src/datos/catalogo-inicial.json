@@ -1,0 +1,2502 @@
+{
+  "version": 2,
+  "generado": "2026-10-15T21:44:04.659Z",
+  "catalogo": [
+    {
+      "id": "mat-6b179b98ac32",
+      "nombre": "[ADS-12FG-12N 12012EPCU,12V1A] FUENTE DE PODER INDIVIDUAL DE 1 AMPERIO, HIKVISION",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-cc1eb410d3fd",
+      "nombre": "[DS-2CE16D0T-IRPF] CÁMARA HD1080P MINI BULLET 20MTS IR PLÁSTICA HIKVISION",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2422739ae38d",
+      "nombre": "[LLT-VP802] VIDEO BALUN CON RJ45",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8d167f9288d5",
+      "nombre": "[LocoM5] Ubiquiti NanoStation LocoM5 airMAX CPE, 150 Mbps,5 GHz 13 dbi",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bcbbd3d9e128",
+      "nombre": "[MINDPURE LX10005] Cable de Video HDMI 5Metros 4K 2K Mindpure LX 10005 3MG",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-26e07bade215",
+      "nombre": "[TL-SG1008MP] Switch de 8 Puertos TPLINK TL-SG1008MP POE 153Watt Gigabit Rackeable",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c2387f733211",
+      "nombre": "[UTP5E-11050B300EG] CABLE UTP CAT5E DE INTERIOR 24AWG 300 MTS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-569b471be20e",
+      "nombre": "1GE SFP LX transceiver module",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8ad1ba0aa2a6",
+      "nombre": "1GE SFP LX TRANSCEIVER MODULE 1GE SFP LX transceiver module for all systems with SFP and SFP/SFP+slots",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-616165517b4f",
+      "nombre": "Gabinete industrial 500x400x200 marca Nextlink",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8e32e94fe2fa",
+      "nombre": "Abrazaderas Conduit, 1 IMC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-effbd47a75c6",
+      "nombre": "Abrazaderas Conduit, 1/2 IMC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9a250da6f2eb",
+      "nombre": "Abrazaderas Conduit, 3/4 IMC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b04a71845ae7",
+      "nombre": "Abrazaderas EMT, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-38b0c03411d9",
+      "nombre": "Abrazaderas EMT, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0288babf9103",
+      "nombre": "Abrazaderas EMT, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-23b50d61fed3",
+      "nombre": "Abrazaderas EMT, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4124d599dc6e",
+      "nombre": "Abrazaderas Riel Struck, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-15e969ae5898",
+      "nombre": "Abrazaderas Struck 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8b032d2ebecd",
+      "nombre": "Abrazaderas Struck, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-538c1768b1df",
+      "nombre": "Abrazaderas Struck, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ae9a5bb384e9",
+      "nombre": "Abrazaderas Struck, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f7990d0eb183",
+      "nombre": "Abrazaderas Struck, 2-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d9c94710a2d7",
+      "nombre": "Access Point GWN 7660",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8e6f29c62fe7",
+      "nombre": "Access Point Unifi U7 OUTDOOR",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-07c1207ba7fc",
+      "nombre": "Adaptador de voltaje universal",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0bbd8eaf6588",
+      "nombre": "Alzas de riel",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a6121923b730",
+      "nombre": "Antena Sectorial M2 16 Dbi",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7bb5764a2a36",
+      "nombre": "Antennas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c5e3d2e33f8e",
+      "nombre": "Arandelas para tornillo 1/4X1'' | M10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f7ca0b6f1c9d",
+      "nombre": "Aro de fijación para FO ( Ganchos de Fijasion )",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-269614e6933e",
+      "nombre": "Bandeja ranurada de 14'' (Metalica)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-17037ab448e8",
+      "nombre": "Bandeja Ventilada de 12'' 1RU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-04a3f1c7ac25",
+      "nombre": "Bandeja ventilada para rack/bracket de 10.5\"",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a7b0f5847e33",
+      "nombre": "Bandejas de 14'' 2 posiciones",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d1d399b5c964",
+      "nombre": "BIOTIMEPRO-10D-PERMANENT BioTimePro, licencia versión lite para 10 dispositivos y 1000 usuarios de tiempo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1ad7d657d8eb",
+      "nombre": "BIOTIMEPRO-5D-PERMANENT licencia versión lite para 5 dispositivos y 500 usuarios de tiempo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-148839d16159",
+      "nombre": "BIOTIMEPRO-UPGRADE-1D Licencia para actualizar cantidades de dispositivos Biotime Pro de 5D 500 usuarios",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1241069ed304",
+      "nombre": "Bloque de concreto de 6 prefabricado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-859e8ee9e63c",
+      "nombre": "BOTON DE SALIDA NO TOUCH SKYLINK SENSOR IR NO/NC DISTANCIA AJUSTABLE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e64789c0af6d",
+      "nombre": "Botón de salida sin contacto con control remoto",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-440096ebc932",
+      "nombre": "Bracket de Pared 6RU con Bisagra 12 Profundidad",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e69194361723",
+      "nombre": "Braket tipo ZL para magnético de 1200 lbs, marca Nextlock",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ff04299069a7",
+      "nombre": "Breaker de riel 2P",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-471898cbccbc",
+      "nombre": "Breaker LS riel BK63H",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-14a91e86eaf6",
+      "nombre": "Breaker SQUARE-D 20 AMP",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8a193d23a242",
+      "nombre": "[BX1600M-LM] BackUp UPS 1600VA / 960W, 120VAC, 4 Nema, forma Torre, marca APC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-226410baf243",
+      "nombre": "Cable aluminio triplex 3x6 Flint | Cable de acometida electrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b23e44222088",
+      "nombre": "Cable aluminio triplex 3x6m | Cable de acometida electrica #8",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-751e1da821e4",
+      "nombre": "Cable de alarma 22 AWG cm/cl2, 4 conductores multifilar, color blanco por metro",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-996d46c1990c",
+      "nombre": "Cable de red cat 6A Panduit",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c1bd1c288d93",
+      "nombre": "Cable de red cat6 UTP Panduit",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-da32fa97f62e",
+      "nombre": "Cable FTP Exterior Cat6 Blindado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a22faf464db3",
+      "nombre": "Cable HDMI 20 pies",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5ec86c21af5e",
+      "nombre": "Cable Hdmi Macho A Macho 1 5M Plano Negro Ed015 Ugreen",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0ced349af83e",
+      "nombre": "CABLE HDMI MACHO A MACHO 15M NEGRO HD104 UGREEN",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8cdc7101757e",
+      "nombre": "Cable Hdmi 5 METROS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8bac710f7537",
+      "nombre": "Cable THHN 12 7H Verde",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-46fac6298735",
+      "nombre": "Cable TSJ 3X12 por pie",
+      "unidad": "pie"
+    },
+    {
+      "id": "mat-cac06b1cd605",
+      "nombre": "Cable Usb-A 2.0 A Usb-A Macho 3M Negro Us102 Ugreen",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0c90ace7df77",
+      "nombre": "Cable UTP Exterior Cat6 con Gel",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-87c455bfb628",
+      "nombre": "Caja 4x2 - Punto de Red",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d38cdeec28b7",
+      "nombre": "Caja 4x2 industrial salida 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a9f80665f9e2",
+      "nombre": "Caja Cantex 12x12x4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a4fbed506ed6",
+      "nombre": "Caja Cantex 12x12x6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c9450b0c9f52",
+      "nombre": "Caja Cantex 4x4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0453d4838841",
+      "nombre": "Caja Cantex 6x6x4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-249b29b76790",
+      "nombre": "Caja Cantex 8x8x4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f1d6c42a115d",
+      "nombre": "CAJA CUAD PESADA NOR-4X1-1/2 10H3/4 XTP412 (E52151-3/4)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-931c695933c4",
+      "nombre": "Caja de Registro",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9c0ac952c9ab",
+      "nombre": "Caja de Registro (UND)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-696694cca437",
+      "nombre": "Caja de registro galvanizada 12x12x6 con su tapadera",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7f0c343e8414",
+      "nombre": "Caja para punto de red 4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-727156af23bc",
+      "nombre": "Caja interperie rectangular 4x2 de 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-447300c345b3",
+      "nombre": "Caja IPTV",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e79cf8b70296",
+      "nombre": "Caja metalica 12x12x4 con sus tapaderas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bbef47447a5c",
+      "nombre": "Caja metalica 4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2fa2a340e4d1",
+      "nombre": "Caja metalica 4x4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5782eacb7188",
+      "nombre": "Caja metalica 4x4x2 mixta",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-69ef1f63c330",
+      "nombre": "Caja metálica 6x6x4 mixta con su tapadera",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c75d07410007",
+      "nombre": "Caja plastica 6x4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-15c5a38a6286",
+      "nombre": "Caja Registro Gris 12x12x6 | Caja Metalica 12x12x6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c05084a45e02",
+      "nombre": "Cajas octagonal",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8c6d6a6e0b47",
+      "nombre": "Cámara IP ojo de pez, vista 360°, resolución 5Mpx, IR 10M, entrada de audio, 12V, PoE, WDR, soporta microSD",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-806418c2df7f",
+      "nombre": "Cámara IP tipo bala, resolución 4 MPX, lente gran angular de 180°, H.264+, WDR real 120dB",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f6d86c12c368",
+      "nombre": "Cámara tipo bala varifocal Moto DeepinView ANPR de 4MP, Reconocimiento de Marca, Modelo, Color, Placa, IP67",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dd5005078c8f",
+      "nombre": "Camisa Conduit, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9aa6cdad8a4a",
+      "nombre": "Camisa EMT 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d1bf8be48a5a",
+      "nombre": "Camisa EMT, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-654d21149a1c",
+      "nombre": "Camisa EMT, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b43918f33955",
+      "nombre": "Camisa EMT, 2 | Coupling EMT Tornillo, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-cf67564e26cc",
+      "nombre": "Camisa EMT, 2-1/2 | Coupling EMT Tornillo, 2-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d9f0e20152be",
+      "nombre": "Camisa EMT, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-38ecb18a4558",
+      "nombre": "Canaleta de 1 blanca",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9b10a366ea3d",
+      "nombre": "Canaleta de 1/2 blanca",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ab23ad9ce0d2",
+      "nombre": "Canaleta plastica 2-mt 40/25mm con adhesivo 10014",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-65edb0d28dc1",
+      "nombre": "Canaleta plastica 2-mt 60/13mm sin adhesivo 10013",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-394bc5006952",
+      "nombre": "Canaleta plastica 50x12 Aguila",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4f645e49d19b",
+      "nombre": "Canaleta plastica 75x17 Aguila",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ca4bc14fad24",
+      "nombre": "CANDADO MAGNETICO 600LBS NO/NC SKYLINK CON LED V3",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6e9f52f4ea12",
+      "nombre": "CBS220-24P-4G-NA SWITCH CISCO BUSINESS SMART CBS220 / 24PUERTOS GE/ POE 4X1G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-08ee63ea9f20",
+      "nombre": "CBS350-48P-4G-NA SWITCH CISCO BUSINESS ADMINISTRABLECBS350 / 48 PUERTOS GE POE / 4 SPF 1G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c264e9569e60",
+      "nombre": "Cemento gris bijao",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1eae850e17d5",
+      "nombre": "[CF54X200] Escalerilla de 2x8 pulgadas, 3 metros de largo electrozincada, marca Cablofil",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-97c09d15e88f",
+      "nombre": "[CFF60-1.5-A] Bandeja ventilada 14\" profundidad 2 RMS 1.5 mm, marca Linkbasic",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-478157f95e3d",
+      "nombre": "Chapa electromagnetica para cierres de 1000lbs con indicador led marca Nextlock",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4aaf40a01cc7",
+      "nombre": "Cierre optico 12 Hilos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d6f02e21dad8",
+      "nombre": "Cierre tipo Botella 48",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a5fa4510b3db",
+      "nombre": "Cinta Band-it 3/4 x metro",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-5215832781d3",
+      "nombre": "CLOUD ROUTER SWITCH 106-1C-5S, DESKTOP ENCLOSURE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e6187ae11d49",
+      "nombre": "CLOUD ROUTER SWITCH 317-1G-16S+ WITH ROUTER OS L6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3667a27b24c1",
+      "nombre": "[CM558241] Union rapida EDRN para escalerilla marca Cablofil",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8cff84f2da00",
+      "nombre": "Conector Blindado Cat6 Rj45",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-79d9d1581068",
+      "nombre": "Conector BX, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ae664fd72f6a",
+      "nombre": "Conector BX, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5249993d67d5",
+      "nombre": "Conector BX, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a6f96501f68d",
+      "nombre": "Conector BX, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9e7cff8305f6",
+      "nombre": "Conector C20, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f31ce9e44bfb",
+      "nombre": "Conector C20, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0c21cb244d70",
+      "nombre": "Conector EMT, 1 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-397e3172c00c",
+      "nombre": "Conector EMT, 1-1/2 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fe3afbed42be",
+      "nombre": "Conector EMT, 1/2 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-435ea55672ef",
+      "nombre": "Conector EMT, 2 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a464dc007a43",
+      "nombre": "Conector EMT, 2-1/2 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1a5e6a8a1499",
+      "nombre": "Conector EMT, 3/4 con tornillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1c926e9f78a0",
+      "nombre": "Conector Mixto C40, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a7f80826e8a9",
+      "nombre": "Conector Mixto C40, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-193c7160dbc3",
+      "nombre": "Conector PVC C40, 1 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dcbb21cc7e4f",
+      "nombre": "Conector PVC C40, 1-1/2 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-015f2eaad628",
+      "nombre": "Conector PVC C40, 1/2 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a9d17143a8e2",
+      "nombre": "Conector PVC C40, 2 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7e3f4fa882f6",
+      "nombre": "Conector PVC C40, 2-1/2 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-feae180ffd9f",
+      "nombre": "Conector PVC C40, 3/4 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a75884093d61",
+      "nombre": "Conector PVC C40, 4 macho",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7d3a24471ad9",
+      "nombre": "Conector RG 6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-890ffe83654e",
+      "nombre": "Conector RG6 Tipo F para placa Keystone",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1100143dd189",
+      "nombre": "Conector RJ45 Cat5e",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-02f3d43e0e44",
+      "nombre": "Conector RJ45 Cat6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d579c667435e",
+      "nombre": "Conectores Industrial RJ45",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2e04c74bc14f",
+      "nombre": "Configuración biometrico",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-903a1943518b",
+      "nombre": "Control Biométrico / Reconocimiento Facial / Huella / Control de Acceso 1 Puerta / 1200 Rostros",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-98cdc83fc8af",
+      "nombre": "CONTROL DE ACCESO PARA GESTION DE TIEMPO Y ASISTENCIA ZKTECO / FACIAL / HUELLAS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7a5783bbacd0",
+      "nombre": "Coupling SC/UPC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7feeac1f2520",
+      "nombre": "CRS112-8G-4S-IN",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-134cdf393a77",
+      "nombre": "CRS326-24S+2Q+RM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9f678201163f",
+      "nombre": "[CRS328-24P-4S+RM] Enrutador/Conmutador Gigabit Ethernet de 24 puertos con cuatro puertos SFP+ de 10 Gbps",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-36e2b5d4e366",
+      "nombre": "CSS106-1G-4P-1S",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5c49784efada",
+      "nombre": "CSS610-8P-2S+IN",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-71c59c420757",
+      "nombre": "Curva EMT 1\"",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5e4cb8111d12",
+      "nombre": "Curva EMT 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-90b61a2a6769",
+      "nombre": "Curva PVC C20, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8b807d9cc195",
+      "nombre": "Curva PVC C20 de 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8a9518b667b6",
+      "nombre": "Curva PVC C40, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f6e1581a2039",
+      "nombre": "Curva PVC C40, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-30dccb0648ef",
+      "nombre": "Curva PVC C40, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d3fc0ac1ba06",
+      "nombre": "Curva PVC C40, 2-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1e9f4113ccd3",
+      "nombre": "Dado Cat 6A Panduit (Jack)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f30dc2afc441",
+      "nombre": "Dado cat5e",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-22c98ced06a0",
+      "nombre": "Dado cat6 (Jack Moduladores cat6) Panduit",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b2ec97ed3e86",
+      "nombre": "Desinstalación - Reinstalación Gabinete y equipos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b6c438a7a6c9",
+      "nombre": "Desinstalación e instalación de gabinete",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-190d3c935c9d",
+      "nombre": "Desmontaje Breaket",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7e45f95b0609",
+      "nombre": "Desmontaje Gabinetes",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2b8404b3f8f6",
+      "nombre": "Desmontaje y reubicación equipos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-29f635f15781",
+      "nombre": "Desmontaje y reubicación tomacorrientes",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a5222ef8c94f",
+      "nombre": "Disco duro WD 10TB",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-659af90c3a11",
+      "nombre": "DP750",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ab9a3c511d0f",
+      "nombre": "[DS-1660ZJ] Bracket extendido sobre pared para PTZ, marca Hikvision",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-37543103c1d0",
+      "nombre": "[DS-2CD1023G0E-I] Cámara tipo Bala IP, resolución 2 Mpx, lente fijo, H.265+, Ip67, IR 30 mts",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5db4a93d6f83",
+      "nombre": "[DS-2CD1027G2-L] Cámara Bala IP 2 Mpx, ACUSENSE Lite, detección de Movimiento en Humanos y Vehículos, lente 2.8 mm",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5da5a2625e39",
+      "nombre": "[DS-2CD1043G0-I] Cámara Ip tipo Bala, resolución 4 Mpx, lente fijo, dWDR, 3DNR, H.265+, IP67, IR30 mts, PoE, 12V",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0f5e41d8c63e",
+      "nombre": "[DS-2CD1043G2-LIU] Camara Ip bala 4 MP dual light 30 mts IR + 20 mts luz blanca lente 2.8mm micrófono integrado, exterior IP67",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-37c858951375",
+      "nombre": "[DS-2CD1047G2-L] Cámara tipo bala colorvu, 4 Mp",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b91698dd31dc",
+      "nombre": "[DS-2CD1063G2-LIUF ] Camara tipo Bala IP 6 Mpx Lente 2.8 mm, Dual Light (30 mts IR + 20 mts Luz Blanca) Micrófono Integrado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-31026f5c3f24",
+      "nombre": "[DS-2CD1083G2-LIU] Camara Ip bala lente fijo con luz hidrida, 8Mp, compresion de video H 265 +, WDR 120DB microfono integrado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d4d906b78e32",
+      "nombre": "[DS-2CD1123G0E-I] Cámara tipo Domo IP, resolución 2 Mpx, lente fijo, H.265+, Ip67, IR 30 mts, 12V, PoE, IK10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5695d7fbc79c",
+      "nombre": "[DS-2CD1143G0-I] Cámara Ip tipo Domo, resolución 4 Mpx, lente fijo, dWDR, 3DNR, H.265+, IP67, IR30 mts, PoE, 12V, IK10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fdf040a1469a",
+      "nombre": "[DS-2CD1143G2-LIU] Cámara Ip domo 4 megapixel dual light",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ba4942199a70",
+      "nombre": "[DS-2CD1143G2-LIU] Camará Ip Domo 4 Megapixel Dual Light (30 mts IR + 20 mts Luz Blanca) lente 2.8mm Micrófono Integrado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6e57034c13be",
+      "nombre": "[DS-2CD1183G2-LIU] Cámara domo IP 8 Megapíxel, lente 2.8 mm, Dual Light",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-825c346f6007",
+      "nombre": "[DS-2CD1643G2-LIZU] Camara Tipo Bala IP 4 Mpx Lente Motorizado 2.8 a 12 mm, Dual Light",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fd12e1513573",
+      "nombre": "[DS-2CD1663G2-LIZU] Camara Tipo Bala IP 6 Mpx Lente Motorizado 2.8 a 12 mm, Dual Light (50 mts IR + 50 mts Luz Blanca), ACUSENSE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b779ad3b6fad",
+      "nombre": "[DS-2CD2047G2-LU] Bullet IP bala de 4MP,Imagen a Color 24/7",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5d0789fb353a",
+      "nombre": "[DS-2CD2121G0-I] Camara Domo 2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-623c7cc6b57d",
+      "nombre": "[DS-2CD2647G2T-LZS] Cámara bala IP Color Vu, resolución 4 MPX, varifocal motorizada",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6572431d1429",
+      "nombre": "[DS-2CD2663G2-IZS] Camara tipo bala de 6 MP verifocal motorizada Acusence, H 265+ WDR 120 DB IP67 IK10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fc15c4984488",
+      "nombre": "[DS-2CD2683G2-IZS] Cámara IP tipo Bala, resolución 8 Mpx (4K),lente vari focal motorizado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fb489e2d7a5d",
+      "nombre": "[DS-2CD2955FWD-IS] Cámara IP ojo de pez, vista 360°, resolución 5 Mpx, IR 10M, entrada de audio, 12V, PoE, WDR",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6adc8fc58fb6",
+      "nombre": "[DS-2CD2T63G2-4I] Cámara IP tipo Bala, lente fijo 2.8mm , resolución6 Mpx, ACUSENSE (Evita Falsas Alarmas)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0a97df7b4e54",
+      "nombre": "[DS-2SE4C225MWG-E] Cámara PTZ IP TandemVu, resolución 2MPX, 25x zoom, tecnología Darkfighter",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b45fb3eca0ad",
+      "nombre": "[DS-2SE4C425MWG-E] Cámara PTZ IP TandemVu, resolución 4 MPX, 25x zoom",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7be67f68f9bb",
+      "nombre": "[DS-2SEAC425MWG-E] Cámara PTZ IP TandemVu, resolución 4 MPX",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fe118f82526a",
+      "nombre": "[DS-3E0105P-E/M] Switch Ethernet, 4 puertos PoE, 1 puerto de Uplink, 35 W de salida total, marca Hikvision",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c5e5f99cc16b",
+      "nombre": "[DS-3E0109-E/M (B)] Switch PoE no administrado fast ethernet de 8 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-458ae1172ff8",
+      "nombre": "[DS-3E0318P-E/M] Switch PoE+ hikvisión no administrable de 16 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-33238ef1f25c",
+      "nombre": "[DS-3E0505D-E] Switch Gigabit No Administrable de Escritorio con 5 puertos Gigabit 10/100/1000 Mbps",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8df31ca58084",
+      "nombre": "DS-3WF0BC-2NT Kit Completo (Transmisor - Receptor) para Enlace PTP en 2.4 GHz / Aplicación para Elevadores",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e84e40eec478",
+      "nombre": "[DS-7608NXI-K1/8P] NVR 8 canales IP, 8 Puertos Poe + Reconocimiento Facial AcuSense (Evita Falsas Alarmas) 1 Bahías de Disco Duro HDMI en 4K",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6f34d9d28ed7",
+      "nombre": "[DS-7608NXI-K1/8P] NVR 8 canales IP, 8 Puertos Poe Reconocimiento Facial AcuSense (Evita Falsas Alarmas) 1 Bahías de Disco Duro HDMI en 4K",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6f3b4c2959b7",
+      "nombre": "[D1S-7616NXI-K2] NVR de 16 canales AcuSense, resolución máxima 12 MPX, H.265+, 1 slot HDD de hasta 10 TB (no incluido). Marca Hikvision.",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-99112893337c",
+      "nombre": "[DS-7732NXI-I4/S] NVR de 32 canales AcuSense, resolución máxima 12 MPX, H.265+, 4 slot HDD de hasta 10 TB (no incluido), Marca Hikvision",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8ff9865a518a",
+      "nombre": "[DS-7732NXI-K4/16P] NVR de 32 canales AcuSense, resolución máxima 12 MPX, H.265+, 4 slot HDD de hasta 10 TB (no incluido)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6ce32ceafdb8",
+      "nombre": "[DS-7764NI-M4] NVR de 64 canales acusense, resolución máxima 12mpx",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-02420b3f96a1",
+      "nombre": "[DS-9664NI-M8] NVR de 64 canales, resolución de 32 mpx 8k",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b40fd41154de",
+      "nombre": "[EFace10] Biométrico híbrido basado en Linux, Terminal de control de tiempo y asistencia y acceso con reconocimiento facial de luz visible",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d278f1936b47",
+      "nombre": "Elaboración de caja de registro utilizando paredes con bloque de concreto fundido y reforzado de 6\" con 1#3@0.40m , con acabado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e46b631e58ad",
+      "nombre": "ESCUADRA DECOR. FIERO-TRUPER #47693/MED-8BA BLANCO PIEZA 200X200X2.2MM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4a5bc134fccf",
+      "nombre": "Escuadra metal 8x10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fc9a49279543",
+      "nombre": "Expansores M-10 con sus tornillos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8a7305e46157",
+      "nombre": "Expansores para tabla de yeso",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c12f9e5584f0",
+      "nombre": "Expansores S10 - concreto",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3c6c4cb29c6a",
+      "nombre": "Expansores S8 - concreto",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-00e74402e2ab",
+      "nombre": "Extension Electrica Blanca 2-Salidas Y 2-Puerto Usb Power Zone 6-Pie",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8a268f3a15ff",
+      "nombre": "Extension electrica de 2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ce32c0332fbc",
+      "nombre": "[F22/ID/ADMS] Terminal biométrica IP ultra delgada para control de acceso y gestión de asistencia",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b3dca441e73f",
+      "nombre": "[F22/ID/ADMS] Terminal biométrica IP ultra delgada para control de acceso y gestion de asistencia de empleados de huella digital",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-379e3081635a",
+      "nombre": "[FASL200] Soporte CSN 200 FASL para montaje en pared, 8 pulgadas, marca Cablofi",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8ae8e8f817d7",
+      "nombre": "FO 12 Hilos Dielectrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-20814b9090da",
+      "nombre": "FO 12 Hilos Dielectrica - Dual Jacket",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c38e77a40a9f",
+      "nombre": "FO 2 Hilos 1.2MM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bad00883f090",
+      "nombre": "FO 2 Hilos 1MM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-12f7309179ab",
+      "nombre": "FO 24 Hilos Dielectrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c78e9a326df3",
+      "nombre": "FO 4 Hilos Dielectrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c6e1de763c7f",
+      "nombre": "FO 48 Hilos Dielectrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-68208ed974dc",
+      "nombre": "FO 8 Hilos Dielectrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0fc863ad6e53",
+      "nombre": "FortiAP-231G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7271fc072bfc",
+      "nombre": "FortiAP-231G FortiCare Premium Support",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1bb39efc4853",
+      "nombre": "FortiAP-432F",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f92edf0d33c6",
+      "nombre": "FortiAP-432F FortiCare Premium Suppor",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f88173456804",
+      "nombre": "FORTIGATE 80F UTP BUNDLE 24X7",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0426bdaaa3f1",
+      "nombre": "FortiGate-80F Hardware plus FortiCare Premium and FortiGuard Unified Threat Protection (UTP)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ea49e68d2ac9",
+      "nombre": "FortiSwitch-108F-FPOE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-cdbb7ab277f7",
+      "nombre": "FortiSwitch-108F-FPOE FortiCare Premium Support",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-831c8517dcaa",
+      "nombre": "FortiSwitch-124F-FPOE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-953dc5094e77",
+      "nombre": "FortiSwitch-124F-FPOE FortiCare Premium Support",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8c2c74f4e974",
+      "nombre": "Fusiones",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-95db8dfad9cc",
+      "nombre": "GABIENTE METALICO DE 400*300*200 IP65",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d81b7e3f9b52",
+      "nombre": "GABIENTE METALICO DE 400*300*200 IP66",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3c2133fbcaf2",
+      "nombre": "Gabinete Abatible 6 RU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-553f14b3e017",
+      "nombre": "Gabinete Abatible de 12 U",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a6c1979580f8",
+      "nombre": "Gabinete Abatible de 15 RU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d791613af4f3",
+      "nombre": "Gabinete Abatible de 16U Ventilado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-20dfefb14c6d",
+      "nombre": "Gabinete de 9RU Abatible C/Ventilador",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c360acf98fce",
+      "nombre": "Gabinete industrial 400x300x200",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0059da1387b6",
+      "nombre": "Gabinete industrial 50 x 70 x 35 cm MARCA NEXTLINK (COTIZAR EN GIGANET)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5535186ca5cf",
+      "nombre": "[GAC2570]",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ecfece1e3503",
+      "nombre": "[GAFO-0068] Caja media converter TX/RX puerto Ethernet 10/100/1000 Mb, marca Nextlink - 1 unidad",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3461de2e7f00",
+      "nombre": "[GCE-002] Cable UTP categoria 5E para interior color gris, marca Prisma",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a6c5da2da5b5",
+      "nombre": "[GCE-003] Cable UTP , Categoria 5E, exterior, cca, caja de 305 mts, color negro, marca Nextlink",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-243fda1647d7",
+      "nombre": "[GCE-008] Cable UTP Categoria 6, para exterior, color negro, marca Nextlink",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-86cebbe64906",
+      "nombre": "[GCE-012] Cable FTP, Categoria 5E, para exterior, bobina de 305 mts, ISO/IEC 11801:2002, EIA/TIA 568 B-.2, color negro, marca Nextlink.",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-51e6b2e141e9",
+      "nombre": "[GI-500AS] Chapa electromagnetica para para cierres de 1000lbs con indicador led marca NEXTLOCK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b11e90c74a00",
+      "nombre": "Braket tipo ZL para magnético de 1000 lbs, marca Nextlock",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-de7330ddb934",
+      "nombre": "[GICE-1US] Organizador Horizontal de cableado de 1U, simple, PVC, color negro, marca Nextlink",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bb813b889afc",
+      "nombre": "GPI-130 Gigabit PoE Injector",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-31fb13527787",
+      "nombre": "GPI-145 Gigabit PoE Injector",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-edf8fb61f11c",
+      "nombre": "GRANDSTREAM DP720",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-72816d0599dc",
+      "nombre": "GRANDSTREAM HT802",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d0214877aa3d",
+      "nombre": "Grapa polo tierra 1/2-5/8",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4ee4733242e6",
+      "nombre": "Grapas plasticas 5mm",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-49252ca455af",
+      "nombre": "Grava",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d9ae8a41692a",
+      "nombre": "GRP 2602P",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-91032e6c1cba",
+      "nombre": "GRP 2636",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6502a86712ae",
+      "nombre": "GRP_WM_A",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bf8480a5b382",
+      "nombre": "GRP2624",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-536b953fe7de",
+      "nombre": "GWN 7660LR",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-be5b2e25c80d",
+      "nombre": "GWN7660E",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8f20336e726b",
+      "nombre": "GWN7700P SWITCH GS 5G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ac6697fe1a77",
+      "nombre": "Hebillas Cinta Ban-dit de 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-eccc25227e8a",
+      "nombre": "HIKCENTRAL Licencia base de videovigilancia",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-07c18198f465",
+      "nombre": "HikCentral-P-ACS-1Door HikCentral Professional / Licencia Añade 1 Puerta al Sistema de Control de Acceso",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-eb176c8048f1",
+      "nombre": "HikCentral-P-ACS-2Door/Base/Promo Paquete básico de control de acceso de HikCentral",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-342ef3bdc9db",
+      "nombre": "HikCentral-P-E&E-1Lane Hik-Central Professional / Licencia Añade 1 Carril",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ac67148f50d4",
+      "nombre": "HikCentral-P-E&E-2Lane/Module/Promo HikCentral Professional / Licencia añade Modulo de Entrada y Salida",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e20ff33c1871",
+      "nombre": "HikCentral-P-VSS-1Ch Licencia para Agregar 1 Canal Adicional de Video para HikCentral",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8d4b54c189c6",
+      "nombre": "HikCentral-P-VSS-1CH/ANPR Hik-Central Licencia Añade 1 Canal ANPR",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-824050b9da8f",
+      "nombre": "Identificacion y medicion de FO",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-aa34bd0bddb4",
+      "nombre": "[IDS-2CD7A46G0/P-IZHS] Cámara tipo bala varifocal Moto DeepinView ANPR de 4MP, Reconocimiento de Marca, Modelo, Color, Placa, IP67",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-706d76b7858d",
+      "nombre": "Instalacion Cable de red (X metro)",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-8cc8fb445f88",
+      "nombre": "Instalacion de BX con forro, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1c91e6b3019d",
+      "nombre": "Instalación de cable coaxial RG6",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-30520aed0e3e",
+      "nombre": "Instalacion de Cablofil",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-20bd86d31d72",
+      "nombre": "Instalacion de canaleta",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-667bd00c359b",
+      "nombre": "Instalación de Canalización de 2'' (ML)",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-ca91ddaee2ac",
+      "nombre": "Instalacion de FO (X metro)",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-bb0eee829f64",
+      "nombre": "Instalacion de tuberia (X lance)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f04db8fdf43a",
+      "nombre": "Instalacion Gabinete",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-12f9a30d5787",
+      "nombre": "Instalación y configuración AP",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-11bf11300fea",
+      "nombre": "Instalación y configuración de camaras",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-39c6af719e94",
+      "nombre": "INVID TECH PAR-P4TXIR28-AI 4MP IP Plug & Play Cámara de torreta de red IR para exteriores con visión nocturna, lente de 0.110 in, color blanco",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-476823575e6f",
+      "nombre": "Jack RJ45 cat6 Amarillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dceee0daba83",
+      "nombre": "Jack RJ45 cat6 Azul hembra",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b416d7bc3239",
+      "nombre": "JOYSTICK USB COMPATIBLE CON DVRS,NVRS,IVMS-4200",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-754f76ce9445",
+      "nombre": "K1 Botón para control de acceso no touch, NO - NC, marca Nextlock",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8025b31f17b3",
+      "nombre": "L009UiGS in Desktop/1U rackmount case with RouterOS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-23d3ee9b504a",
+      "nombre": "Lances de canaletas decorativa 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3e481214d4fd",
+      "nombre": "Lances de canaletas decorativa 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3c5771ac1e8d",
+      "nombre": "Lances de canaletas decorativa 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e4e00f341419",
+      "nombre": "[LBE-5AC-GEN2] 5GHz airMAX AC Lite Beam Gen2 Radio up 450+Mbps, 23dBi.",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-193b18e0be46",
+      "nombre": "LECTOR BIOMETRICO ANTIVANDALICO ZKTECO / SOPORTA HUELLAS / TARJETAS / EXTERIOR IP65 /MA500",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a28c7953242d",
+      "nombre": "Lector biométrico esclavo IP65, lector de huella digital y módulo lector de tarjetas RFID integrado, marca ZKTeco",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-585f1ae9701f",
+      "nombre": "LICENCIA ACTUALIZADAR FUNCIÓN AMDS MB60",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-32b4d652c342",
+      "nombre": "LICENCIA ZKTECO BIOTIMEPRO 5 DISPOSITIVOS / 500 USUARIOS / LICENCIA PERMANENTE | SOFTWARE CVACCESS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-220f3bef50fb",
+      "nombre": "Limpieza general",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-275dabf68ae6",
+      "nombre": "[LS1005G] Switch de Escritorio de 5 Puertos Gigabit, marca TP-Link",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f72b6801e0e9",
+      "nombre": "[MB460/ID/ADMS] Terminal Multi-Biométrica para Gestión de Asistencia y funciones de Control de Acceso, marca ZKTECO",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-48899702190d",
+      "nombre": "Media Converter Gigabit 10/100/1000 Base -FX (PAR)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7feba5629226",
+      "nombre": "Medidor de agua Axioma QALCOSONIC W1 2”",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a3c11efe72b7",
+      "nombre": "Medidor de agua Axioma QALCOSONIC W1 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-506dfdc78a58",
+      "nombre": "Mikrotik 12S-1G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5be147ae94ae",
+      "nombre": "Mikrotik RB2011UIAS-RM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-cbe9a1fb8071",
+      "nombre": "Mikrotik RB260GS GIGABIT SMART SWITH SFP CAGE SWOS PSU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a17cce41765d",
+      "nombre": "Mini ODF 2 hilos (2 puerto)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-729e85613a94",
+      "nombre": "Mini ODF de 4 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9e85d17aeb58",
+      "nombre": "Mouse Inalambrico Logitec",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6e2fd05f554d",
+      "nombre": "Mufa EMT 2 PULG",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-773c018ab72f",
+      "nombre": "Mufa EMT, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c5255d1700d5",
+      "nombre": "Mufa EMT, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e33e5f2ff991",
+      "nombre": "Mufa EMT, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2163ee15c510",
+      "nombre": "MUFAS PLANAS OPTIC PARA FIBRA DE 24 HILOS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-675f025433c6",
+      "nombre": "Netpower 16",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2d1ca8fedb76",
+      "nombre": "ODF 12 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8e0cdba52287",
+      "nombre": "ODF 24 HILOS SIN UNION CABLIX",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-98fe18c72c98",
+      "nombre": "ODF 48 HILOS SIN UNION CABLIX",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f7b85a573ad7",
+      "nombre": "OLT TP LINK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0ae8c0e08793",
+      "nombre": "ONU 1 PUERTO TP LINK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c137767bfe1d",
+      "nombre": "ONU 2 PUERTO TP LINK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-92f9eebece36",
+      "nombre": "Organizador Horizontal 2U",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-184347524517",
+      "nombre": "Organizador Vertical 200cmx8cm, PVC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3fa71e88154e",
+      "nombre": "Patch cord 3 pies Cat5e Azul",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-817c9ebc1e5a",
+      "nombre": "Patch cord 3 pies Cat6 amarillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-da6bdf711171",
+      "nombre": "Patch cord 3 pies Cat6 Rojo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5eaf6aaeced9",
+      "nombre": "Patch cord 7 pies Cat6 Amarillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dc3fc8029afb",
+      "nombre": "Patch Cord F.O. Monomodo Duplex LC-LC 2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b18b92c0b1ba",
+      "nombre": "Patch panel 16 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-eadac59e8fd9",
+      "nombre": "Patch Panel 24 Puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6e98d2368787",
+      "nombre": "Patch panel 48 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-75b9663d63ec",
+      "nombre": "PatchCord 1 pies Cat6 Azul",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-49d5e8497265",
+      "nombre": "PatchCord 3 pies Cat6 Azul",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-86e96620adde",
+      "nombre": "PatchCord 3 pies Cat6A Azul",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-59b04696acef",
+      "nombre": "PatchCord 7 pies Cat6 Azul",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-939555f91644",
+      "nombre": "PatchCord CAT6, 3M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-acf31c7fa938",
+      "nombre": "PATCHCORD DUAL 9/125 FO CABLE LC/UPC-LC/UPC-3M-1.6MM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1f615414ad11",
+      "nombre": "PatchCord LC-UPC-SC/UPC, 5M(Duplex)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-704618f6d903",
+      "nombre": "PatchCord LC/UPC-SC/UPC, 2M(Duplex) (SC LC)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-76025cfa9cbd",
+      "nombre": "PatchCord LC/UPC-SC/UPC, 3M(Duplex)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9dde27c79969",
+      "nombre": "PATCHCORD MODE DUAL SC/UPC-SC/UPC-2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-74455ac1e048",
+      "nombre": "PatchCord SC/UPC-SC/UPC, 1M(Duplex)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d9254e960c04",
+      "nombre": "PatchCord SC/UPC-SC/UPC, 3M(Duplex)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e022855ec58a",
+      "nombre": "PatchCord SC/UPC-SC/UPC, 5M(Duplex)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4aa1fea147ba",
+      "nombre": "PatchCord UTP CAT6, 1M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6118765fb9af",
+      "nombre": "PatchCord UTP CAT6, 2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c13a3c911518",
+      "nombre": "Pigtail SC/UPC, 2M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a95ed31102ff",
+      "nombre": "Placa 2 puertos blanco",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3d2d6a617102",
+      "nombre": "Placa 3 puertos blanco",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-671ae763f772",
+      "nombre": "Placa interperie ciega gris | Tapadera metalica para caja industrial 4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c3d6021d5163",
+      "nombre": "Ponchado de cable de red",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dd57921a91fe",
+      "nombre": "POWER BEAM 5GHz, AIRMAX, 400MM, ANTENA UBIQUITI",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8559ca041009",
+      "nombre": "PowerBeam M2 400",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-317c9b654556",
+      "nombre": "Preformado fibra de 48 hilos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5ed1af18cb2c",
+      "nombre": "Preformado fibra de 8 - 4 hilos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-96d6e6300324",
+      "nombre": "Protector anti descargas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-552bcdebc27a",
+      "nombre": "Protector de Red",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-211e805888b2",
+      "nombre": "PS901B Fuente de poder con cables de batería, Voltaje de entrada 110VAC, marca ZKTeco 12V 3A",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c9e094e0ba1d",
+      "nombre": "[PSL-850-120] UPS de línea interactiva tipo torre de 850 VA / 480 W, 120V. 50 y 60 Hz, Marca Vertiv",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-215cf1d47e89",
+      "nombre": "Rack 2 postes 42U",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b8d259b1776a",
+      "nombre": "RACK OUTLET 1U /10 CONTACTS FOR RACK 19IN - Rack 2 postes de 20 RU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3ae64898555e",
+      "nombre": "Ranura y resane de aceras de concreto (ML)",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-ff6ec0ffe76c",
+      "nombre": "RB5009UG+S+IN with RouterOS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-047874758229",
+      "nombre": "RB760iGS hEX S WITH CASE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-59163eb82f4b",
+      "nombre": "Regleta de poder horizontal raqueable de 10 tomas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b008121dd872",
+      "nombre": "Regleta para Rack",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-13118d828a04",
+      "nombre": "REPISA BEST VALUE #F02028 DUETTO GRIS/BORDE GRIS 1.5X20X40CM PIEZA",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9c3acf15662f",
+      "nombre": "Repisa de madera 24x10",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d1cc659c7b0a",
+      "nombre": "Riel din perforado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-07d329e273f8",
+      "nombre": "Riel din perforado 35mm",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5389d20428cb",
+      "nombre": "Riel Struck",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-389347071fc0",
+      "nombre": "Rocket M2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1d5da06ddb78",
+      "nombre": "S-35/53 LC20D PAIR OF SFP MODULES",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d540c19fbfb8",
+      "nombre": "Saco de arena",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7d9a042d54bb",
+      "nombre": "Servicio de mano de obra por excavación de terreno de forma manual para instalación de tubería",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5442e162b93f",
+      "nombre": "Servicio Mano de Obra Excavación (ML)",
+      "unidad": "m"
+    },
+    {
+      "id": "mat-6bb35861e7da",
+      "nombre": "Servidor de Administración / E2124 / Windows Server 2019 / 1 U Rack / 16 GB DDR4 DIMM / 1 TB SATA X 2 para S.O",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-85f78602eeda",
+      "nombre": "SFP 1.25G BIDI Tx1310/Rx1550NM 20 KM LC DDM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d0918f3ec932",
+      "nombre": "SFP transceiver Bi-Direccional (Par)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f02e8d3c14d2",
+      "nombre": "[SG108] Switch SOHO de escritorio de 8 puertos Gigabit, marca Tenda",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b20ab70a6ab2",
+      "nombre": "Silicon transparente",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-1ce82993158b",
+      "nombre": "Sistema de alarma Hikvision AX PRO, detectores de humo, sensores de movimiento, sensores para puertas y ventanas.",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f1963a37cd36",
+      "nombre": "[SLK20R] ENROLADOR BIOMETRICO DE HUELLA SILKID RESOLUCION 500DPI CONEXION USB",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ae1f52813b00",
+      "nombre": "Software de Control de Acceso ZKBioCVSecurity, Licencia para 25 Puertas, 500 Areas, 500 Departamentos y Maximo 5000 Usuarios, marca ZkTeco.",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b6ebdd7153d7",
+      "nombre": "SOPORTE CON BRAZO AREA 51/TV 37\" A 70\" 4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6e45652a2a8f",
+      "nombre": "Soporte fijo tv 47''",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e38e1dbaa49f",
+      "nombre": "SOPORTE INCLINABLE AREA 51/TV 37\" A 70",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c00c6f3a2610",
+      "nombre": "Splitter CATV de 1x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-75656812b3a3",
+      "nombre": "Spray Naranja",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4be28eb4350c",
+      "nombre": "[ST10000VX0004] Disco duro línea Skyhawk, capacidad de 10 TB",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-04b6e8b13a41",
+      "nombre": "[ST4000VX000-520] Disco duro línea skyhawk",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0c710215922b",
+      "nombre": "[ST4000VX000-520] Disco duro línea Skyhawk, capacidad de 4.0 TB, conexión SATA III 5900RPM, especial para uso continuo 24/7, marca Seagate",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-187a8a63e4ea",
+      "nombre": "Suministro e Instalación de malla de señalización naranja",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-605a29766b56",
+      "nombre": "Suministro e Instalación de tubería PVC de 2-1/2\" c-40 Y sus accesorios",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3aa04acae8f9",
+      "nombre": "Switch 2 Puertos 4K Hdmi Hb1204Bk Unno",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a2f3ba6d205d",
+      "nombre": "Switch CRS326-24G-2S+RM",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-163fce9f81d6",
+      "nombre": "Switch Industrial 8 puertos Gigabit PoE 10/100 Mbps+uplink 10/100/1000 mbps",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2f1bbae1256a",
+      "nombre": "Switch PoE 24 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8d2076ee3bab",
+      "nombre": "Switch PoE PSW4-1G",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-26f7ba49a276",
+      "nombre": "Tabla de madera 1x4x8",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a8784031b9b1",
+      "nombre": "Tapadera caja octagonal",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8091799938ce",
+      "nombre": "Tapadera de lámina de hierro antiderrapante y contramarco con ángulo de hierro pintado en color amarillo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-621ca8e64e10",
+      "nombre": "Tapadera doble punto de red",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c1cbadebf4ab",
+      "nombre": "Tapadera metalica 4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d9118ebd083b",
+      "nombre": "Tapadera metálica 4x4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b74bb5b8edcf",
+      "nombre": "Tapadera para red sencillas Panduit",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-846a6a80c52d",
+      "nombre": "Tapadera sencilla 4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-e5977238a346",
+      "nombre": "[TB-AGR-1010] Caja plastica de registro 100x100x50mm, IP65 color ivory, marca Tibox | Caja Plastica 4x4x2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4a467b3f0566",
+      "nombre": "[TEF1105P-4-63W] Switch, TEF1105P-4-63W, 5 puertos, 4 PoE 10/100, marca Tenda",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b55dd462260e",
+      "nombre": "[TEG1050F] Switch no administrable de 48 puertos Gigabit + 2 puertos SFP , para montaje en escritorio, pared y rack,carcasa metalica,",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3321ee6cf67a",
+      "nombre": "TELEVISOR LED 32\" SMART/LG",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-80e5ecf21264",
+      "nombre": "TELEVISOR NEO QLED 55\" SMART 4K/SAMSUNG",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-44eb7633244c",
+      "nombre": "[TFC100A] Media Converter SC monomodo de 100Mbps, distancias hasta 20km. Marca Tenda",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-714d1703ef5d",
+      "nombre": "[TFC100B] Media Converter SC monomodo de 100Mbps, distancias hasta 20km. Marca Tenda",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-360047a704e0",
+      "nombre": "[TL-POE4824G] Adaptador PoE Gigabit 48V/ 24W / 0.5 AMP, Distancia Max 100m, Marca TP-LINK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-01ca6b5cf1c8",
+      "nombre": "[TL-SG1016] Switch para rack de 16 puertos Gigabit Ethernet, no administrable, marca TP-Link",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7466e6fb9058",
+      "nombre": "[TL-SG1024] Switch de 24 puertos Ethernet Gigabit, para montaje en rack, no administrable. Marca TP-Link",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7ef7580174ab",
+      "nombre": "[TL-SG1210MP] Switch de 8 puertos Gigabit con PoE +,1 puerto Uplink, 1 puerto combo SFP, 30w m",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-433e8e484bf3",
+      "nombre": "[TL-SL1218P] Switch de 16 Puertos PoE+, 10/100 Mbps,2 puertos Gigabit, 1 puerto SFP, 30w maximo por puerto, 250m modo extendido, marca TP-Link",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b5d8216ac5d9",
+      "nombre": "Tomacorriente 110v o 120v",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4e9ad5c3b8ab",
+      "nombre": "Tornillos punta broca 1\"",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7be898e7a475",
+      "nombre": "Tornillos punta fina para tabla de yeso",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6d99a2ccd1d2",
+      "nombre": "Tornillos punta fina S10 - concreto",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-375889a04221",
+      "nombre": "Tornillos punta fina S8 - concreto",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-08852c3ce5f9",
+      "nombre": "TRANSFORMADOR DE VOLTAJE SKYLINK DE 3 AMP 12 VOLTIOS",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2a767db1305d",
+      "nombre": "Tuberia BX con forro de 3/4 x PIE",
+      "unidad": "pie"
+    },
+    {
+      "id": "mat-7a128e8157f5",
+      "nombre": "Tuberia BX con forro de, 1/2 x PIE",
+      "unidad": "pie"
+    },
+    {
+      "id": "mat-bc3d83145a2c",
+      "nombre": "Tuberia BX con Forro, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-060b4b86ca49",
+      "nombre": "Tuberia BX con forro, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-36ae28c8ea36",
+      "nombre": "Tubo corrugado naranja",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2719a678909f",
+      "nombre": "Tubo corrugado naranja 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d30a9b00b352",
+      "nombre": "Tubo Corrugado Naranja 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-468f5a84b2d7",
+      "nombre": "Tubo EMT, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f1664e95a9ba",
+      "nombre": "Tubo EMT, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8bb3681a2798",
+      "nombre": "Tubo EMT, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-498f788568c6",
+      "nombre": "Tubo EMT, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b26e211199b0",
+      "nombre": "Tubo EMT, 2-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9a88b129f58d",
+      "nombre": "Tubo EMT, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3d6e83871c4e",
+      "nombre": "Tubo PVC C20, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-afd813cacb43",
+      "nombre": "Tubo PVC C20, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f03780a8ac7e",
+      "nombre": "Tubo PVC C20, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-cab40bf95ba8",
+      "nombre": "Tubo PVC C20, 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a1788dae0434",
+      "nombre": "Tubo PVC C40 3/4",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-dd39f340de4a",
+      "nombre": "Tubo PVC C40, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ef5455d0839b",
+      "nombre": "Tubo PVC C40, 1-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-3bd88ac52369",
+      "nombre": "Tubo PVC C40, 2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-32a839526f14",
+      "nombre": "Tubo PVC C40, 2-1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-341cd9b2402a",
+      "nombre": "Ubiquiti Access Point Mesh UAP-AC-M-PRO UniFi AC 5GHz/2.4 GHz.Wifi, 3 Antenas 8dBI, Incluye Fuente Poe",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-22af97f9aaba",
+      "nombre": "Ubiquiti POE 802.3af 48V DC-0.32A",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8580b0092336",
+      "nombre": "tubo PVC C40, 1/2",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-03cb5b68ffdb",
+      "nombre": "UCM6301",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-755b6afdf4fc",
+      "nombre": "UPS 1000 VA DS-UPS1000-X UPS TUIPO TORRE, 1000 VA/ 600 W, 50/60",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2acb29a72f34",
+      "nombre": "UPS 1200VA/650W 120V 6 Salidas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-96de5f720d42",
+      "nombre": "UPS 900VA/480W 120V 4 SALIDAS DE RESPALDO",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-81aa160117ab",
+      "nombre": "Uso de la planta electrica",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2fee8e2b36f1",
+      "nombre": "Varilla corrugada de 3/8",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-68d0094e4eb0",
+      "nombre": "Varilla polo tierra cobre",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6d87587d5c8f",
+      "nombre": "Velcro de 3/4 x 10mts. Negro",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d07118da94de",
+      "nombre": "VM-9N4Z1M, Vision XT-AMI Meter, Form 9S, 120-480V, 20A, w/LoRa Radio, Remote Disconnect, Polycarbonate cover with metal optic port",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-02aa82491658",
+      "nombre": "[TF1700] Terminal biométrica IP de huella y tarjetas RFID",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6d7376e9c397",
+      "nombre": "GWN7711 (switch de 8 puertos para escritorio gigabit)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-8e2e6a08fc0c",
+      "nombre": "GWN7801P (Switch de 8 puertos Gigabit con PoE +,1 puerto Uplink, 1 puerto combo SFP",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bd643a6b2612",
+      "nombre": "(F22/ID/ADMS) Terminal biométrica IP ultra delgada para control de acceso y gestión de asistencia",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-fc71ec2f3315",
+      "nombre": "Canaleta decorativa con adesivo de 2 pulgadas",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-bf4647f687a3",
+      "nombre": "Ordenamiento de gabinete(etiquetado, certificado de cable, ordenamiento)",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-f859a0092163",
+      "nombre": "Organizador Horizontal 1U",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-11aac75e98ba",
+      "nombre": "Gabinete Abatible 9 RU",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-b5f989507d24",
+      "nombre": "Curva PVC C20, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-09d400a07d92",
+      "nombre": "Conector C20, 1",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c1ea472ba081",
+      "nombre": "Gabinete Abatible de 6U Ventilado",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-81628432d871",
+      "nombre": "DS-2CD1083G2-LIUF camaras tipo bala de 8 mpx",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-39e2dca8db8a",
+      "nombre": "Poe 48 v",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-80ce8ec7afc4",
+      "nombre": "LECTOR BIOMETRICO ANTIVANDALICO ZKTECO MODELO/ TF1700 zkteco",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-06530cd0311d",
+      "nombre": "Clavos 1x-C 27 P8 S 23 C/Arandela concreto RPL#2091395",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-476db5600212",
+      "nombre": "Fulminante Cal 27 Amarillo(faja de 10 unidaes) RPL #50372",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-455a11c666d0",
+      "nombre": "[DS-3E1318P-EI/M] Switch Monitoreable PoE+ / 16 puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a804073ad2ea",
+      "nombre": "Bote de spray espuma de poliuretano",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a344d33be45f",
+      "nombre": "Canaleta Plástica 20x12mm Sin división/Con adhesivo",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-6afcc04b1fb4",
+      "nombre": "Angulo plano 20x12",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-a281176db86c",
+      "nombre": "[DS-3E1510P-EI/M] Switch Gigabit PoE+, administrable, 8 Puertos",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-4eb4131f060e",
+      "nombre": "DS-3E1105P-EI/M SWITCH POE DE 4 PUERTOS, 1 UPLINK MONITOREABLE",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-71eed3f3fb9c",
+      "nombre": "DS-7616NXI-K2/16PVPRO NVR ACUSEEK K VPRO DE 16 CANALES",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-2c928e5754e5",
+      "nombre": "DS-2CD1067G3-LIU CAMARA DE RED TIPO BALA FIJA COLORVU 3.0 DE6 MP",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-9e2d89c833c8",
+      "nombre": "UBIQUITI LITE AP SECTORIAL 120° 16DBI 5GHZ AIRMAX ACA",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-7b3aaa4ccb7c",
+      "nombre": "UBIQUITI NANO BEAM 5AC",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-d65ddc5fab1c",
+      "nombre": "MEDIA CONVERTER BLY-1G1E-AB40 MARCA NEXTLINK",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c86d7649a014",
+      "nombre": "DS-7732NXI-I4/16P/Vpro NVR ACUSEEK K VPRO DE 32 CANALES",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-29405d59a520",
+      "nombre": "[DS-2CD1047G3-LIU] Cámara de red tipo bala fija ColorVu 3.0 de 4 MP",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-5ead466f83f5",
+      "nombre": "DS-3E1518P-EI/M SWITCH DE 16 PUERTOS GIGABIT",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-ab7e78d442be",
+      "nombre": "DISCO DE CORTE FINO, MARCA DEWALLT",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-0b193cb30059",
+      "nombre": "Extender KVM HDMI Y USB cat5/6 4K 120M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-785a749cf8e6",
+      "nombre": "Cable USB Macho-Macho 1.5M / 3M",
+      "unidad": "u"
+    },
+    {
+      "id": "mat-c15e0b2c78f5",
+      "nombre": "TV DE 43 PULGADAS MARCA SAMSUNG",
+      "unidad": "u"
+    }
+  ],
+  "estudios": []
+}

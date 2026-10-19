@@ -1,0 +1,37 @@
+{
+  "name": "levantamiento-red-cctv",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Levantamiento y evaluacion tecnica de instalaciones de red y sistemas de CCTV",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && node scripts/construir-worker.mjs",
+    "build:sitio": "tsc --noEmit && vite build",
+    "build:worker": "node scripts/construir-worker.mjs",
+    "worker:dev": "wrangler dev",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "iconos": "node scripts/generar-iconos.mjs",
+    "catalogo": "node scripts/generar-catalogo.mjs"
+  },
+  "dependencies": {
+    "@freebuff/auth": "^0.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^21.0.3",
+    "pdfjs-dist": "^6.4.299",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vitest": "^2.0.5",
+    "wrangler": "^4.151.0"
+  }
+}
