@@ -440,7 +440,9 @@ class Documento {
    * Se dibuja una sola vez, al abrir la primera página.
    */
   franja(titulo: string, estudio: string, meta: string, subtitulo: string): void {
-    const alto = 104;
+    // Alto de sobra para las cinco líneas: si el subtítulo cae sobre el
+    // filete de abajo, los dos se leen encimados.
+    const alto = 118;
     // El fondo cubre hasta el borde de arriba (a sangre).
     this.rect(0, ALTO_PAGINA, ANCHO_PAGINA, alto, COLOR_ACENTO_OSCURO);
     // Filete de acento al pie de la franja.
@@ -538,16 +540,18 @@ class Documento {
     const renglones = Math.max(lineasMaterial.length, lineasUnidad.length);
 
     // Si no entra, se abre página y se repite el encabezado: una lista cortada
-    // sin títulos de columna no se entiende.
-    if (!this.entra(renglones * INTERLINEA)) {
+    // sin títulos de columna no se entiende. El encabezado ocupa 10 puntos
+    // más por el aire de su banda.
+    if (!this.entra(renglones * INTERLINEA + (datos.encabezado ? 10 : 0))) {
       this.nuevaPagina();
       this.fila(ENCABEZADO_TABLA, anchos);
     }
 
-    // El encabezado va sobre fondo oscuro con texto blanco; las filas
-    // alternan un fondo gris muy claro para leerse por renglón.
+    // El encabezado va sobre fondo oscuro con texto blanco. La banda deja
+    // aire sobre los ascendentes y por debajo: sin ese aire, la fila de abajo
+    // se le metía encima y las dos se leían superpuestas.
     if (datos.encabezado) {
-      this.rect(MARGEN, this.y, ANCHO_UTIL, renglones * INTERLINEA + 3, COLOR_ACENTO_OSCURO);
+      this.rect(MARGEN, this.y + 7, ANCHO_UTIL, renglones * INTERLINEA + 9, COLOR_ACENTO_OSCURO);
     }
 
     for (let i = 0; i < renglones; i += 1) {
@@ -564,7 +568,7 @@ class Documento {
           : " ".repeat(CANTIDAD_ANCHO));
       this.escribir(texto, fuente, TAMANO, MARGEN, INTERLINEA, datos.encabezado ? COLOR_BLANCO : undefined);
     }
-    if (datos.encabezado) this.y -= 3;
+    if (datos.encabezado) this.y -= 10;
   }
 
   /** Escribe al pie de una página concreta (se usa para numerarlas al final). */
