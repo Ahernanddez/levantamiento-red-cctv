@@ -204,8 +204,16 @@ describe("contenido del informe", () => {
     // El total separado por unidad («250 u · 4 rollo») no va en el documento:
     // cada cantidad se lee en su fila, con su unidad.
     expect(texto).not.toContain("Total por unidad");
-    // Pero la tabla sigue cerrada con su raya, sin quedar abierta.
-    expect(lineas.filter((l) => /^-+$/.test(l.trim()))).toHaveLength(2);
+    // La tabla abre con su banda oscura de encabezado, sin rayas de guiones:
+    // el encabezado con fondo es lo que la abre y la cierra a la vista.
+    expect(lineas.filter((l) => /^-+$/.test(l.trim()))).toHaveLength(0);
+    expect(lineas.some((l) => l.includes("MATERIAL") && l.includes("CANTIDAD"))).toBe(true);
+    const paginas = paginasDelInforme(
+      estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),
+      [cable, fuente],
+    );
+    const bandas = paginas.flatMap((p) => p.rects).filter((r) => r.ancho > 400 && r.alto >= 14);
+    expect(bandas.length).toBeGreaterThan(0);
     // Y el resumen que sí queda es el de los datos generales.
     expect(texto).toContain("Materiales listados: 2 (250 u · 4 rollo)");
   });

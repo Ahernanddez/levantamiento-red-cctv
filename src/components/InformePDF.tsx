@@ -53,6 +53,19 @@ function Hojas({ paginas }: { paginas: HojaPDF[] }) {
               key={i}
               style={{ width: `${MEDIDAS_HOJA.ancho}pt`, height: `${MEDIDAS_HOJA.alto}pt` }}
             >
+              {(hoja.rects ?? []).map((r, j) => (
+                <span
+                  className="hoja__fondo"
+                  key={`fondo-${j}`}
+                  style={{
+                    left: `${r.x}pt`,
+                    top: `${MEDIDAS_HOJA.alto - r.y}pt`,
+                    width: `${r.ancho}pt`,
+                    height: `${r.alto}pt`,
+                    background: `rgb(${Math.round(r.color[0] * 255)},${Math.round(r.color[1] * 255)},${Math.round(r.color[2] * 255)})`,
+                  }}
+                />
+              ))}
               {hoja.lineas.map((linea, j) => (
                 <span
                   className="hoja__linea"
@@ -68,6 +81,9 @@ function Hojas({ paginas }: { paginas: HojaPDF[] }) {
                         : '"Courier New", Courier, monospace',
                     fontWeight: linea.fuente === "F1" ? 400 : 700,
                     fontSize: `${linea.tamano}pt`,
+                    color: linea.color
+                      ? `rgb(${Math.round(linea.color[0] * 255)},${Math.round(linea.color[1] * 255)},${Math.round(linea.color[2] * 255)})`
+                      : undefined,
                   }}
                 >
                   {linea.texto}

@@ -272,6 +272,22 @@ export const MEDIDAS_HOJA = { ancho: ANCHO_PAGINA, alto: ALTO_PAGINA } as const;
 
 // --- Dibujo -----------------------------------------------------------------
 
+/** Color RGB en rango 0–1, para texto y fondos del informe. */
+export type ColorPDF = [number, number, number];
+
+/** Paleta del informe: azul petróleo de acento, tinta y grises. */
+export const COLOR_TINTA: ColorPDF = [0.06, 0.09, 0.16];
+export const COLOR_TENUE: ColorPDF = [0.39, 0.45, 0.55];
+export const COLOR_ACENTO: ColorPDF = [0.05, 0.45, 0.56];
+export const COLOR_ACENTO_OSCURO: ColorPDF = [0.05, 0.29, 0.43];
+export const COLOR_FONDO: ColorPDF = [0.97, 0.98, 0.99];
+export const COLOR_BLANCO: ColorPDF = [1, 1, 1];
+
+function colorPDF(c: ColorPDF): string {
+  const f = (n: number) => (Math.min(1, Math.max(0, n)) === 1 ? "1" : Number(Math.min(1, Math.max(0, n)).toFixed(3)).toString());
+  return `${f(c[0])} ${f(c[1])} ${f(c[2])}`;
+}
+
 /** Una línea ya ubicada dentro de la hoja: así se dibuja acá y en el PDF. */
 export interface LineaPDF {
   texto: string;
@@ -279,6 +295,23 @@ export interface LineaPDF {
   tamano: number;
   x: number;
   y: number;
+  /** Color del texto; si falta, tinta. */
+  color?: ColorPDF;
+}
+
+/**
+ * Un rectángulo de fondo ya ubicado dentro de la hoja.
+ *
+ * La `y` es el borde de ARRIBA, igual que en las fotos: al escribir el PDF se
+ * descuenta el alto porque dibuja desde abajo, y la vista previa hace la
+ * misma cuenta al revés.
+ */
+export interface RectPDF {
+  x: number;
+  y: number;
+  ancho: number;
+  alto: number;
+  color: ColorPDF;
 }
 
 /**
@@ -305,6 +338,7 @@ export interface ImagenPDF {
 export interface HojaPDF {
   lineas: LineaPDF[];
   imagenes: ImagenPDF[];
+  rects: RectPDF[];
 }
 
 
@@ -313,15 +347,20 @@ export interface HojaPDF {
 class Documento {
   private hojas: LineaPDF[][] = [[]];
   private dibujos: ImagenPDF[][] = [[]];
+  private fondos: RectPDF[][] = [[]];
   private y = ALTO_PAGINA - MARGEN;
 
   get paginas(): LineaPDF[][] {
     return this.hojas;
   }
 
-  /** Las hojas con su texto y sus fotos, para el archivo y la vista previa. */
+  /** Las hojas con su texto, fondos y fotos, para el archivo y la vista previa. */
   get hojasCompletas(): HojaPDF[] {
-    return this.hojas.map((lineas, i) => ({ lineas, imagenes: this.dibujos[i] ?? [] }));
+    return this.hojas.map((lineas, i) => ({
+      lineas,
+      imagenes: this.dibujos[i] ?? [],
+      rects: this.fondos[i] ?? [],
+    }));
   }
 
   private get hoja(): LineaPDF[] {
@@ -336,7 +375,13 @@ class Documento {
   nuevaPagina(): void {
     this.hojas.push([]);
     this.dibujos.push([]);
+    this.fondos.push([]);
     this.y = ALTO_PAGINA - MARGEN;
+  }
+
+  /** Un rectángulo de fondo en la página actual (la `y` es el borde de arriba). */
+  rect(x: number, y: number, ancho: number, alto: number, color: ColorPDF): void {
+    this.fondos[this.fondos.length - 1].push({ x, y, ancho, alto, color });
   }
 
   private escribir(
@@ -345,15 +390,16 @@ class Documento {
     tamano: number,
     x: number,
     interlinea: number,
+    color?: ColorPDF,
   ): void {
     if (!this.entra(interlinea)) this.nuevaPagina();
-    this.hoja.push({ texto, fuente, tamano, x, y: this.y });
+    this.hoja.push({ texto, fuente, tamano, x, y: this.y, ...(color ? { color } : {}) });
     this.y -= interlinea;
   }
 
   linea(
     texto: string,
-    opciones: { fuente?: Fuente; tamano?: number; x?: number; interlinea?: number } = {},
+    opciones: { fuente?: Fuente; tamano?: number; x?: number; interlinea?: number; color?: ColorPDF } = {},
   ): void {
     this.escribir(
       texto,
@@ -361,13 +407,14 @@ class Documento {
       opciones.tamano ?? TAMANO,
       opciones.x ?? MARGEN,
       opciones.interlinea ?? INTERLINEA,
+      opciones.color,
     );
   }
 
   /** Párrafo que se corta solo en varias líneas. */
   parrafo(
     texto: string,
-    opciones: { fuente?: Fuente; tamano?: number; x?: number } = {},
+    opciones: { fuente?: Fuente; tamano?: number; x?: number; color?: ColorPDF } = {},
   ): void {
     const x = opciones.x ?? MARGEN;
     const maximo = Math.floor((ANCHO_PAGINA - MARGEN - x) / (ANCHO_CARACTER * (opciones.tamano ?? TAMANO)));
@@ -382,7 +429,70 @@ class Documento {
       fuente: opciones.fuente ?? "F2",
       tamano: opciones.tamano ?? 10,
       interlinea: (opciones.tamano ?? 10) + 7,
+      color: COLOR_TINTA,
     });
+  }
+
+  /**
+   * Franja superior del informe: fondo azul petróleo a sangre con el título
+   * en blanco y los datos clave del estudio.
+   *
+   * Se dibuja una sola vez, al abrir la primera página.
+   */
+  franja(titulo: string, estudio: string, meta: string, subtitulo: string): void {
+    const alto = 104;
+    // El fondo cubre hasta el borde de arriba (a sangre).
+    this.rect(0, ALTO_PAGINA, ANCHO_PAGINA, alto, COLOR_ACENTO_OSCURO);
+    // Filete de acento al pie de la franja.
+    this.rect(0, ALTO_PAGINA - alto, ANCHO_PAGINA, 5, COLOR_ACENTO);
+    this.linea("LEVANTAMIENTO - RED Y CCTV", {
+      fuente: "F3",
+      tamano: 8,
+      interlinea: 15,
+      color: COLOR_BLANCO,
+    });
+    this.linea(titulo, { fuente: "F3", tamano: 20, interlinea: 26, color: COLOR_BLANCO });
+    this.linea(estudio, { fuente: "F3", tamano: 10, interlinea: 15, color: COLOR_BLANCO });
+    this.linea(meta, { tamano: 8, interlinea: 12, color: COLOR_BLANCO });
+    this.linea(subtitulo, { tamano: 8, interlinea: 12, color: COLOR_BLANCO });
+    this.y -= 10;
+  }
+
+  /**
+   * Tarjeta clara con filete de acento detrás del próximo bloque.
+   *
+   * Si el bloque no entra, abre página primero para no cortarla a la mitad.
+   */
+  tarjeta(alto: number): void {
+    if (!this.entra(alto)) this.nuevaPagina();
+    this.rect(MARGEN, this.y, ANCHO_UTIL, alto, COLOR_FONDO);
+    this.rect(MARGEN, this.y, 3, alto, COLOR_ACENTO);
+  }
+
+  /**
+   * Título de sección moderno: pastilla con el número, título y filete.
+   *
+   * El renglón del título lleva el texto completo («1. Datos generales»):
+   * es lo que buscan las pruebas y lo que lee el lector de PDF.
+   */
+  seccion(numero: string, titulo: string): void {
+    const alto = 20;
+    if (!this.entra(alto + 8)) this.nuevaPagina();
+    const y = this.y;
+    // Pastilla del número.
+    this.rect(MARGEN, y, 24, 15, COLOR_ACENTO);
+    this.hoja.push({ texto: numero, fuente: "F3", tamano: 10, x: MARGEN + 8.4, y: y - 3, color: COLOR_BLANCO });
+    // Título a su lado y filete de acento debajo.
+    this.hoja.push({
+      texto: `${numero}. ${titulo}`,
+      fuente: "F3",
+      tamano: 11,
+      x: MARGEN + 30,
+      y: y - 3,
+      color: COLOR_TINTA,
+    });
+    this.rect(MARGEN + 30, y - 7, ANCHO_UTIL - 30, 1.6, COLOR_ACENTO);
+    this.y -= alto + 4;
   }
 
   /**
@@ -432,7 +542,12 @@ class Documento {
     if (!this.entra(renglones * INTERLINEA)) {
       this.nuevaPagina();
       this.fila(ENCABEZADO_TABLA, anchos);
-      this.linea(separador());
+    }
+
+    // El encabezado va sobre fondo oscuro con texto blanco; las filas
+    // alternan un fondo gris muy claro para leerse por renglón.
+    if (datos.encabezado) {
+      this.rect(MARGEN, this.y, ANCHO_UTIL, renglones * INTERLINEA + 3, COLOR_ACENTO_OSCURO);
     }
 
     for (let i = 0; i < renglones; i += 1) {
@@ -447,13 +562,15 @@ class Documento {
         (primera
           ? datos.cantidad.slice(0, CANTIDAD_ANCHO).padStart(CANTIDAD_ANCHO)
           : " ".repeat(CANTIDAD_ANCHO));
-      this.escribir(texto, fuente, TAMANO, MARGEN, INTERLINEA);
+      this.escribir(texto, fuente, TAMANO, MARGEN, INTERLINEA, datos.encabezado ? COLOR_BLANCO : undefined);
     }
+    if (datos.encabezado) this.y -= 3;
   }
 
   /** Escribe al pie de una página concreta (se usa para numerarlas al final). */
   pie(pagina: number, texto: string): void {
-    this.hojas[pagina].push({ texto, fuente: "F1", tamano: 8, x: MARGEN, y: MARGEN });
+    const x = MARGEN + (ANCHO_UTIL - texto.length * ANCHO_CARACTER * 8) / 2;
+    this.hojas[pagina].push({ texto, fuente: "F1", tamano: 8, x, y: MARGEN, color: COLOR_TENUE });
   }
 
   /**
@@ -474,6 +591,9 @@ class Documento {
     const renglones = envolver(texto, CARACTERES).length;
     const bloque = alto + 8 + renglones * INTERLINEA + 10;
     if (!this.entra(bloque)) this.nuevaPagina();
+    // Tarjeta clara detrás de la foto y su epígrafe.
+    this.rect(MARGEN, this.y, ANCHO_UTIL, bloque, COLOR_FONDO);
+    this.rect(MARGEN, this.y, 3, bloque, COLOR_ACENTO);
     this.dibujos[this.dibujos.length - 1].push({
       // Centrada en el ancho útil, como su epígrafe.
       x: MARGEN + (ANCHO_UTIL - ancho) / 2,
@@ -492,9 +612,18 @@ class Documento {
   }
 }
 
-function contenidoDe(lineas: LineaPDF[], imagenes: ImagenPDF[], base: number): string {
-  const partes = ["BT\n"];
+function contenidoDe(lineas: LineaPDF[], imagenes: ImagenPDF[], rects: RectPDF[], base: number): string {
+  const partes: string[] = [];
+  // Fondos primero: el texto y las fotos van encima.
+  for (const r of rects) {
+    partes.push(
+      `${colorPDF(r.color)} rg\n${numeroPDF(r.x)} ${numeroPDF(r.y - r.alto)} ` +
+        `${numeroPDF(r.ancho)} ${numeroPDF(r.alto)} re f\n`,
+    );
+  }
+  partes.push("BT\n");
   for (const linea of lineas) {
+    partes.push(`${colorPDF(linea.color ?? COLOR_TINTA)} rg\n`);
     partes.push(`/${linea.fuente} ${linea.tamano} Tf\n`);
     partes.push(`1 0 0 1 ${numeroPDF(linea.x)} ${numeroPDF(linea.y)} Tm\n`);
     partes.push(`(${escapar(linea.texto)}) Tj\n`);
@@ -526,11 +655,6 @@ function filasDe(items: ItemLista[], porId: Map<string, Material>) {
   });
 }
 
-/** Un guion por carácter de ancho: la línea cruza justo la tabla. */
-function separador(): string {
-  return "-".repeat(CARACTERES);
-}
-
 /** Los totales por unidad en una sola frase: «4 caja · 250 pieza». */
 function enTexto(totales: { unidad: string; total: number }[]): string {
   if (totales.length === 0) return "sin cantidades";
@@ -557,12 +681,15 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
   const porId = new Map(catalogo.map((m) => [m.id, m] as const));
   const doc = new Documento();
 
-  doc.linea("LISTA DE MATERIALES", { fuente: "F3", tamano: 16, interlinea: 22 });
-  doc.titulo(estudio.nombre || "Estudio sin nombre", { tamano: 11 });
-  doc.linea("Instalaciones de red y sistemas de CCTV", { tamano: 9 });
+  doc.franja(
+    "LISTA DE MATERIALES",
+    estudio.nombre || "Estudio sin nombre",
+    `${fechaCorta(estudio.fecha)}  ·  ${estudio.cliente || "—"}  ·  ${estudio.items.length} materiales`,
+    "Instalaciones de red y sistemas de CCTV",
+  );
   doc.espacio(12);
 
-  doc.titulo("1. Datos generales");
+  doc.seccion("1", "Datos generales");
   const datos: [string, string][] = [
     ["Cliente", estudio.cliente],
     ["Sitio", estudio.sitio],
@@ -571,12 +698,15 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     ["Estudio realizado por", estudio.realizo],
     ["Materiales listados", `${estudio.items.length} (${enTexto(totalPorUnidad(estudio.items, porId))})`],
   ];
+  // Tarjeta clara con filete de acento detrás de los datos.
+  doc.tarjeta(datos.length * INTERLINEA + 12);
+  doc.espacio(6);
   for (const [etiqueta, valor] of datos) {
     doc.parrafo(`${etiqueta}: ${valor || "—"}`);
   }
-  doc.espacio(14);
+  doc.espacio(6 + 14);
 
-  doc.titulo("2. Lista de materiales");
+  doc.seccion("2", "Lista de materiales");
   if (estudio.items.length === 0) {
     doc.linea("Todavía no se agregaron materiales.");
   } else {
@@ -585,25 +715,25 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     // «rollo de 100 m», la tabla le hace lugar en vez de cortarla.
     const anchos = anchosDeTabla([ENCABEZADO_TABLA.unidad, ...filas.map((f) => f.unidad)]);
     doc.fila(ENCABEZADO_TABLA, anchos);
-    doc.linea(separador());
     for (const fila of filas) doc.fila(fila, anchos);
-    // La tabla cierra con la raya. El resumen por unidad no va: este informe se
-    // entrega al cliente y el total separado por unidad de medida («120 m ·
-    // 30 pieza») se lee como un dato de compra que no es. En la aplicación sí
-    // está, que es donde sirve para revisar el trabajo antes de pasarlo.
-    doc.linea(separador());
+    // El resumen por unidad no va: este informe se entrega al cliente y el
+    // total separado por unidad de medida («120 m · 30 pieza») se lee como un
+    // dato de compra que no es. En la aplicación sí está, que es donde sirve
+    // para revisar el trabajo antes de pasarlo.
+    doc.espacio(4);
   }
 
   if (estudio.notas.trim()) {
     doc.espacio(14);
-    doc.titulo("3. Observaciones");
+    doc.seccion("3", "Observaciones");
     doc.parrafo(estudio.notas);
   }
 
   const validas = (estudio.fotos ?? []).filter((f) => medidasDeFoto(f.imagen) !== null);
   if (validas.length > 0) {
     doc.espacio(14);
-    doc.titulo(`${estudio.notas.trim() ? 4 : 3}. Fotografías`);
+    const nFoto = estudio.notas.trim() ? "4" : "3";
+    doc.seccion(nFoto, "Fotografías");
     validas.forEach((f, i) => {
       doc.foto(f.imagen, `Fotografía ${i + 1}`, f.comentario);
     });
@@ -696,7 +826,7 @@ function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
         `/XObject << ${hoja.imagenes.map((_, k) => `/Im${k + 1} ${c.imagenes[k]} 0 R`).join(" ")} >>`,
       );
     }
-    const contenido = contenidoDe(hoja.lineas, hoja.imagenes, 1);
+    const contenido = contenidoDe(hoja.lineas, hoja.imagenes, hoja.rects ?? [], 1);
     archivo.objeto(c.contenido, `<< /Length ${contenido.length} >>\nstream\n${contenido}\nendstream`);
     archivo.objeto(
       c.pagina,
