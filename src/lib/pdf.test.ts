@@ -162,6 +162,22 @@ describe("contenido del informe", () => {
     expect(paginas.flatMap((h) => h.rects).filter((r) => r.ancho === 24)).not.toHaveLength(0);
   });
 
+  it("la lista es una tabla con rejilla: reglas y bordes por fila", () => {
+    const paginas = paginasDelInforme(
+      estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),
+      [cable, fuente],
+    );
+    const rects = paginas.flatMap((h) => h.rects);
+    const tabla = rects.filter((r) => r.ancho > 400);
+    // Reglas horizontales: arriba y abajo del encabezado, una por fila.
+    const reglas = tabla.filter((r) => r.alto === 0.8);
+    expect(reglas).toHaveLength(4);
+    // Bordes verticales: cinco por fila (izquierdo, tres divisiones, derecho).
+    const verticales = rects.filter((r) => r.ancho === 0.8);
+    expect(new Set(verticales.map((r) => Math.round(r.x * 100)))).toHaveLength(5);
+    expect(verticales).toHaveLength(5 * 3);
+  });
+
   it("usa la unidad elegida en la línea, que es lo que se pidió", async () => {
     const { lineas } = await abrir(
       estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),

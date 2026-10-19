@@ -282,6 +282,8 @@ export const COLOR_ACENTO: ColorPDF = [0.05, 0.45, 0.56];
 export const COLOR_ACENTO_OSCURO: ColorPDF = [0.05, 0.29, 0.43];
 export const COLOR_FONDO: ColorPDF = [0.97, 0.98, 0.99];
 export const COLOR_BLANCO: ColorPDF = [1, 1, 1];
+/** Gris de la rejilla de la tabla: se lee sobre blanco y sobre la banda oscura. */
+export const COLOR_REJILLA: ColorPDF = [0.62, 0.68, 0.75];
 
 function colorPDF(c: ColorPDF): string {
   const f = (n: number) => (Math.min(1, Math.max(0, n)) === 1 ? "1" : Number(Math.min(1, Math.max(0, n)).toFixed(3)).toString());
@@ -543,18 +545,30 @@ class Documento {
     const renglones = Math.max(lineasMaterial.length, lineasUnidad.length);
 
     // Si no entra, se abre página y se repite el encabezado: una lista cortada
-    // sin títulos de columna no se entiende. El encabezado ocupa 10 puntos
+    // sin títulos de columna no se entiende. El encabezado ocupa 12 puntos
     // más por el aire de su banda.
-    if (!this.entra(renglones * INTERLINEA + (datos.encabezado ? 10 : 0))) {
+    if (!this.entra(renglones * INTERLINEA + (datos.encabezado ? 12 : 0))) {
       this.nuevaPagina();
       this.fila(ENCABEZADO_TABLA, anchos);
     }
 
+    // La tabla se dibuja como tal: banda oscura para el encabezado y rejilla
+    // de bordes para cada fila, con las columnas en los mismos anchos que el
+    // texto para que cada dato caiga dentro de su celda.
+    const CW = ANCHO_CARACTER * TAMANO;
+    const izq = MARGEN;
+    const xMat = MARGEN + (NUMERO_ANCHO + HUECO) * CW;
+    const xUni = xMat + (anchos.material + 1) * CW;
+    const xCant = xUni + (anchos.unidad + 1) * CW;
+    const der = xCant + CANTIDAD_ANCHO * CW;
+    const anchoTabla = der - izq;
+    const bordes = [izq, xMat, xUni, xCant, der];
+    const TRAZO = 0.8;
     // El encabezado va sobre fondo oscuro con texto blanco. La banda deja
     // aire sobre los ascendentes y por debajo: sin ese aire, la fila de abajo
     // se le metía encima y las dos se leían superpuestas.
     if (datos.encabezado) {
-      this.rect(MARGEN, this.y + 7, ANCHO_UTIL, renglones * INTERLINEA + 9, COLOR_ACENTO_OSCURO);
+      this.rect(MARGEN, this.y + 7, anchoTabla, renglones * INTERLINEA + 12, COLOR_ACENTO_OSCURO);
     }
 
     for (let i = 0; i < renglones; i += 1) {
@@ -571,7 +585,27 @@ class Documento {
           : " ".repeat(CANTIDAD_ANCHO));
       this.escribir(texto, fuente, TAMANO, MARGEN, INTERLINEA, datos.encabezado ? COLOR_BLANCO : undefined);
     }
-    if (datos.encabezado) this.y -= 10;
+    if (datos.encabezado) {
+      // Banda completa: regla arriba y abajo, y verticales que bajan dos
+      // puntos más allá de la banda para empalmar con la primera fila.
+      const bandaAbajo = this.y - 5;
+      this.rect(izq, this.y + renglones * INTERLINEA + 7, anchoTabla, TRAZO, COLOR_REJILLA);
+      this.rect(izq, bandaAbajo + TRAZO, anchoTabla, TRAZO, COLOR_REJILLA);
+      for (const x of bordes) {
+        const arriba = this.y + renglones * INTERLINEA + 7;
+        this.rect(x - TRAZO / 2, arriba, TRAZO, arriba - (bandaAbajo - 2), COLOR_REJILLA);
+      }
+      this.y -= 12;
+    } else {
+      // Cada fila cierra con su regla y sus verticales, que empalman justo
+      // con la fila siguiente para que la rejilla no tenga cortes.
+      const abajo = this.y + 6;
+      this.rect(izq, abajo + TRAZO, anchoTabla, TRAZO, COLOR_REJILLA);
+      for (const x of bordes) {
+        const arriba = this.y + renglones * INTERLINEA + 6;
+        this.rect(x - TRAZO / 2, arriba, TRAZO, arriba - abajo, COLOR_REJILLA);
+      }
+    }
   }
 
   /** Escribe al pie de una página concreta (se usa para numerarlas al final). */
