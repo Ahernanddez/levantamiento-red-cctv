@@ -481,19 +481,22 @@ class Documento {
     const alto = 20;
     if (!this.entra(alto + 8)) this.nuevaPagina();
     const y = this.y;
-    // Pastilla del número.
+    // Pastilla del número, con el dígito entero adentro: la base va 10
+    // puntos bajo el borde de arriba para que los ascendentes no asomen por
+    // encima de la pastilla ni se monten con lo que viene antes.
     this.rect(MARGEN, y, 24, 15, COLOR_ACENTO);
-    this.hoja.push({ texto: numero, fuente: "F3", tamano: 10, x: MARGEN + 8.4, y: y - 3, color: COLOR_BLANCO });
-    // Título a su lado y filete de acento debajo.
+    this.hoja.push({ texto: numero, fuente: "F3", tamano: 10, x: MARGEN + 8.4, y: y - 10, color: COLOR_BLANCO });
+    // Título en la misma base y filete de acento debajo, con aire para los
+    // descendentes (la «g» de «generales» no lo puede tocar).
     this.hoja.push({
       texto: `${numero}. ${titulo}`,
       fuente: "F3",
       tamano: 11,
       x: MARGEN + 30,
-      y: y - 3,
+      y: y - 10,
       color: COLOR_TINTA,
     });
-    this.rect(MARGEN + 30, y - 7, ANCHO_UTIL - 30, 1.6, COLOR_ACENTO);
+    this.rect(MARGEN + 30, y - 14, ANCHO_UTIL - 30, 1.6, COLOR_ACENTO);
     this.y -= alto + 4;
   }
 

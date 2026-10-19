@@ -141,6 +141,27 @@ describe("contenido del informe", () => {
     expect(texto).toContain("3. Observaciones");
   });
 
+  it("el número de sección va entero dentro de su pastilla, sin asomar", () => {
+    // El dígito se salía por arriba de la pastilla y se leía montado con lo
+    // de antes: la base tiene que dejar lugar a los ascendentes.
+    const paginas = paginasDelInforme(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente]);
+    for (const hoja of paginas) {
+      const pastillas = hoja.rects.filter((r) => r.ancho === 24 && r.alto === 15);
+      for (const p of pastillas) {
+        const digito = hoja.lineas.find(
+          (l) =>
+            l.texto.length === 1 && l.x > p.x && l.x < p.x + p.ancho && Math.abs(l.y - p.y) < 20,
+        );
+        expect(digito).toBeDefined();
+        // Base 10 puntos bajo el borde: ni los ascendentes asoman arriba ni
+        // toca el fondo abajo.
+        expect(digito!.y).toBeLessThanOrEqual(p.y - 8);
+        expect(digito!.y).toBeGreaterThanOrEqual(p.y - 13);
+      }
+    }
+    expect(paginas.flatMap((h) => h.rects).filter((r) => r.ancho === 24)).not.toHaveLength(0);
+  });
+
   it("usa la unidad elegida en la línea, que es lo que se pidió", async () => {
     const { lineas } = await abrir(
       estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),
