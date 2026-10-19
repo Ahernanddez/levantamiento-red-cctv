@@ -186,7 +186,7 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
         unidadDe(it, porId.get(it.materialId)),
         porId.get(it.materialId)?.nombre ?? "",
       ]),
-      (estudio.fotos ?? []).map((f) => [f.id, f.comentario, f.imagen.length]),
+      (estudio.fotos ?? []).map((f) => [f.id, f.comentario, f.imagen.length, f.materialId ?? ""]),
       logo === null ? "sin-logo" : "con-logo",
     ]);
   }, [estudio, catalogo, logo]);

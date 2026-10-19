@@ -121,6 +121,7 @@ export function EstudioEditor({
         {pestana === "fotos" ? (
           <FotosTab
             estudio={estudio}
+            catalogo={catalogo}
             actualizar={actualizarEstudio}
             avisar={avisar}
             soloLectura={soloLectura}

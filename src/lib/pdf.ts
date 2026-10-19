@@ -16,7 +16,7 @@
  */
 import { fechaCorta, numero } from "./format";
 import { unidadDe } from "./espacio";
-import type { Estudio, ItemLista, Material } from "../types";
+import type { Estudio, Foto, ItemLista, Material } from "../types";
 
 // --- Medidas de la página ---------------------------------------------------
 
@@ -828,6 +828,26 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[], logo?:
   }
   doc.espacio(6 + 14);
 
+  // Fotos válidas con su número global (el mismo que muestra la pantalla).
+  // Las ligadas a un renglón salen justo debajo de él; las sueltas, en la
+  // sección Fotografías del final. Si el renglón ya no existe, la foto queda
+  // suelta en vez de perderse.
+  const fotos = (estudio.fotos ?? [])
+    .map((foto, i) => ({ foto, numero: i + 1 }))
+    .filter((v) => medidasDeFoto(v.foto.imagen) !== null);
+  const ligadas = new Map<string, { foto: Foto; numero: number }[]>();
+  const sueltas: { foto: Foto; numero: number }[] = [];
+  for (const v of fotos) {
+    const id = v.foto.materialId ?? "";
+    if (id && estudio.items.some((it) => it.id === id)) {
+      const lista = ligadas.get(id) ?? [];
+      lista.push(v);
+      ligadas.set(id, lista);
+    } else {
+      sueltas.push(v);
+    }
+  }
+
   doc.seccion("2", "Lista de materiales");
   if (estudio.items.length === 0) {
     doc.linea("Todavía no se agregaron materiales.");
@@ -837,7 +857,12 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[], logo?:
     // «rollo de 100 m», la tabla le hace lugar en vez de cortarla.
     const anchos = anchosDeTabla([ENCABEZADO_TABLA.unidad, ...filas.map((f) => f.unidad)]);
     doc.fila(ENCABEZADO_TABLA, anchos);
-    filas.forEach((fila, i) => doc.fila(fila, anchos, i));
+    filas.forEach((fila, i) => {
+      doc.fila(fila, anchos, i);
+      for (const v of ligadas.get(estudio.items[i].id) ?? []) {
+        doc.foto(v.foto.imagen, `Fotografía ${v.numero}`, v.foto.comentario);
+      }
+    });
     // El resumen por unidad no va: este informe se entrega al cliente y el
     // total separado por unidad de medida («120 m · 30 pieza») se lee como un
     // dato de compra que no es. En la aplicación sí está, que es donde sirve
@@ -851,18 +876,21 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[], logo?:
     doc.parrafo(estudio.notas);
   }
 
-  const validas = (estudio.fotos ?? []).filter((f) => medidasDeFoto(f.imagen) !== null);
-  if (validas.length > 0) {
+  if (sueltas.length > 0) {
     doc.espacio(14);
     // El título va pegado a la primera foto: si no entran juntos en lo que
     // queda, se abre página antes del título para no dejarlo huérfano al pie
     // mientras la foto arranca en la siguiente.
-    const primero = dibujoDeFoto(validas[0].imagen, "Fotografía 1", validas[0].comentario);
+    const primero = dibujoDeFoto(
+      sueltas[0].foto.imagen,
+      `Fotografía ${sueltas[0].numero}`,
+      sueltas[0].foto.comentario,
+    );
     if (primero && !doc.entra(28 + primero.bloque)) doc.nuevaPagina();
     const nFoto = estudio.notas.trim() ? "4" : "3";
     doc.seccion(nFoto, "Fotografías");
-    validas.forEach((f, i) => {
-      doc.foto(f.imagen, `Fotografía ${i + 1}`, f.comentario);
+    sueltas.forEach((v) => {
+      doc.foto(v.foto.imagen, `Fotografía ${v.numero}`, v.foto.comentario);
     });
   }
 

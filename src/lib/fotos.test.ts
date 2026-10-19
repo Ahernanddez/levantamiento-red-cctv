@@ -12,6 +12,11 @@ describe("fotos del estudio", () => {
     });
   });
 
+  it("la foto guarda a qué renglón va ligada, o queda suelta", () => {
+    expect(normalizarFoto({ id: "f1", imagen: jpeg, materialId: "r1" })?.materialId).toBe("r1");
+    expect(normalizarFoto({ id: "f1", imagen: jpeg })?.materialId).toBe("");
+  });
+
   it("sin imagen JPEG no hay foto", () => {
     expect(normalizarFoto({ id: "f1", imagen: "", comentario: "x" })).toBeNull();
     expect(normalizarFoto({ id: "f1", imagen: "data:image/png;base64,xx" })).toBeNull();

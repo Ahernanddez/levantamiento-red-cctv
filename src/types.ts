@@ -51,6 +51,12 @@ export interface Foto {
   /** JPEG reducido en data URL (`data:image/jpeg;base64,…`). */
   imagen: string;
   comentario: string;
+  /**
+   * Id del renglón de la lista al que va ligada (`ItemLista.id`).
+   * Ausente o vacío: foto suelta, que sale en la sección Fotografías.
+   * Ligada: sale justo debajo de su renglón en la tabla del PDF.
+   */
+  materialId?: string;
   updatedAt: string;
 }
 

@@ -471,6 +471,35 @@ describe("fotografías en el informe", () => {
     expect(epigrafe!.x).toBeGreaterThan(42);
   });
 
+  it("la foto ligada sale debajo de su renglón y la suelta al final", () => {
+    const items = [nuevoItem(cable.id, 4), nuevoItem(fuente.id, 250)];
+    const ligada = { ...foto, id: "f1", comentario: "Cableado", materialId: items[0].id };
+    const suelta = { ...foto, id: "f2", comentario: "General", materialId: "" };
+    const paginas = paginasDelInforme(estudioCon(items, { fotos: [ligada, suelta] }), [cable, fuente]);
+    const hoja = paginas[0];
+    const yFila = (n: number) => hoja.lineas.find((l) => l.texto.trim().startsWith(`${n} `))!.y;
+    // La ligada va entre su renglón y el siguiente (la y baja hacia abajo).
+    expect(hoja.imagenes).toHaveLength(2);
+    const [imgLigada, imgSuelta] = hoja.imagenes;
+    expect(imgLigada.y).toBeLessThan(yFila(1));
+    expect(imgLigada.y).toBeGreaterThan(yFila(2));
+    // La suelta queda en la sección del final, después de su título.
+    const titulo = hoja.lineas.find((l) => l.texto.includes("Fotografías"))!.y;
+    expect(imgSuelta.y).toBeLessThan(titulo);
+    // Y la numeración es global: la ligada es la 1 y la suelta la 2.
+    const textos = hoja.lineas.map((l) => l.texto);
+    expect(textos.some((t) => t.includes("Fotografía 1") && t.includes("Cableado"))).toBe(true);
+    expect(textos.some((t) => t.includes("Fotografía 2") && t.includes("General"))).toBe(true);
+  });
+
+  it("la foto ligada a un renglón que ya no existe queda suelta", () => {
+    const items = [nuevoItem(cable.id, 4)];
+    const huerfana = { ...foto, id: "f9", materialId: "renglon-borrado" };
+    const paginas = paginasDelInforme(estudioCon(items, { fotos: [huerfana] }), [cable, fuente]);
+    expect(paginas[0].lineas.some((l) => l.texto.includes("Fotografías"))).toBe(true);
+    expect(paginas[0].imagenes).toHaveLength(1);
+  });
+
   it("el título va pegado a la primera foto, nunca huérfano al pie", () => {
     // Foto alta (400x1500) que no entra en lo que dejan las observaciones:
     // antes el título quedaba solo al pie y la foto arrancaba en la otra hoja.

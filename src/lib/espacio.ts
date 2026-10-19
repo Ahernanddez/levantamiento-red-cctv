@@ -317,6 +317,7 @@ export function normalizarFoto(raw: unknown): Foto | null {
     id: str(r.id) || newId(),
     imagen,
     comentario: str(r.comentario),
+    materialId: str(r.materialId),
     updatedAt: str(r.updatedAt),
   };
 }

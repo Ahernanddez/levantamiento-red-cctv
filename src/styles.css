@@ -734,6 +734,15 @@ h2 {
   background: #0f172a;
 }
 
+.foto__liga {
+  padding: 8px 8px 0;
+}
+
+.foto__liga .selector {
+  width: 100%;
+  font-size: 0.82rem;
+}
+
 .foto__pie {
   display: flex;
   gap: 8px;

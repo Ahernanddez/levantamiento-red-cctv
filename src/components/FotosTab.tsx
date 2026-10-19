@@ -1,16 +1,19 @@
 import { useRef } from "react";
 import { archivoAFoto, MAX_FOTOS, motivoFoto } from "../lib/foto";
-import { newId } from "../lib/storage";
-import type { Estudio } from "../types";
-import { Area, Vacio } from "./ui";
+import { newId, unidadDe } from "../lib/storage";
+import type { Estudio, Material } from "../types";
+import { Area, Selector, Vacio } from "./ui";
 
 export function FotosTab({
   estudio,
+  catalogo,
   actualizar,
   avisar,
   soloLectura,
 }: {
   estudio: Estudio;
+  /** Para nombrar los renglones a los que se puede ligar cada foto. */
+  catalogo: Material[];
   actualizar: (fn: (e: Estudio) => Estudio) => void;
   avisar: (mensaje: string) => void;
   soloLectura: boolean;
@@ -35,7 +38,7 @@ export function FotosTab({
           ...e,
           fotos: [
             ...(e.fotos ?? []),
-            { id: newId(), imagen, comentario: "", updatedAt: marca },
+            { id: newId(), imagen, comentario: "", materialId: "", updatedAt: marca },
           ].slice(0, MAX_FOTOS),
         }));
         agregadas += 1;
@@ -57,6 +60,24 @@ export function FotosTab({
 
   const quitar = (id: string) => {
     actualizar((e) => ({ ...e, fotos: (e.fotos ?? []).filter((f) => f.id !== id) }));
+  };
+
+  /** Liga la foto a un renglón de la lista (o la deja suelta, al final). */
+  const ligar = (id: string, materialId: string) => {
+    actualizar((e) => ({
+      ...e,
+      fotos: (e.fotos ?? []).map((f) => (f.id === id ? { ...f, materialId } : f)),
+    }));
+  };
+
+  const porId = new Map(catalogo.map((m) => [m.id, m] as const));
+  /** Cómo se nombra cada renglón en el desplegable: «1. Cable UTP × 4 rollo». */
+  const renglon = (i: number): string => {
+    const it = estudio.items[i];
+    const material = porId.get(it?.materialId ?? "");
+    const nombre = material?.nombre ?? "(material no disponible)";
+    const cantidad = it ? `${it.cantidad} ${unidadDe(it, material)}` : "";
+    return `${i + 1}. ${nombre}${cantidad ? ` × ${cantidad}` : ""}`;
   };
 
   return (
@@ -98,6 +119,21 @@ export function FotosTab({
                   src={f.imagen}
                   alt={f.comentario || `Fotografía ${i + 1} del sitio`}
                 />
+                <div className="foto__liga">
+                  <Selector
+                    aria-label={`Renglón de la fotografía ${i + 1}`}
+                    disabled={soloLectura || estudio.items.length === 0}
+                    value={f.materialId ?? ""}
+                    onChange={(e) => ligar(f.id, e.target.value)}
+                  >
+                    <option value="">Suelta (al final del informe)</option>
+                    {estudio.items.map((it, j) => (
+                      <option key={it.id} value={it.id}>
+                        Al renglón {renglon(j)}
+                      </option>
+                    ))}
+                  </Selector>
+                </div>
                 <div className="foto__pie">
                   <Area
                     rows={2}
