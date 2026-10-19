@@ -11,13 +11,27 @@
  * Sube VERSION cuando cambie la lista de archivos del armazón.
  */
 const VERSION = "materiales-2";
+/**
+ * Raíz que atiende este service worker: en el sitio publicado es el dominio y
+ * en GitHub Pages (sitio de proyecto) el subdirectorio /<repo>/. Todo lo
+ * guardado cuelga de acá para que en ambos casos abra sin internet.
+ */
+const BASE = (() => {
+  try {
+    const alcance = self.registration?.scope;
+    if (typeof alcance === "string" && alcance) return new URL(alcance).pathname;
+  } catch {
+    // Sin registro a la vista, se asume raíz como antes.
+  }
+  return "/";
+})();
 const ARMAZON = [
-  "/",
-  "/index.html",
-  "/manifest.webmanifest",
-  "/iconos/icono-192.png",
-  "/iconos/icono-512.png",
-  "/iconos/manzana-180.png",
+  BASE,
+  `${BASE}index.html`,
+  `${BASE}manifest.webmanifest`,
+  `${BASE}iconos/icono-192.png`,
+  `${BASE}iconos/icono-512.png`,
+  `${BASE}iconos/manzana-180.png`,
 ];
 
 /** Tope de archivos guardados, para que la caché no crezca sin control. */
@@ -60,14 +74,14 @@ async function redPrimero(peticion) {
   try {
     const respuesta = await fetch(peticion);
     if (respuesta && respuesta.ok) {
-      // Se guarda como /index.html porque es lo que se pide al abrir sin red.
-      await cache.put("/index.html", respuesta.clone());
+      // Se guarda como index.html porque es lo que se pide al abrir sin red.
+      await cache.put(`${BASE}index.html`, respuesta.clone());
     }
     return respuesta;
   } catch {
     return (
-      (await cache.match("/index.html")) ??
-      (await cache.match("/")) ??
+      (await cache.match(`${BASE}index.html`)) ??
+      (await cache.match(BASE)) ??
       new Response("Sin conexión y sin copia guardada.", {
         status: 503,
         headers: { "content-type": "text/plain; charset=utf-8" },
