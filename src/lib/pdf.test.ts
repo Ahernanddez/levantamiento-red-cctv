@@ -457,6 +457,27 @@ describe("fotografías en el informe", () => {
     expect(epigrafe!.x).toBeGreaterThan(42);
   });
 
+  it("el título va pegado a la primera foto, nunca huérfano al pie", () => {
+    // Foto alta (400x1500) que no entra en lo que dejan las observaciones:
+    // antes el título quedaba solo al pie y la foto arrancaba en la otra hoja.
+    const alta =
+      "data:image/jpeg;base64," +
+      Buffer.from([
+        0xff, 0xd8, 0xff, 0xc0, 0x00, 0x0b, 0x08, 0x05, 0xdc, 0x01, 0x90, 0x03, 0x01, 0x22,
+        0x00, 0x02, 0x11, 0x01, 0x03, 0x11, 0x01, 0xff, 0xd9,
+      ]).toString("base64");
+    const paginas = paginasDelInforme(
+      estudioCon([nuevoItem(cable.id, 4)], {
+        notas: "x ".repeat(100),
+        fotos: [{ id: "f1", imagen: alta, comentario: "Panorámica", updatedAt: "" }],
+      }),
+      [cable, fuente],
+    );
+    const conTitulo = paginas.filter((p) => p.lineas.some((l) => l.texto.includes("Fotografías")));
+    expect(conTitulo.length).toBeGreaterThan(0);
+    for (const hoja of conTitulo) expect(hoja.imagenes.length).toBeGreaterThan(0);
+  });
+
   it("una foto rota se salta sin romper el informe", async () => {
     const rota = { id: "f9", imagen: "data:image/jpeg;base64,!!!", comentario: "rota", updatedAt: "" };
     const { contenido, lineas } = await abrir(estudioCon([], { fotos: [rota] }));

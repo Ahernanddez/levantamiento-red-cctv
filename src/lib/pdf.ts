@@ -157,6 +157,28 @@ function binarioDeFoto(bytes: Uint8Array): string {
   return salida;
 }
 
+/**
+ * Tamaño dibujado y bloque que ocupa una foto con su epígrafe.
+ *
+ * Devuelve null si la imagen no sirve: esa foto se salta en vez de romper el
+ * informe. Lo usan tanto el dibujo como la cuenta previa que evita dejar el
+ * título de la sección huérfano al pie de la página.
+ */
+function dibujoDeFoto(
+  url: string,
+  epigrafe: string,
+  comentario: string,
+): { ancho: number; alto: number; bloque: number } | null {
+  const medidas = medidasDeFoto(url);
+  if (!medidas) return null;
+  const escala = Math.min(1, ANCHO_UTIL / medidas.ancho, ALTO_FOTO / medidas.alto);
+  const ancho = Math.max(1, medidas.ancho * escala);
+  const alto = Math.max(1, medidas.alto * escala);
+  const texto = epigrafe + (comentario.trim() ? ` — ${comentario.trim()}` : "");
+  const renglones = envolver(texto, CARACTERES).length;
+  return { ancho, alto, bloque: alto + 8 + renglones * INTERLINEA + 10 };
+}
+
 function numeroPDF(valor: number): string {
   return (Number.isFinite(valor) ? valor : 0).toFixed(2);
 }
@@ -622,14 +644,11 @@ class Documento {
    */
   foto(url: string, epigrafe: string, comentario: string): boolean {
     const bytes = bytesDeFoto(url);
+    const dibujo = bytes ? dibujoDeFoto(url, epigrafe, comentario) : null;
     const medidas = bytes ? medidasDeFoto(url) : null;
-    if (!bytes || !medidas) return false;
-    const escala = Math.min(1, ANCHO_UTIL / medidas.ancho, ALTO_FOTO / medidas.alto);
-    const ancho = Math.max(1, medidas.ancho * escala);
-    const alto = Math.max(1, medidas.alto * escala);
+    if (!bytes || !dibujo || !medidas) return false;
+    const { ancho, alto, bloque } = dibujo;
     const texto = epigrafe + (comentario.trim() ? ` — ${comentario.trim()}` : "");
-    const renglones = envolver(texto, CARACTERES).length;
-    const bloque = alto + 8 + renglones * INTERLINEA + 10;
     if (!this.entra(bloque)) this.nuevaPagina();
     // Tarjeta clara detrás de la foto y su epígrafe.
     this.rect(MARGEN, this.y, ANCHO_UTIL, bloque, COLOR_FONDO);
@@ -786,6 +805,11 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
   const validas = (estudio.fotos ?? []).filter((f) => medidasDeFoto(f.imagen) !== null);
   if (validas.length > 0) {
     doc.espacio(14);
+    // El título va pegado a la primera foto: si no entran juntos en lo que
+    // queda, se abre página antes del título para no dejarlo huérfano al pie
+    // mientras la foto arranca en la siguiente.
+    const primero = dibujoDeFoto(validas[0].imagen, "Fotografía 1", validas[0].comentario);
+    if (primero && !doc.entra(28 + primero.bloque)) doc.nuevaPagina();
     const nFoto = estudio.notas.trim() ? "4" : "3";
     doc.seccion(nFoto, "Fotografías");
     validas.forEach((f, i) => {
