@@ -73,7 +73,13 @@ export default function App() {
 
   // Sesión y espacio compartido del equipo. Sin sesión, la aplicación sigue
   // funcionando: el servidor es un extra, no un requisito.
-  const { user: usuario, isLoading: cargandoSesion } = useFreebuffUser();
+  // En GitHub Pages no hay servidor (se compila con VITE_SIN_EQUIPO=1): se
+  // fuerza sin sesión y no se muestra el panel del equipo, cuyo inicio no
+  // podría funcionar ahí. Se lee en cada dibujo para poder probarlo.
+  const sinEquipo = import.meta.env.VITE_SIN_EQUIPO === "1";
+  const sesion = useFreebuffUser();
+  const usuario = sinEquipo ? null : sesion.user;
+  const cargandoSesion = sinEquipo ? false : sesion.isLoading;
   const compartido = useEspacioCompartido({
     usuario,
     espacio,
@@ -215,7 +221,9 @@ export default function App() {
         instalable={instalable.disponible}
         onInstalar={() => void instalable.instalar()}
       />        <div className="app">
-          <EquipoPanel usuario={usuario} cargando={cargandoSesion} compartido={compartido} />
+          {sinEquipo ? null : (
+            <EquipoPanel usuario={usuario} cargando={cargandoSesion} compartido={compartido} />
+          )}
           <DrivePanel drive={drive} />
           {aviso ? <div className="aviso">{aviso}</div> : null}
 
