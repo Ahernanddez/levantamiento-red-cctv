@@ -750,11 +750,13 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     ["Estudio realizado por", estudio.realizo],
     ["Materiales listados", `${estudio.items.length} (${enTexto(totalPorUnidad(estudio.items, porId))})`],
   ];
-  // Tarjeta clara con filete de acento detrás de los datos.
+  // Tarjeta clara con filete de acento detrás de los datos. El texto arranca
+  // a la derecha del filete: si empieza en el mismo borde, la primera letra
+  // queda montada sobre la barra y se lee encimada.
   doc.tarjeta(datos.length * INTERLINEA + 12);
   doc.espacio(6);
   for (const [etiqueta, valor] of datos) {
-    doc.parrafo(`${etiqueta}: ${valor || "—"}`);
+    doc.parrafo(`${etiqueta}: ${valor || "—"}`, { x: MARGEN + 8 });
   }
   doc.espacio(6 + 14);
 

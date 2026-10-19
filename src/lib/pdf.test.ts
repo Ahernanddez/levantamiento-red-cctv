@@ -196,6 +196,22 @@ describe("contenido del informe", () => {
     expect(verticales).toHaveLength(5 * 3);
   });
 
+  it("el texto de datos no se monta sobre el filete de su tarjeta", () => {
+    // El filete de acento (3 puntos) y el texto arrancaban en el mismo borde:
+    // la primera letra quedaba encimada sobre la barra.
+    const paginas = paginasDelInforme(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente]);
+    for (const hoja of paginas) {
+      const filetes = hoja.rects.filter((r) => r.ancho === 3 && r.alto > 50);
+      for (const f of filetes) {
+        const encima = hoja.lineas.filter(
+          (l) => l.x < f.x + 7 && l.y <= f.y && l.y >= f.y - f.alto,
+        );
+        expect(encima).toEqual([]);
+      }
+    }
+    expect(paginas.flatMap((h) => h.rects).filter((r) => r.ancho === 3)).not.toHaveLength(0);
+  });
+
   it("usa la unidad elegida en la línea, que es lo que se pidió", async () => {
     const { lineas } = await abrir(
       estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),
