@@ -479,6 +479,39 @@ describe("fotografías en el informe", () => {
     for (const hoja of conTitulo) expect(hoja.imagenes.length).toBeGreaterThan(0);
   });
 
+  it("sin logo la primera hoja no trae emblema, como antes", () => {
+    const paginas = paginasDelInforme(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente]);
+    expect(paginas[0].logo).toBeNull();
+  });
+
+  it("el logo sale arriba a la derecha de la franja", async () => {
+    // JPEG de 451x443 (el tamaño real del logo): se achica al alto de 64.
+    const logo =
+      "data:image/jpeg;base64," +
+      Buffer.from([
+        0xff, 0xd8, 0xff, 0xc0, 0x00, 0x0b, 0x08, 0x01, 0xbb, 0x01, 0xc3, 0x03, 0x01, 0x22,
+        0x00, 0x02, 0x11, 0x01, 0x03, 0x11, 0x01, 0xff, 0xd9,
+      ]).toString("base64");
+    const paginas = paginasDelInforme(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente], logo);
+    const emblema = paginas[0].logo;
+    expect(emblema).not.toBeNull();
+    // Pegado al margen derecho (hoja de 595.28 con margen 42) y arriba.
+    expect(Math.abs(emblema!.x + emblema!.ancho - 553.28)).toBeLessThan(0.01);
+    expect(emblema!.y).toBeLessThan(841.89 - 10);
+    expect(emblema!.alto).toBeLessThanOrEqual(64.01);
+    expect(emblema!.url).toBe(logo);
+    // Y va embebido en el archivo con su propio objeto de imagen.
+    const conLogo = await textoDe(informePDF(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente], logo));
+    expect(conLogo).toContain("/DCTDecode");
+    expect(conLogo).toContain("/Im1 Do");
+  });
+
+  it("un logo roto se salta sin romper el informe", () => {
+    const paginas = paginasDelInforme(estudioCon([nuevoItem(cable.id, 4)]), [cable, fuente], "rota");
+    expect(paginas[0].logo).toBeNull();
+    expect(paginas[0].lineas.some((l) => l.texto.includes("LISTA DE MATERIALES"))).toBe(true);
+  });
+
   it("una foto rota se salta sin romper el informe", async () => {
     const rota = { id: "f9", imagen: "data:image/jpeg;base64,!!!", comentario: "rota", updatedAt: "" };
     const { contenido, lineas } = await abrir(estudioCon([], { fotos: [rota] }));

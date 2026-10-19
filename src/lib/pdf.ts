@@ -363,15 +363,23 @@ export interface HojaPDF {
   lineas: LineaPDF[];
   imagenes: ImagenPDF[];
   rects: RectPDF[];
+  /** El logo en la franja (solo la primera hoja, si se pasó uno válido). */
+  logo: ImagenPDF | null;
 }
 
 
 
 /** Lleva las líneas de cada página y baja el cursor, abriendo página si hace falta. */
+/** Alto del logo en la franja, en puntos. */
+const ALTO_LOGO = 64;
+/** Ancho máximo del logo, para que no tape el título. */
+const ANCHO_LOGO_MAX = 200;
+
 class Documento {
   private hojas: LineaPDF[][] = [[]];
   private dibujos: ImagenPDF[][] = [[]];
   private fondos: RectPDF[][] = [[]];
+  private logo: ImagenPDF | null = null;
   private y = ALTO_PAGINA - MARGEN;
 
   get paginas(): LineaPDF[][] {
@@ -384,6 +392,7 @@ class Documento {
       lineas,
       imagenes: this.dibujos[i] ?? [],
       rects: this.fondos[i] ?? [],
+      logo: i === 0 ? this.logo : null,
     }));
   }
 
@@ -463,7 +472,31 @@ class Documento {
    *
    * Se dibuja una sola vez, al abrir la primera página.
    */
-  franja(titulo: string, estudio: string, meta: string, subtitulo: string): void {
+  /**
+   * Logo en la franja, arriba a la derecha.
+   *
+   * Si no es un JPEG válido no se dibuja nada: el informe no depende del logo.
+   */
+  emblema(url: string): void {
+    const bytes = bytesDeFoto(url);
+    const medidas = bytes ? medidasDeFoto(url) : null;
+    if (!bytes || !medidas) return;
+    const escala = Math.min(1, ANCHO_LOGO_MAX / medidas.ancho, ALTO_LOGO / medidas.alto);
+    const ancho = Math.max(1, medidas.ancho * escala);
+    const alto = Math.max(1, medidas.alto * escala);
+    this.logo = {
+      x: ANCHO_PAGINA - MARGEN - ancho,
+      y: ALTO_PAGINA - 16,
+      ancho,
+      alto,
+      url,
+      binario: binarioDeFoto(bytes),
+      anchoPx: medidas.ancho,
+      altoPx: medidas.alto,
+    };
+  }
+
+  franja(titulo: string, estudio: string, meta: string, subtitulo: string, logo?: string): void {
     // Alto de sobra para las cinco líneas: si el subtítulo cae sobre el
     // filete de abajo, los dos se leen encimados.
     const alto = 118;
@@ -481,6 +514,7 @@ class Documento {
     this.linea(estudio, { fuente: "F3", tamano: 10, interlinea: 15, color: COLOR_BLANCO });
     this.linea(meta, { tamano: 8, interlinea: 12, color: COLOR_BLANCO });
     this.linea(subtitulo, { tamano: 8, interlinea: 12, color: COLOR_BLANCO });
+    if (logo) this.emblema(logo);
     this.y -= 10;
   }
 
@@ -671,7 +705,13 @@ class Documento {
   }
 }
 
-function contenidoDe(lineas: LineaPDF[], imagenes: ImagenPDF[], rects: RectPDF[], base: number): string {
+function contenidoDe(
+  lineas: LineaPDF[],
+  imagenes: ImagenPDF[],
+  rects: RectPDF[],
+  logo: ImagenPDF | null,
+  base: number,
+): string {
   const partes: string[] = [];
   // Fondos primero: el texto y las fotos van encima.
   for (const r of rects) {
@@ -696,6 +736,13 @@ function contenidoDe(lineas: LineaPDF[], imagenes: ImagenPDF[], rects: RectPDF[]
         `${numeroPDF(img.x)} ${numeroPDF(img.y - img.alto)} cm\n/Im${base + k} Do\nQ`,
     );
   });
+  // El logo va último: las fotos conservan sus números aunque haya logo.
+  if (logo) {
+    partes.push(
+      `\nq ${numeroPDF(logo.ancho)} 0 0 ${numeroPDF(logo.alto)} ` +
+        `${numeroPDF(logo.x)} ${numeroPDF(logo.y - logo.alto)} cm\n/Im${base + imagenes.length} Do\nQ`,
+    );
+  }
   return partes.join("");
 }
 
@@ -739,8 +786,10 @@ const ENCABEZADO_TABLA = {
  *
  * Lo usan el archivo PDF y la vista previa: son las mismas líneas en las mismas
  * posiciones, así que lo que se ve en pantalla es lo que sale en el papel.
+ * El `logo` es un JPEG en data URL (como las fotos) y sale arriba a la
+ * derecha de la franja; sin logo el informe sale igual que antes.
  */
-export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaPDF[] {
+export function paginasDelInforme(estudio: Estudio, catalogo: Material[], logo?: string): HojaPDF[] {
   const porId = new Map(catalogo.map((m) => [m.id, m] as const));
   const doc = new Documento();
 
@@ -749,6 +798,7 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     estudio.nombre || "Estudio sin nombre",
     `${fechaCorta(estudio.fecha)}  ·  ${estudio.cliente || "—"}`,
     "Instalaciones de red y sistemas de CCTV",
+    logo,
   );
   doc.espacio(12);
 
@@ -848,12 +898,13 @@ function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
   // pueden calcular de antemano como cuando solo había texto.
   let siguiente = 7;
   const numerosDePagina: number[] = [];
-  const numeros: { contenido: number; pagina: number; imagenes: number[] }[] = [];
+  const numeros: { contenido: number; pagina: number; imagenes: number[]; logo: number | null }[] = [];
   for (const hoja of paginas) {
     const contenido = siguiente++;
     const pagina = siguiente++;
     const imagenes = hoja.imagenes.map(() => siguiente++);
-    numeros.push({ contenido, pagina, imagenes });
+    const logo = hoja.logo ? siguiente++ : null;
+    numeros.push({ contenido, pagina, imagenes, logo });
     numerosDePagina.push(pagina);
   }
 
@@ -878,24 +929,28 @@ function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
     "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>",
   );
 
+  // Un JPEG suelto a objeto: sirve para fotos y para el logo por igual.
+  const guardarJPEG = (numero: number, img: ImagenPDF): void => {
+    archivo.objeto(
+      numero,
+      `<< /Type /XObject /Subtype /Image /Width ${img.anchoPx} /Height ${img.altoPx} ` +
+        `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode ` +
+        `/Length ${img.binario.length} >>\nstream\n${img.binario}\nendstream`,
+    );
+  };
+
   paginas.forEach((hoja, i) => {
     const c = numeros[i];
     // El JPEG va tal cual: el lector lo decodifica con DCTDecode.
-    hoja.imagenes.forEach((img, k) => {
-      archivo.objeto(
-        c.imagenes[k],
-        `<< /Type /XObject /Subtype /Image /Width ${img.anchoPx} /Height ${img.altoPx} ` +
-          `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode ` +
-          `/Length ${img.binario.length} >>\nstream\n${img.binario}\nendstream`,
-      );
-    });
+    hoja.imagenes.forEach((img, k) => guardarJPEG(c.imagenes[k], img));
+    if (hoja.logo && c.logo !== null) guardarJPEG(c.logo, hoja.logo);
+    const nombres: string[] = hoja.imagenes.map((_, k) => `/Im${k + 1} ${c.imagenes[k]} 0 R`);
+    if (hoja.logo && c.logo !== null) nombres.push(`/Im${hoja.imagenes.length + 1} ${c.logo} 0 R`);
     const recursos = ["/Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >>"];
-    if (c.imagenes.length > 0) {
-      recursos.push(
-        `/XObject << ${hoja.imagenes.map((_, k) => `/Im${k + 1} ${c.imagenes[k]} 0 R`).join(" ")} >>`,
-      );
+    if (nombres.length > 0) {
+      recursos.push(`/XObject << ${nombres.join(" ")} >>`);
     }
-    const contenido = contenidoDe(hoja.lineas, hoja.imagenes, hoja.rects ?? [], 1);
+    const contenido = contenidoDe(hoja.lineas, hoja.imagenes, hoja.rects ?? [], hoja.logo ?? null, 1);
     archivo.objeto(c.contenido, `<< /Length ${contenido.length} >>\nstream\n${contenido}\nendstream`);
     archivo.objeto(
       c.pagina,
@@ -913,6 +968,9 @@ function armarArchivo(paginas: HojaPDF[], titulo: string): Blob {
  * Lleva lo mismo que el informe que se imprime desde la aplicación: los datos
  * del estudio, la lista con su unidad elegida y las observaciones.
  */
-export function informePDF(estudio: Estudio, catalogo: Material[]): Blob {
-  return armarArchivo(paginasDelInforme(estudio, catalogo), estudio.nombre || "Lista de materiales");
+export function informePDF(estudio: Estudio, catalogo: Material[], logo?: string): Blob {
+  return armarArchivo(
+    paginasDelInforme(estudio, catalogo, logo),
+    estudio.nombre || "Lista de materiales",
+  );
 }

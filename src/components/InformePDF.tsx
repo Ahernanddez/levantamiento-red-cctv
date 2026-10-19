@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { nombreArchivo } from "../lib/format";
+import { archivoAFoto } from "../lib/foto";
 import { MEDIDAS_HOJA, informePDF, paginasDelInforme, type HojaPDF } from "../lib/pdf";
 import { descargarArchivo, unidadDe } from "../lib/storage";
 import type { Estudio, Material } from "../types";
@@ -103,6 +104,20 @@ function Hojas({ paginas }: { paginas: HojaPDF[] }) {
                   }}
                 />
               ))}
+              {hoja.logo ? (
+                <img
+                  className="hoja__imagen"
+                  key="logo"
+                  src={hoja.logo.url}
+                  alt="Logo"
+                  style={{
+                    left: `${hoja.logo.x}pt`,
+                    top: `${MEDIDAS_HOJA.alto - hoja.logo.y}pt`,
+                    width: `${hoja.logo.ancho}pt`,
+                    height: `${hoja.logo.alto}pt`,
+                  }}
+                />
+              ) : null}
             </div>
           ))}
         </div>
@@ -122,12 +137,35 @@ function Hojas({ paginas }: { paginas: HojaPDF[] }) {
 export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: Material[] }) {
   const [enVista, setEnVista] = useState(false);
   const [firmaDelPDF, setFirmaDelPDF] = useState("");
+  /** El logo en JPEG, listo para el informe (null mientras carga o si falla). */
+  const [logo, setLogo] = useState<string | null>(null);
+
+  // El logo vive con la app y se reduce a JPEG una sola vez: el informe sale
+  // igual con y sin él, así que si no carga no rompe nada.
+  useEffect(() => {
+    let vivo = true;
+    fetch(`${import.meta.env.BASE_URL}logo-telesis.png`)
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error("sin logo"))))
+      .then((b) => archivoAFoto(new File([b], "logo-telesis.png", { type: b.type || "image/png" })))
+      .then((jpeg) => {
+        if (vivo) setLogo(jpeg);
+      })
+      .catch(() => {
+        if (vivo) setLogo(null);
+      });
+    return () => {
+      vivo = false;
+    };
+  }, []);
 
   /** El último archivo generado, para no rehacerlo si nada cambió. */
   const archivo = useRef<Blob | null>(null);
 
   /** Lo que la vista previa dibuja: las mismas hojas que van al archivo. */
-  const paginas = useMemo(() => paginasDelInforme(estudio, catalogo), [catalogo, estudio]);
+  const paginas = useMemo(
+    () => paginasDelInforme(estudio, catalogo, logo ?? undefined),
+    [catalogo, estudio, logo],
+  );
 
   /**
    * Todo lo que el PDF lleva adentro. Si cambia algo, el archivo generado antes
@@ -149,17 +187,18 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
         porId.get(it.materialId)?.nombre ?? "",
       ]),
       (estudio.fotos ?? []).map((f) => [f.id, f.comentario, f.imagen.length]),
+      logo === null ? "sin-logo" : "con-logo",
     ]);
-  }, [estudio, catalogo]);
+  }, [estudio, catalogo, logo]);
 
   const alDia = firmaDelPDF === firma && archivo.current !== null;
 
   const generar = useCallback((): Blob => {
-    const nuevo = informePDF(estudio, catalogo);
+    const nuevo = informePDF(estudio, catalogo, logo ?? undefined);
     archivo.current = nuevo;
     setFirmaDelPDF(firma);
     return nuevo;
-  }, [catalogo, estudio, firma]);
+  }, [catalogo, estudio, firma, logo]);
 
   const hayMateriales = estudio.items.length > 0;
 
