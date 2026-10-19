@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Estudio, Material } from "../types";
 import { crearEstudio, nuevoItem, nuevoMaterial } from "./espacio";
-import { aLatin1, envolver, informePDF, medidasDeFoto, paginasDelInforme } from "./pdf";
+import { aLatin1, anchosDeTabla, centrado, envolver, informePDF, medidasDeFoto, paginasDelInforme } from "./pdf";
 
 /**
  * El PDF se revisa por dentro, no solo por fuera. Los lectores de PDF no
@@ -72,6 +72,24 @@ function cruda(lineas: string[], numero: number): string {
   const encontrada = lineas.find((l) => l.trim().startsWith(`${numero} `));
   if (!encontrada) throw new Error(`No hay ninguna fila ${numero} en el informe.`);
   return encontrada;
+}
+
+/**
+ * La columna de unidad en caracteres: dónde arranca (por la rejilla) y qué
+ * ancho tiene (por el cálculo de anchos).
+ *
+ * En Courier de 9 cada letra mide 0,6 em (5,4 puntos) desde el margen de 42:
+ * así la prueba ubica la columna igual que el dibujo, sin depender de dónde
+ * caiga el título centrado. El borde derecho de la rejilla incluye el espacio
+ * separador, así que el ancho de texto sale de anchosDeTabla.
+ */
+function bordesDeUnidad(estudio: Estudio, unidades: string[]): [number, number] {
+  const hoja = paginasDelInforme(estudio, [cable, fuente])[0];
+  const xs = [...new Set(hoja.rects.filter((r) => r.ancho === 0.8).map((r) => r.x))].sort(
+    (a, b) => a - b,
+  );
+  const inicio = Math.round((xs[2] - 42) / 5.4);
+  return [inicio, inicio + anchosDeTabla(unidades).unidad];
 }
 
 /** La línea de títulos de la tabla. */
@@ -195,6 +213,13 @@ describe("contenido del informe", () => {
     expect(filaDe(lineas, 1)).toMatch(/^1\s+Cable UTP Cat6\s+rollo de 100 m\s+4$/);
   });
 
+  it("centra el texto corto en su ancho", () => {
+    expect(centrado("u", 9)).toBe("    u    ");
+    expect(centrado("UNIDAD", 9)).toBe(" UNIDAD  ");
+    expect(centrado("4", 13)).toBe("      4      ");
+    expect(centrado("", 3)).toBe("   ");
+  });
+
   it("una unidad larguísima se reparte en dos líneas sin perder nada", async () => {
     const { lineas } = await abrir(
       estudioCon([nuevoItem(cable.id, 2, "rollo de cable UTP de 100 metros")]),
@@ -207,30 +232,53 @@ describe("contenido del informe", () => {
     expect(continuacion.slice(0, 6).trim()).toBe("");
     expect(continuacion.slice(-13).trim()).toBe("");
 
-    // La columna de unidad, juntando los dos renglones, dice la unidad entera.
-    const columna = encabezadoDe(lineas).indexOf("UNIDAD");
-    const ancho = encabezadoDe(lineas).trimEnd().length - 13 - 1 - columna;
-    const unidadEscrita = `${lineas[inicio].slice(columna, columna + ancho)} ${continuacion.slice(
-      columna,
-      columna + ancho,
-    )}`
+    // La columna de unidad, juntando los dos renglones, dice la unidad
+    // entera. Los bordes salen de la rejilla: la columna ya no se ubica por
+    // el título, que ahora va centrado como el resto.
+    const [iniU, finU] = bordesDeUnidad(
+      estudioCon([nuevoItem(cable.id, 2, "rollo de cable UTP de 100 metros")]),
+      ["UNIDAD", "rollo de cable UTP de 100 metros"],
+    );
+    const unidadEscrita = `${lineas[inicio].slice(iniU, finU)} ${continuacion.slice(iniU, finU)}`
       .replace(/\s+/g, " ")
       .trim();
     expect(unidadEscrita).toBe("rollo de cable UTP de 100 metros");
   });
 
-  it("las columnas siguen alineadas, aunque la unidad sea más ancha", async () => {
-    const { lineas } = await abrir(
+  it("las columnas de unidad y cantidad van centradas", () => {
+    const paginas = paginasDelInforme(
       estudioCon([nuevoItem(cable.id, 4, "rollo de 100 m"), nuevoItem(fuente.id, 250)]),
+      [cable, fuente],
     );
-    const encabezado = encabezadoDe(lineas);
-    const columna = encabezado.indexOf("UNIDAD");
-    // La unidad arranca donde arranca el título UNIDAD, y la cantidad termina
-    // donde termina CANTIDAD: la tabla no se desarma por una unidad larga.
-    expect(cruda(lineas, 1).indexOf("rollo de 100 m")).toBe(columna);
-    expect(cruda(lineas, 2).slice(columna, columna + 1)).toBe("u");
-    expect(cruda(lineas, 1).trimEnd().length).toBe(encabezado.trimEnd().length);
-    expect(cruda(lineas, 2).trimEnd().length).toBe(encabezado.trimEnd().length);
+    const hoja = paginas[0];
+    const textos = hoja.lineas.map((l) => l.texto);
+    const [iniU, finU] = bordesDeUnidad(
+      estudioCon([nuevoItem(cable.id, 4, "rollo de 100 m"), nuevoItem(fuente.id, 250)]),
+      ["UNIDAD", "rollo de 100 m", "u"],
+    );
+    // La unidad larga queda con el mismo aire a cada lado (más uno si es impar).
+    const fila1 = textos.find((l) => l.trim().startsWith("1 ")) ?? "";
+    const unidad = fila1.slice(iniU, finU);
+    const izqU = unidad.indexOf("rollo de 100 m");
+    expect(Math.abs(izqU - (unidad.length - izqU - "rollo de 100 m".length))).toBeLessThanOrEqual(1);
+    // La de una letra también: ya no arranca pegada al borde.
+    const fila2 = textos.find((l) => l.trim().startsWith("2 ")) ?? "";
+    const sola = fila2.slice(iniU, finU);
+    const izqS = sola.indexOf("u");
+    expect(izqS).toBeGreaterThan(0);
+    expect(Math.abs(izqS - (sola.length - izqS - 1))).toBeLessThanOrEqual(1);
+    // La cantidad va centrada en sus 13 lugares, encabezado incluido.
+    const cant1 = fila1.slice(-13);
+    const i4 = cant1.indexOf("4");
+    expect(Math.abs(i4 - (cant1.length - i4 - 1))).toBeLessThanOrEqual(1);
+    const enc = encabezadoDe(textos);
+    expect(enc.slice(iniU, finU).trim()).toBe("UNIDAD");
+    const hU = enc.slice(iniU, finU);
+    expect(Math.abs(hU.indexOf("UNIDAD") - (hU.length - hU.indexOf("UNIDAD") - 6))).toBeLessThanOrEqual(1);
+    // Y las filas ocupan el mismo ancho que el encabezado: nada se desarma
+    // (sin recortar, porque lo centrado termina en espacios).
+    expect(fila1.length).toBe(enc.length);
+    expect(fila2.length).toBe(enc.length);
   });
 
   it("no imprime el resumen por unidad de la tabla, que es para el cliente", async () => {

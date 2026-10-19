@@ -578,11 +578,10 @@ class Documento {
         " ".repeat(HUECO) +
         (lineasMaterial[i] ?? "").padEnd(anchos.material) +
         " " +
-        (lineasUnidad[i] ?? "").padEnd(anchos.unidad) +
+        // Unidad y cantidad van centradas en su columna, encabezado incluido.
+        centrado(lineasUnidad[i] ?? "", anchos.unidad) +
         " " +
-        (primera
-          ? datos.cantidad.slice(0, CANTIDAD_ANCHO).padStart(CANTIDAD_ANCHO)
-          : " ".repeat(CANTIDAD_ANCHO));
+        (primera ? centrado(datos.cantidad.slice(0, CANTIDAD_ANCHO), CANTIDAD_ANCHO) : " ".repeat(CANTIDAD_ANCHO));
       this.escribir(texto, fuente, TAMANO, MARGEN, INTERLINEA, datos.encabezado ? COLOR_BLANCO : undefined);
     }
     if (datos.encabezado) {
@@ -694,6 +693,18 @@ function filasDe(items: ItemLista[], porId: Map<string, Material>) {
       cantidad: numero(item.cantidad, item.cantidad % 1 === 0 ? 0 : 2),
     };
   });
+}
+
+/**
+ * Texto centrado en un ancho fijo, para las columnas de unidad y cantidad.
+ *
+ * En Courier cada letra mide lo mismo, así que centrar es repartir los
+ * espacios: si sobra un lugar impar, va uno más a la derecha.
+ */
+export function centrado(texto: string, ancho: number): string {
+  const sobra = Math.max(0, ancho - texto.length);
+  const izq = Math.floor(sobra / 2);
+  return " ".repeat(izq) + texto + " ".repeat(sobra - izq);
 }
 
 /** Los totales por unidad en una sola frase: «4 caja · 250 pieza». */
