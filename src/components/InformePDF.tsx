@@ -202,6 +202,25 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
 
   const hayMateriales = estudio.items.length > 0;
 
+  /**
+   * Lo que conviene revisar antes de entregar el PDF al cliente. Son avisos,
+   * no bloqueos: el archivo se genera igual, pero sin huecos si se atienden.
+   */
+  const avisos = useMemo(() => {
+    const lista: string[] = [];
+    if (!estudio.cliente.trim()) lista.push("Falta el cliente.");
+    if (!estudio.sitio.trim()) lista.push("Falta el sitio.");
+    if (!estudio.realizo.trim()) lista.push("Falta quién realizó el estudio.");
+    if (estudio.items.some((it) => it.cantidad <= 0))
+      lista.push("Hay materiales con cantidad 0.");
+    const sinComentario = (estudio.fotos ?? []).filter((f) => !f.comentario.trim()).length;
+    if (sinComentario > 0)
+      lista.push(
+        sinComentario === 1 ? "1 fotografía sin comentario." : `${sinComentario} fotografías sin comentario.`,
+      );
+    return lista;
+  }, [estudio]);
+
   const alternarVistaPrevia = () => setEnVista((v) => !v);
 
   const generarAhora = () => {
@@ -250,6 +269,17 @@ export function InformePDF({ estudio, catalogo }: { estudio: Estudio; catalogo: 
               ? "PDF generado, listo para bajarlo con «Guardar»."
               : "«Vista previa» muestra las páginas tal como salen; «Generar» arma el archivo y «Guardar» lo baja a tu equipo."}
       </p>
+
+      {hayMateriales && avisos.length > 0 ? (
+        <div className="aviso">
+          <strong>Revisá antes de entregar:</strong>
+          <ul>
+            {avisos.map((a) => (
+              <li key={a}>{a}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {enVista ? (
         <>

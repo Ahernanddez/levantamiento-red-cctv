@@ -306,6 +306,8 @@ export const COLOR_FONDO: ColorPDF = [0.97, 0.98, 0.99];
 export const COLOR_BLANCO: ColorPDF = [1, 1, 1];
 /** Gris de la rejilla de la tabla: se lee sobre blanco y sobre la banda oscura. */
 export const COLOR_REJILLA: ColorPDF = [0.62, 0.68, 0.75];
+/** Gris de las filas alternadas, para seguir el renglón con la vista. */
+export const COLOR_FILA_PAR: ColorPDF = [0.93, 0.95, 0.97];
 
 function colorPDF(c: ColorPDF): string {
   const f = (n: number) => (Math.min(1, Math.max(0, n)) === 1 ? "1" : Number(Math.min(1, Math.max(0, n)).toFixed(3)).toString());
@@ -594,6 +596,7 @@ class Documento {
       encabezado?: boolean;
     },
     anchos: { material: number; unidad: number },
+    indice = 0,
   ): void {
     const fuente: Fuente = datos.encabezado ? "F2" : "F1";
     const lineasMaterial = envolver(datos.material, anchos.material);
@@ -620,6 +623,11 @@ class Documento {
     const anchoTabla = der - izq;
     const bordes = [izq, xMat, xUni, xCant, der];
     const TRAZO = 0.8;
+    // Fila alternada con fondo: seguir con la vista una lista larga cuesta
+    // si todos los renglones son blancos. El encabezado no lleva.
+    if (!datos.encabezado && indice % 2 === 1) {
+      this.rect(izq, this.y + 7, anchoTabla, renglones * INTERLINEA + 2, COLOR_FILA_PAR);
+    }
     // El encabezado va sobre fondo oscuro con texto blanco. La banda deja
     // aire sobre los ascendentes y por debajo: sin ese aire, la fila de abajo
     // se le metía encima y las dos se leían superpuestas.
@@ -829,7 +837,7 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[], logo?:
     // «rollo de 100 m», la tabla le hace lugar en vez de cortarla.
     const anchos = anchosDeTabla([ENCABEZADO_TABLA.unidad, ...filas.map((f) => f.unidad)]);
     doc.fila(ENCABEZADO_TABLA, anchos);
-    for (const fila of filas) doc.fila(fila, anchos);
+    filas.forEach((fila, i) => doc.fila(fila, anchos, i));
     // El resumen por unidad no va: este informe se entrega al cliente y el
     // total separado por unidad de medida («120 m · 30 pieza») se lee como un
     // dato de compra que no es. En la aplicación sí está, que es donde sirve

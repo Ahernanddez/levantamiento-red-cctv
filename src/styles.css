@@ -432,6 +432,23 @@ h2 {
   margin: 0;
 }
 
+/* Avisos previos a generar el PDF: qué conviene completar antes de entregar. */
+.aviso {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 1px solid #fcd34d;
+  border-left: 4px solid #d97706;
+  border-radius: var(--radio);
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.85rem;
+}
+
+.aviso ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+
 .vacio {
   color: var(--tenue);
   font-size: 0.9rem;

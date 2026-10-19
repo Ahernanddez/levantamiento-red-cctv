@@ -212,6 +212,19 @@ describe("contenido del informe", () => {
     expect(paginas.flatMap((h) => h.rects).filter((r) => r.ancho === 3)).not.toHaveLength(0);
   });
 
+  it("las filas pares llevan fondo para seguir el renglón", () => {
+    const paginas = paginasDelInforme(
+      estudioCon([nuevoItem(cable.id, 4), nuevoItem(fuente.id, 250), nuevoItem(cable.id, 2)]),
+      [cable, fuente],
+    );
+    // Solo la segunda fila (índice 1) lleva banda; encabezado y demás, no.
+    const bandas = paginas
+      .flatMap((h) => h.rects)
+      .filter((r) => r.color[0] === 0.93 && r.color[1] === 0.95 && r.color[2] === 0.97);
+    expect(bandas).toHaveLength(1);
+    expect(bandas[0].ancho).toBeGreaterThan(400);
+  });
+
   it("usa la unidad elegida en la línea, que es lo que se pidió", async () => {
     const { lineas } = await abrir(
       estudioCon([nuevoItem(cable.id, 4, "rollo"), nuevoItem(fuente.id, 250)]),

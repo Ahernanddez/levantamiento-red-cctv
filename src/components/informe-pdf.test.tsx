@@ -142,6 +142,40 @@ describe("informe en PDF", () => {
     expect(contenedor?.textContent).toContain("Agrega materiales");
   });
 
+  it("avisa lo que conviene completar antes de entregar", () => {
+    const jpeg = "data:image/jpeg;base64,/9j/4AAQSkZJRg==";
+    montar(
+      <InformePDF
+        estudio={{
+          ...estudio,
+          cliente: "",
+          sitio: "",
+          realizo: "",
+          items: [nuevoItem(cable.id, 0)],
+          fotos: [{ id: "f1", imagen: jpeg, comentario: "", updatedAt: "" }],
+        }}
+        catalogo={catalogo}
+      />,
+    );
+    const texto = contenedor?.textContent ?? "";
+    expect(texto).toContain("Revisá antes de entregar");
+    expect(texto).toContain("Falta el cliente.");
+    expect(texto).toContain("Falta el sitio.");
+    expect(texto).toContain("Falta quién realizó el estudio.");
+    expect(texto).toContain("Hay materiales con cantidad 0.");
+    expect(texto).toContain("1 fotografía sin comentario.");
+  });
+
+  it("sin huecos no muestra avisos", () => {
+    montar(
+      <InformePDF
+        estudio={{ ...estudio, sitio: "Av. Los Álamos 1450", realizo: "J. Ramírez" }}
+        catalogo={catalogo}
+      />,
+    );
+    expect(contenedor?.textContent).not.toContain("Revisá antes de entregar");
+  });
+
   it("avisa cuando el estudio cambió después de generar", () => {
     montar(<InformePDF estudio={estudio} catalogo={catalogo} />);
     click(boton("Generar PDF"));
