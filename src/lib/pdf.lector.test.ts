@@ -79,7 +79,10 @@ describe("el informe visto por un lector de PDF", () => {
     // El resumen por unidad no va en el documento que se entrega.
     expect(texto).not.toContain("Total por unidad");
     // Las cantidades siguen enteras: 4 con su unidad elegida y 250 con la suya.
-    expect(texto).toContain("Materiales listados: 2 (250 u · 4 rollo)");
+    expect(texto).toContain("4");
+    expect(texto).toContain("250");
+    // Y sin el conteo de materiales en los datos.
+    expect(texto).not.toContain("Materiales listados");
   });
 
   it("una lista larga se abre con todas sus páginas", async () => {

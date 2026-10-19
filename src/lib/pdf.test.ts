@@ -315,8 +315,9 @@ describe("contenido del informe", () => {
     );
     const bandas = paginas.flatMap((p) => p.rects).filter((r) => r.ancho > 400 && r.alto >= 14);
     expect(bandas.length).toBeGreaterThan(0);
-    // Y el resumen que sí queda es el de los datos generales.
-    expect(texto).toContain("Materiales listados: 2 (250 u · 4 rollo)");
+    // Y tampoco va el conteo de materiales: el informe lista cada material
+    // con su cantidad, sin resúmenes de compra.
+    expect(texto).not.toContain("Materiales listados");
   });
 
   it("avisa cuando la lista está vacía", async () => {

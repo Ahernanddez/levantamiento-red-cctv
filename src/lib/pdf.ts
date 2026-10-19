@@ -15,7 +15,7 @@
  * tener que adivinar el ancho de cada letra.
  */
 import { fechaCorta, numero } from "./format";
-import { totalPorUnidad, unidadDe } from "./espacio";
+import { unidadDe } from "./espacio";
 import type { Estudio, ItemLista, Material } from "../types";
 
 // --- Medidas de la página ---------------------------------------------------
@@ -726,14 +726,6 @@ export function centrado(texto: string, ancho: number): string {
   return " ".repeat(izq) + texto + " ".repeat(sobra - izq);
 }
 
-/** Los totales por unidad en una sola frase: «4 caja · 250 pieza». */
-function enTexto(totales: { unidad: string; total: number }[]): string {
-  if (totales.length === 0) return "sin cantidades";
-  return totales
-    .map((t) => `${numero(t.total, t.total % 1 === 0 ? 0 : 2)} ${t.unidad}`)
-    .join(" · ");
-}
-
 const ENCABEZADO_TABLA = {
   numero: "#",
   material: "MATERIAL",
@@ -755,7 +747,7 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
   doc.franja(
     "LISTA DE MATERIALES",
     estudio.nombre || "Estudio sin nombre",
-    `${fechaCorta(estudio.fecha)}  ·  ${estudio.cliente || "—"}  ·  ${estudio.items.length} materiales`,
+    `${fechaCorta(estudio.fecha)}  ·  ${estudio.cliente || "—"}`,
     "Instalaciones de red y sistemas de CCTV",
   );
   doc.espacio(12);
@@ -767,7 +759,6 @@ export function paginasDelInforme(estudio: Estudio, catalogo: Material[]): HojaP
     ["Ciudad", estudio.ciudad],
     ["Fecha del estudio", fechaCorta(estudio.fecha)],
     ["Estudio realizado por", estudio.realizo],
-    ["Materiales listados", `${estudio.items.length} (${enTexto(totalPorUnidad(estudio.items, porId))})`],
   ];
   // Tarjeta clara con filete de acento detrás de los datos. El texto arranca
   // a la derecha del filete: si empieza en el mismo borde, la primera letra
